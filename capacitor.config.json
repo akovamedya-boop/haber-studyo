@@ -1,0 +1,6 @@
+{
+  "appId": "com.haberstuyo.app",
+  "appName": "Haber Stüdyo",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
