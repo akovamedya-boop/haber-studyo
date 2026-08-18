@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v6</title>
+  <title>Medya Süper Stüdyo PRO v7</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons -->
@@ -17,7 +17,6 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
-    .brush-active { cursor: crosshair !important; }
     .tab-active { background-color: #dc2626 !important; color: #ffffff !important; }
   </style>
 </head>
@@ -32,9 +31,9 @@
       <div>
         <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
           <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v6 PRO</span>
+          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">PRO v7</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Akıllı Yüz Oranlama & İnteraktif Tipografi</p>
+        <p class="text-[10px] text-slate-400">Gelişmiş Görsel & Tipografi Motoru</p>
       </div>
     </div>
 
@@ -57,7 +56,7 @@
     </div>
   </header>
 
-  <!-- ANA GÖVDE -->
+  <!-- ANA ÇALIŞMA ALANI -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
     <!-- SOL: KONTROL MENÜSÜ -->
@@ -97,51 +96,27 @@
             </div>
           </div>
 
-          <!-- Fotoğraf Konumlandırma & Yakınlaştırma (Yüz Ayarlayıcı) -->
-          <div class="p-3 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2.5">
-            <label class="text-[11px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1">
-              <i class="ph-bold ph-arrows-out-cardinal"></i> Fotoğraf Konumu & Yüz Odaklama
-            </label>
-            
-            <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-400">Yakınlaştır (Zoom):</span>
-                <span id="zoomVal" class="text-blue-400 font-mono">1.0x</span>
-              </div>
-              <input type="range" id="imgZoom" min="0.8" max="2.5" step="0.05" value="1.0" class="w-full accent-blue-500" oninput="document.getElementById('zoomVal').innerText = parseFloat(this.value).toFixed(2) + 'x'; render();">
+          <!-- Fotoğraf Zoom & Taşıma Kontrolleri -->
+          <div class="p-3 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-blue-400">Fotoğraf Yakınlaştırma (Zoom)</span>
+              <span id="zoomVal" class="text-blue-400 font-mono">1.0x</span>
             </div>
-
-            <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-400">Dikey Konum (Yukarı/Aşağı):</span>
-                <span id="offsetYVal" class="text-blue-400 font-mono">0px</span>
-              </div>
-              <input type="range" id="imgOffsetY" min="-300" max="300" step="5" value="0" class="w-full accent-blue-500" oninput="document.getElementById('offsetYVal').innerText = this.value + 'px'; render();">
-            </div>
-          </div>
-
-          <!-- Yüz Doğal Netleştirici & Kalite -->
-          <div class="p-3 bg-slate-950/70 rounded-lg border border-emerald-900/40 space-y-2">
-            <div class="flex justify-between items-center">
-              <label class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                <i class="ph-bold ph-sparkle"></i> Yüz Detayını Koruyan Netleştirici
-              </label>
-              <span id="sharpVal" class="text-emerald-400 font-mono text-xs">0</span>
-            </div>
-            <input type="range" id="filterSharp" min="0" max="2" step="0.2" value="0" class="w-full accent-emerald-500" oninput="document.getElementById('sharpVal').innerText = this.value; render();">
+            <input type="range" id="imgZoom" min="0.5" max="3.0" step="0.05" value="1.0" class="w-full accent-blue-500" oninput="document.getElementById('zoomVal').innerText = parseFloat(this.value).toFixed(2) + 'x'; render();">
+            <p class="text-[10px] text-slate-400 italic">💡 Fotoğrafı tuval üzerinden farenizle tutarak sağa, sola, yukarı ve aşağı serbestçe kaydırabilirsiniz.</p>
           </div>
 
           <!-- Başlık Renk Seçimi -->
           <div>
             <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Başlık Rengi</label>
             <div class="grid grid-cols-3 gap-2">
-              <button onclick="setTitleColor('#ffffff')" id="color-white" class="color-btn py-1.5 rounded border border-white/40 bg-slate-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow">
-                <span class="w-3 h-3 rounded-full bg-white border border-slate-400"></span> Beyaz
+              <button onclick="setTitleColor('#ffffff')" class="py-1.5 rounded border border-white/40 bg-slate-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow">
+                <span class="w-3 h-3 rounded-full bg-white"></span> Beyaz
               </button>
-              <button onclick="setTitleColor('#facc15')" id="color-yellow" class="color-btn py-1.5 rounded border border-yellow-500/40 bg-slate-800 text-yellow-400 text-xs font-bold flex items-center justify-center gap-1.5">
+              <button onclick="setTitleColor('#facc15')" class="py-1.5 rounded border border-yellow-500/40 bg-slate-800 text-yellow-400 text-xs font-bold flex items-center justify-center gap-1.5">
                 <span class="w-3 h-3 rounded-full bg-yellow-400"></span> Sarı
               </button>
-              <button onclick="setTitleColor('#ef4444')" id="color-red" class="color-btn py-1.5 rounded border border-red-500/40 bg-slate-800 text-red-400 text-xs font-bold flex items-center justify-center gap-1.5">
+              <button onclick="setTitleColor('#ef4444')" class="py-1.5 rounded border border-red-500/40 bg-slate-800 text-red-400 text-xs font-bold flex items-center justify-center gap-1.5">
                 <span class="w-3 h-3 rounded-full bg-red-500"></span> Kırmızı
               </button>
             </div>
@@ -158,11 +133,6 @@
               <textarea id="spotText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 focus:border-red-500 outline-none resize-none" oninput="render()">Planlı bakım çalışmaları kapsamında Yunusemre ve Şehzadeler ilçelerinde gün boyu kesinti uygulanacak.</textarea>
             </div>
           </div>
-
-          <div class="text-[11px] text-amber-400 bg-amber-950/40 p-2 rounded border border-amber-800/40 flex items-center gap-1.5">
-            <i class="ph-bold ph-hand-pointing text-base"></i>
-            <span>İpucu: Tuval üzerindeki yazıları ve logoyu farenizle tutarak dilediğiniz yere sürükleyebilirsiniz.</span>
-          </div>
         </div>
 
         <!-- =================== 2. ALTIN & DÖVİZ MODÜLÜ =================== -->
@@ -174,27 +144,27 @@
             <div class="grid grid-cols-2 gap-2 text-xs">
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Gram Altın</span>
-                <input type="text" id="p_gram" value="3.450 / 3.490 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+                <input type="text" id="p_gram" value="3.450 / 3.490 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Çeyrek Altın</span>
-                <input type="text" id="p_ceyrek" value="5.620 / 5.710 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+                <input type="text" id="p_ceyrek" value="5.620 / 5.710 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Yarım / Tam Altın</span>
-                <input type="text" id="p_yarim" value="11.240 / 22.800 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+                <input type="text" id="p_yarim" value="11.240 / 22.800 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">22 Ayar Bilezik</span>
-                <input type="text" id="p_bilezik" value="3.180 / 3.320 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+                <input type="text" id="p_bilezik" value="3.180 / 3.320 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Dolar ($)</span>
-                <input type="text" id="p_dolar" value="38.45 / 38.65 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none" oninput="render()">
+                <input type="text" id="p_dolar" value="38.45 / 38.65 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Euro (€)</span>
-                <input type="text" id="p_euro" value="41.20 / 41.45 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none" oninput="render()">
+                <input type="text" id="p_euro" value="41.20 / 41.45 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none text-xs" oninput="render()">
               </div>
             </div>
             <input type="text" id="marketTitle" value="GÜNCEL MANİSA PİYASALARI" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-slate-200" oninput="render()">
@@ -219,7 +189,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           </div>
         </div>
 
-        <!-- =================== ORTAK AYARLAR =================== -->
+        <!-- =================== ORTAK AYARLAR (BOYUT & LOGO) =================== -->
         <div class="border-t border-slate-800 pt-3 space-y-3">
           <div>
             <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Boyut / Format</label>
@@ -231,15 +201,24 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
             </div>
           </div>
 
-          <div>
-            <div class="flex items-center justify-between mb-1.5">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Kalıcı Logo</label>
+          <!-- Logo Ayarları & Boyut Küçültme -->
+          <div class="p-2.5 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Logo Yönetimi</label>
               <input type="file" id="logoUpload" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
-              <button onclick="document.getElementById('logoUpload').click()" class="text-[11px] text-red-400 hover:text-red-300 flex items-center gap-1">
+              <button onclick="document.getElementById('logoUpload').click()" class="text-[11px] text-red-400 hover:text-red-300 flex items-center gap-1 font-medium">
                 <i class="ph ph-plus-circle"></i> Logo Yükle
               </button>
             </div>
-            <div id="logoList" class="flex gap-2 overflow-x-auto p-1.5 bg-slate-950 border border-slate-800 rounded min-h-[44px] items-center"></div>
+            
+            <div class="grid grid-cols-4 gap-1 text-[10px]">
+              <button onclick="setLogoCorner('top-right')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sağ Üst</button>
+              <button onclick="setLogoCorner('top-left')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sol Üst</button>
+              <button onclick="setLogoCorner('bottom-right')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sağ Alt</button>
+              <button onclick="setLogoCorner('bottom-left')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sol Alt</button>
+            </div>
+
+            <div id="logoList" class="flex gap-2 overflow-x-auto p-1.5 bg-slate-900 border border-slate-800 rounded min-h-[38px] items-center"></div>
           </div>
         </div>
 
@@ -268,14 +247,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let titleColor = '#ffffff';
     let isVideoMode = false;
 
-    // Sürüklenebilir Ögeler (Drag & Drop)
-    let dragItem = null;
+    // Fotoğraf Serbest Konum (Pan & Move)
+    let imgPanX = 0;
+    let imgPanY = 0;
+
+    // Sürüklenebilir Ögeler (Görsel veya Logo veya Metin)
+    let dragMode = null; // 'image' | 'logo' | 'text'
     let isDragging = false;
     let dragStartX = 0, dragStartY = 0;
 
-    // Metin & Logo Özel Konumları (Varsayılan null, sürüklenince güncellenir)
-    let textCustomPos = null;
-    let logoCustomPos = null;
+    let logoPos = null; // {x, y}
+    let textPos = null; // {x, y}
 
     const DIMENSIONS = {
       '1:1': { width: 1080, height: 1080 },
@@ -321,7 +303,8 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     function setRatio(ratio) {
       currentRatio = ratio;
-      textCustomPos = null; // Oran değişince konumu sıfırla
+      logoPos = null;
+      textPos = null;
       document.querySelectorAll('.ratio-btn').forEach(btn => {
         btn.className = 'ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700';
       });
@@ -349,8 +332,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         const img = new Image();
         img.onload = () => {
           bgImage = img;
+          imgPanX = 0;
+          imgPanY = 0;
           document.getElementById('imgZoom').value = 1.0;
-          document.getElementById('imgOffsetY').value = 0;
           render();
         };
         img.src = ev.target.result;
@@ -380,7 +364,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       loop();
     }
 
-    // --- SÜRÜKLE & BIRAK (DRAG & DROP) MOTORU ---
+    // --- SÜRÜKLEME VE SERBEST HAREKET MOTORU ---
     function initDragEvents() {
       const getPos = (e) => {
         const rect = canvas.getBoundingClientRect();
@@ -393,32 +377,46 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
       const onStart = (e) => {
         const p = getPos(e);
-        // Yazı alanına dokunuldu mu?
-        if (textCustomPos && Math.hypot(p.x - textCustomPos.x, p.y - textCustomPos.y) < 250) {
+        // 1. Logo seçildi mi?
+        if (activeLogo && logoPos && Math.hypot(p.x - logoPos.x, p.y - logoPos.y) < 100) {
           isDragging = true;
-          dragItem = 'text';
-          dragStartX = p.x - textCustomPos.x;
-          dragStartY = p.y - textCustomPos.y;
-        } else if (!textCustomPos) {
-          // İlk kez dokunulduğunda
-          isDragging = true;
-          dragItem = 'text';
-          textCustomPos = { x: canvas.width * 0.05, y: canvas.height * 0.78 };
-          dragStartX = 0;
-          dragStartY = 0;
+          dragMode = 'logo';
+          dragStartX = p.x - logoPos.x;
+          dragStartY = p.y - logoPos.y;
+          return;
         }
+        // 2. Metin seçildi mi?
+        if (textPos && Math.hypot(p.x - textPos.x, p.y - textPos.y) < 180) {
+          isDragging = true;
+          dragMode = 'text';
+          dragStartX = p.x - textPos.x;
+          dragStartY = p.y - textPos.y;
+          return;
+        }
+        // 3. Hiçbiri değilse fotoğrafı serbestçe kaydır
+        isDragging = true;
+        dragMode = 'image';
+        dragStartX = p.x - imgPanX;
+        dragStartY = p.y - imgPanY;
       };
 
       const onMove = (e) => {
         if (!isDragging) return;
         const p = getPos(e);
-        if (dragItem === 'text') {
-          textCustomPos = { x: p.x - dragStartX, y: p.y - dragStartY };
+        if (dragMode === 'image') {
+          imgPanX = p.x - dragStartX;
+          imgPanY = p.y - dragStartY;
+          render();
+        } else if (dragMode === 'logo') {
+          logoPos = { x: p.x - dragStartX, y: p.y - dragStartY };
+          render();
+        } else if (dragMode === 'text') {
+          textPos = { x: p.x - dragStartX, y: p.y - dragStartY };
           render();
         }
       };
 
-      const onEnd = () => { isDragging = false; dragItem = null; };
+      const onEnd = () => { isDragging = false; dragMode = null; };
 
       canvas.addEventListener('mousedown', onStart);
       canvas.addEventListener('mousemove', onMove);
@@ -451,72 +449,59 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       l.forEach(src => {
         const img = document.createElement('img');
         img.src = src;
-        img.className = 'h-7 w-7 object-contain bg-slate-900 border border-slate-700 hover:border-red-500 rounded p-1 cursor-pointer';
+        img.className = 'h-6 w-6 object-contain bg-slate-900 border border-slate-700 hover:border-red-500 rounded p-1 cursor-pointer';
         img.onclick = () => selectLogo(src);
         c.appendChild(img);
       });
     }
 
-    function selectLogo(src) { const img = new Image(); img.onload = () => { activeLogo = img; render(); }; img.src = src; }
+    function selectLogo(src) {
+      const img = new Image();
+      img.onload = () => { activeLogo = img; logoPos = null; render(); };
+      img.src = src;
+    }
 
-    // --- AKILLI FOTOĞRAF ÇİZİCİ (YÜZ AYARLAYICI & ORANTILI) ---
-    function drawSmartImage(ctx, source, w, targetH, offsetYPos = 0) {
+    function setLogoCorner(corner) {
+      const w = canvas.width, h = canvas.height, m = w * 0.04;
+      const maxH = w * 0.045; // Boyut yarıya düşürüldü
+      const lW = activeLogo ? activeLogo.width * (maxH / activeLogo.height) : maxH;
+
+      if (corner === 'top-right') logoPos = { x: w - m - lW, y: m };
+      else if (corner === 'top-left') logoPos = { x: m, y: m };
+      else if (corner === 'bottom-right') logoPos = { x: w - m - lW, y: h - m - maxH };
+      else if (corner === 'bottom-left') logoPos = { x: m, y: h - m - maxH };
+      render();
+    }
+
+    // --- FOTOĞRAF ÇİZİMİ (SERBEST TAŞIMA VE ORANTI) ---
+    function drawDraggableImage(ctx, source, w, targetH) {
       const sw = isVideoMode ? source.videoWidth : source.width;
       const sh = isVideoMode ? source.videoHeight : source.height;
       if (!sw || !sh) return;
 
       const zoom = parseFloat(document.getElementById('imgZoom')?.value || 1.0);
-      const manualY = parseFloat(document.getElementById('imgOffsetY')?.value || 0);
-
       const sRatio = sw / sh;
       const tRatio = w / targetH;
-      let dw, dh, dx, dy;
+      let dw, dh;
 
       if (sRatio > tRatio) {
         dh = targetH * zoom;
         dw = dh * sRatio;
-        dx = (w - dw) / 2;
-        dy = offsetYPos + (targetH - dh) / 2 + manualY;
       } else {
         dw = w * zoom;
         dh = dw / sRatio;
-        dx = (w - dw) / 2;
-        dy = offsetYPos + (targetH - dh) / 2 + manualY;
       }
+
+      const dx = (w - dw) / 2 + imgPanX;
+      const dy = (targetH - dh) / 2 + imgPanY;
       ctx.drawImage(source, dx, dy, dw, dh);
-    }
-
-    // --- DOĞAL NETLEŞTİRİCİ FİLTRE ---
-    function applyNaturalSharpness(ctx, w, h, amount) {
-      if (amount <= 0) return;
-      try {
-        const imgData = ctx.getImageData(0, 0, w, h);
-        const data = imgData.data;
-        const buff = new Uint8ClampedArray(data);
-        const a = amount * 0.25;
-
-        for (let y = 1; y < h - 1; y += 2) {
-          for (let x = 1; x < w - 1; x += 2) {
-            const idx = (y * w + x) * 4;
-            for (let c = 0; c < 3; c++) {
-              const val = buff[idx + c] * (1 + 4 * a) 
-                        - buff[idx - 4 + c] * a 
-                        - buff[idx + 4 + c] * a 
-                        - buff[idx - w * 4 + c] * a 
-                        - buff[idx + w * 4 + c] * a;
-              data[idx + c] = Math.min(255, Math.max(0, val));
-            }
-          }
-        }
-        ctx.putImageData(imgData, 0, 0);
-      } catch (e) {}
     }
 
     // --- ANA RENDER TUVALİ ---
     function render() {
       const w = canvas.width;
       const h = canvas.height;
-      const margin = w * 0.05;
+      const margin = w * 0.045;
       ctx.clearRect(0, 0, w, h);
 
       if (activeTab === 'tab-haber') {
@@ -534,10 +519,10 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const isStory = currentRatio === '9:16';
 
       if (isStory) {
-        // HİKAYE FORMATI (Tam Ekran + Koyu Gradyan)
-        if (source) drawSmartImage(ctx, source, w, h, 0);
+        // HİKAYE FORMATI: Tam Ekran Fotoğraf + Şık Alt Gradyan
+        if (source) drawDraggableImage(ctx, source, w, h);
 
-        const bGrad = ctx.createLinearGradient(0, h * 0.4, 0, h);
+        const bGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
         bGrad.addColorStop(0, 'rgba(0,0,0,0)');
         bGrad.addColorStop(0.4, 'rgba(0,0,0,0.75)');
         bGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
@@ -546,130 +531,116 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
         drawHeadlines(w, h, margin, false);
       } else {
-        // KARE / YATAY / DİKEY (Fotoğraf Üstte, Haber Bandı Altta)
-        const contentBottomH = Math.round(h * 0.32); // Alt haber bandı yüksekliği
-        const photoH = h - contentBottomH;
+        // KARE / YATAY / DİKEY: Fotoğraf Üstte, Alt Bant Altta
+        const bottomPanelH = Math.round(h * 0.30);
+        const photoH = h - bottomPanelH;
 
-        // Fotoğraf Alanı
         ctx.save();
         ctx.beginPath();
         ctx.rect(0, 0, w, photoH);
         ctx.clip();
-        if (source) drawSmartImage(ctx, source, w, photoH, 0);
+        if (source) drawDraggableImage(ctx, source, w, photoH);
         ctx.restore();
 
-        // Alt Haber Bandı (Koyu Şık Panel)
+        // Alt Haber Bandı Paneli
         const panelGrad = ctx.createLinearGradient(0, photoH, 0, h);
         panelGrad.addColorStop(0, '#090d16');
         panelGrad.addColorStop(1, '#020617');
         ctx.fillStyle = panelGrad;
-        ctx.fillRect(0, photoH, w, contentBottomH);
+        ctx.fillRect(0, photoH, w, bottomPanelH);
 
-        // Bölücü Kırmızı Çizgi
+        // Kırmızı Vurgu Şeridi
         ctx.fillStyle = '#dc2626';
-        ctx.fillRect(0, photoH, w, w * 0.008);
+        ctx.fillRect(0, photoH, w, w * 0.006);
 
         drawHeadlines(w, h, margin, true, photoH);
       }
 
-      // Doğal Netleştirme
-      const sharp = parseFloat(document.getElementById('filterSharp')?.value || 0);
-      if (sharp > 0 && !isVideoMode) {
-        applyNaturalSharpness(ctx, w, h, sharp);
-      }
-
-      // Logo
+      // KÜÇÜLTÜLMÜŞ LOGO ÇİZİMİ (Yarı Boyut)
       if (activeLogo) {
         ctx.save();
-        const maxH = w * 0.075;
+        const maxH = w * 0.042; // Küçültülmüş boyut
         const lW = activeLogo.width * (maxH / activeLogo.height);
-        ctx.drawImage(activeLogo, w - margin - lW, margin * 0.8, lW, maxH);
+        const lx = logoPos ? logoPos.x : w - margin - lW;
+        const ly = logoPos ? logoPos.y : margin;
+        ctx.drawImage(activeLogo, lx, ly, lW, maxH);
         ctx.restore();
       }
     }
 
-    // Başlık ve Spot Çizimi
-    function drawHeadlines(w, h, margin, isSplitLayout, splitY = 0) {
+    function drawHeadlines(w, h, margin, isSplit, splitY = 0) {
       const title = document.getElementById('titleText').value.trim();
       const spot = document.getElementById('spotText').value.trim();
+      const drawX = textPos ? textPos.x : margin;
 
-      let drawX = textCustomPos ? textCustomPos.x : margin;
-      let startY = textCustomPos ? textCustomPos.y : (isSplitLayout ? splitY + (w * 0.05) : h - margin);
-
-      if (isSplitLayout && !textCustomPos) {
-        // Alt Bant İçi Otomatik Dizilim
-        let curY = splitY + (w * 0.06);
-
+      if (isSplit && !textPos) {
+        let curY = splitY + (w * 0.055);
         if (title) {
           ctx.save();
-          const titleSize = Math.round(w * 0.048);
-          ctx.font = `900 ${titleSize}px Montserrat`;
+          const tSize = Math.round(w * 0.046);
+          ctx.font = `900 ${tSize}px Montserrat`;
           ctx.fillStyle = titleColor;
           const lines = getLines(ctx, title, w - (margin * 2));
-          lines.forEach(l => { ctx.fillText(l, drawX, curY); curY += titleSize * 1.25; });
+          lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY); curY += tSize * 1.22; });
           ctx.restore();
         }
-
         if (spot) {
           ctx.save();
-          const spotSize = Math.round(w * 0.030);
-          ctx.font = `500 ${spotSize}px Montserrat`;
+          const sSize = Math.round(w * 0.028);
+          ctx.font = `500 ${sSize}px Montserrat`;
           ctx.fillStyle = '#cbd5e1';
           const lines = getLines(ctx, spot, w - (margin * 2));
-          lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY + (w * 0.015)); curY += spotSize * 1.3; });
+          lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY + (w * 0.01)); curY += sSize * 1.25; });
           ctx.restore();
         }
       } else {
-        // Serbest Sürükleme veya Hikaye Düzeni
-        let curY = startY;
+        let curY = textPos ? textPos.y : h - margin;
         if (spot) {
           ctx.save();
-          const spotSize = Math.round(w * 0.034);
-          ctx.font = `500 ${spotSize}px Montserrat`;
+          const sSize = Math.round(w * 0.032);
+          ctx.font = `500 ${sSize}px Montserrat`;
           ctx.fillStyle = '#cbd5e1';
-          ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 8;
           const lines = getLines(ctx, spot, w - (margin * 2));
-          curY -= (lines.length * spotSize * 1.35);
+          curY -= (lines.length * sSize * 1.3);
           let sY = curY;
-          lines.forEach(l => { ctx.fillText(l, drawX, sY); sY += spotSize * 1.35; });
+          lines.forEach(l => { ctx.fillText(l, drawX, sY); sY += sSize * 1.3; });
           ctx.restore();
-          curY -= (w * 0.025);
+          curY -= (w * 0.02);
         }
-
         if (title) {
           ctx.save();
-          const titleSize = Math.round(w * 0.055);
-          ctx.font = `900 ${titleSize}px Montserrat`;
+          const tSize = Math.round(w * 0.052);
+          ctx.font = `900 ${tSize}px Montserrat`;
           ctx.fillStyle = titleColor;
-          ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 10;
           const lines = getLines(ctx, title, w - (margin * 2));
-          curY -= (lines.length * titleSize * 1.25);
+          curY -= (lines.length * tSize * 1.2);
           let tY = curY;
-          lines.forEach(l => { ctx.fillText(l, drawX, tY); tY += titleSize * 1.25; });
+          lines.forEach(l => { ctx.fillText(l, drawX, tY); tY += tSize * 1.2; });
           ctx.restore();
         }
       }
     }
 
-    // 2. ALTIN & DÖVİZ MODÜLÜ (Görsel & Akıllı Tipografi)
+    // 2. ALTIN & DÖVİZ MODÜLÜ (Düzenlenmiş & Sığdırılmış)
     function renderPiyasaModule(w, h, margin) {
+      // Arka Plan
       const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-      bgGrad.addColorStop(0, '#0b1329');
-      bgGrad.addColorStop(1, '#020617');
+      bgGrad.addColorStop(0, '#0a1020');
+      bgGrad.addColorStop(1, '#02050e');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
-      // Başlık Şeridi
-      const headH = Math.min(w * 0.11, 100);
+      // Başlık
+      const headH = Math.round(h * 0.075);
       ctx.fillStyle = '#f59e0b';
       ctx.fillRect(margin, margin, w - (margin * 2), headH);
 
-      ctx.fillStyle = '#0f172a';
-      ctx.font = `900 ${Math.round(headH * 0.38)}px Montserrat`;
+      ctx.fillStyle = '#090d16';
+      ctx.font = `900 ${Math.round(headH * 0.42)}px Montserrat`;
       ctx.textAlign = 'center';
-      ctx.fillText(document.getElementById('marketTitle').value, w / 2, margin + (headH * 0.62));
+      ctx.fillText(document.getElementById('marketTitle').value, w / 2, margin + (headH * 0.65));
 
-      // Kart Listesi
+      // Veriler
       const items = [
         { name: 'GRAM ALTIN', val: document.getElementById('p_gram').value, icon: '🏆', gold: true },
         { name: 'ÇEYREK ALTIN', val: document.getElementById('p_ceyrek').value, icon: '🟡', gold: true },
@@ -679,83 +650,88 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         { name: 'EURO (€)', val: document.getElementById('p_euro').value, icon: '💶', gold: false }
       ];
 
-      let startY = margin + headH + (w * 0.035);
-      const cardH = (h - startY - (margin * 1.5)) / items.length;
+      const startY = margin + headH + (h * 0.025);
+      const totalAvailableH = h - startY - (margin * 1.5);
+      const cardGap = h * 0.012;
+      const cardH = (totalAvailableH - (cardGap * (items.length - 1))) / items.length;
 
-      items.forEach(item => {
+      items.forEach((item, idx) => {
+        const cy = startY + idx * (cardH + cardGap);
         const cardW = w - (margin * 2);
-        ctx.fillStyle = 'rgba(30, 41, 59, 0.7)';
-        ctx.fillRect(margin, startY, cardW, cardH * 0.84);
 
+        // Kart Arka Planı
+        ctx.fillStyle = 'rgba(26, 36, 56, 0.75)';
+        ctx.fillRect(margin, cy, cardW, cardH);
+
+        // Sol Vurgu Şeridi
         ctx.fillStyle = item.gold ? '#f59e0b' : '#10b981';
-        ctx.fillRect(margin, startY, w * 0.015, cardH * 0.84);
+        ctx.fillRect(margin, cy, w * 0.015, cardH);
 
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = `bold ${Math.round(cardH * 0.32)}px Montserrat`;
+        // 1. Satır: İsim (Sol Üst)
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = `bold ${Math.round(cardH * 0.28)}px Montserrat`;
         ctx.textAlign = 'left';
-        ctx.fillText(`${item.icon} ${item.name}`, margin + (w * 0.04), startY + (cardH * 0.52));
+        ctx.fillText(`${item.icon} ${item.name}`, margin + (w * 0.035), cy + (cardH * 0.40));
 
+        // 2. Satır: Fiyat (Büyük ve Net)
         ctx.fillStyle = item.gold ? '#fbbf24' : '#34d399';
-        ctx.font = `900 ${Math.round(cardH * 0.35)}px Montserrat`;
-        ctx.textAlign = 'right';
-        ctx.fillText(item.val, w - margin - (w * 0.04), startY + (cardH * 0.52));
-
-        startY += cardH;
+        ctx.font = `900 ${Math.round(cardH * 0.40)}px Montserrat`;
+        ctx.textAlign = 'left';
+        ctx.fillText(item.val, margin + (w * 0.035), cy + (cardH * 0.82));
       });
     }
 
-    // 3. VEFAT LİSTESİ (Sığdırılmış & Zarif Tipografi)
+    // 3. VEFAT LİSTESİ (Düzenlenmiş & Sığdırılmış)
     function renderVefatModule(w, h, margin) {
       ctx.fillStyle = '#05070d'; ctx.fillRect(0, 0, w, h);
       const mist = ctx.createLinearGradient(0, 0, 0, h);
       mist.addColorStop(0, '#0f172a'); mist.addColorStop(1, '#020617');
       ctx.fillStyle = mist; ctx.fillRect(0, 0, w, h);
 
-      // Çerçeve
-      ctx.strokeStyle = '#d97706'; ctx.lineWidth = w * 0.004;
-      ctx.strokeRect(margin * 0.6, margin * 0.6, w - (margin * 1.2), h - (margin * 1.2));
-
       // Başlık
-      ctx.save();
+      const headH = Math.round(h * 0.065);
       ctx.fillStyle = '#f59e0b';
-      ctx.font = `900 ${Math.round(w * 0.040)}px Montserrat`;
+      ctx.font = `900 ${Math.round(w * 0.042)}px Montserrat`;
       ctx.textAlign = 'center';
-      ctx.fillText(document.getElementById('vefatDateText').value, w / 2, margin * 1.6);
+      ctx.fillText(document.getElementById('vefatDateText').value, w / 2, margin + (headH * 0.5));
 
-      // Dua (Otomatik sığdırılmış)
+      // Dua
       ctx.fillStyle = '#94a3b8';
-      ctx.font = `italic 500 ${Math.round(w * 0.023)}px Montserrat`;
-      ctx.fillText('“İnna lillahi ve inna ileyhi raciun” • Merhum ve Merhumelere Allah\'tan Rahmet Dileriz', w / 2, margin * 2.2);
-      ctx.restore();
+      ctx.font = `italic 500 ${Math.round(w * 0.022)}px Montserrat`;
+      ctx.fillText('“İnna lillahi ve inna ileyhi raciun” • Merhum ve Merhumelere Allah\'tan Rahmet Dileriz', w / 2, margin + (headH * 0.95));
 
       const raw = document.getElementById('vefatListText').value.trim();
       const items = raw.split('\n').filter(i => i.trim() !== '');
-      let startY = margin * 2.9;
-      const cardH = (h - startY - (margin * 1.2)) / Math.max(items.length, 3);
 
-      items.forEach(item => {
+      const startY = margin + headH + (h * 0.035);
+      const totalAvailableH = h - startY - (margin * 1.5);
+      const cardGap = h * 0.012;
+      const cardH = (totalAvailableH - (cardGap * (items.length - 1))) / Math.max(items.length, 4);
+
+      items.forEach((item, idx) => {
+        const cy = startY + idx * (cardH + cardGap);
         const parts = item.split(' - ');
         const namePart = parts[0] || item;
         const detailPart = parts[1] || '';
 
-        ctx.fillStyle = 'rgba(30, 41, 59, 0.55)';
-        ctx.fillRect(margin, startY, w - (margin * 2), cardH * 0.84);
+        ctx.fillStyle = 'rgba(26, 36, 56, 0.65)';
+        ctx.fillRect(margin, cy, w - (margin * 2), cardH);
 
         ctx.fillStyle = '#d97706';
-        ctx.fillRect(margin, startY, w * 0.012, cardH * 0.84);
+        ctx.fillRect(margin, cy, w * 0.012, cardH);
 
+        // İsim
         ctx.fillStyle = '#ffffff';
-        ctx.font = `bold ${Math.round(cardH * 0.30)}px Montserrat`;
+        ctx.font = `bold ${Math.round(cardH * 0.34)}px Montserrat`;
         ctx.textAlign = 'left';
-        ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.035), startY + (cardH * 0.38));
+        ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.035), cy + (cardH * 0.44));
 
+        // Cami & İlçe
         if (detailPart) {
-          ctx.fillStyle = '#cbd5e1';
-          ctx.font = `500 ${Math.round(cardH * 0.24)}px Montserrat`;
-          ctx.fillText(`📍 ${detailPart}`, margin + (w * 0.035), startY + (cardH * 0.68));
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = `500 ${Math.round(cardH * 0.26)}px Montserrat`;
+          ctx.fillText(`📍 ${detailPart}`, margin + (w * 0.035), cy + (cardH * 0.82));
         }
-
-        startY += cardH;
       });
     }
 
