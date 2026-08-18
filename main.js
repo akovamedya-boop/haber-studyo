@@ -5,14 +5,15 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1300,
     height: 850,
-    title: "Medya G�rsel & Haber St�dyosu",
+    title: "Medya Görsel & Haber Stüdyosu",
     autoHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   });
 
+  // Hem paketlenmiş hem geliştirme modunda doğru dosya yolunu bulur
   win.loadFile(path.join(__dirname, 'www', 'index.html'));
 }
 
