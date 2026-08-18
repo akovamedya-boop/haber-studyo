@@ -4,9 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Medya Süper Stüdyo PRO</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- JSZip -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Montserrat', sans-serif; }
@@ -19,7 +23,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col select-none">
 
-  <!-- ÜST HEADER BAR -->
+  <!-- ÜST HEADER -->
   <header class="bg-slate-900 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between shadow-lg">
     <div class="flex items-center gap-3">
       <div class="bg-red-600/20 p-2 rounded-lg border border-red-600/40">
@@ -28,22 +32,22 @@
       <div>
         <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
           <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v4 ULTIMATE</span>
+          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">PRO v5</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Haber Masası & Günlük Otomasyon Merkezi</p>
+        <p class="text-[10px] text-slate-400">Manşet, Altın/Döviz & Vefat Otomasyonu</p>
       </div>
     </div>
 
     <!-- Hızlı Çıktı Butonları -->
     <div class="flex items-center gap-2">
-      <button onclick="downloadFormat('webp')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs flex items-center gap-1 transition" title="Web Siteleri İçin WebP">
+      <button onclick="downloadFormat('webp')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs flex items-center gap-1 transition">
         <i class="ph-bold ph-lightning"></i>
         <span>WebP</span>
       </button>
 
       <button onclick="downloadAllSizesZip()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs flex items-center gap-1.5 transition">
         <i class="ph-bold ph-file-zip text-sm"></i>
-        <span class="hidden sm:inline">Zip (Tümü)</span>
+        <span>Zip (Tümü)</span>
       </button>
 
       <button onclick="downloadFormat('png')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-lg shadow-red-600/30 text-xs transition">
@@ -53,10 +57,10 @@
     </div>
   </header>
 
-  <!-- ANA GÖVDE -->
+  <!-- ANA ÇALIŞMA ALANI -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
-    <!-- SOL: KONTROL MENÜSÜ -->
+    <!-- SOL: KONTROL PANELİ -->
     <div class="w-full lg:w-[420px] bg-slate-900 border-r border-slate-800 flex flex-col h-[52vh] lg:h-[calc(100vh-61px)]">
       
       <!-- MODÜL SEKMELERİ -->
@@ -65,16 +69,13 @@
           <i class="ph ph-newspaper"></i> Manşet
         </button>
         <button onclick="switchTab('tab-piyasa')" id="btn-tab-piyasa" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-coins text-amber-400"></i> Altın/Döviz
+          <i class="ph ph-coins text-amber-400"></i> Altın & Döviz
         </button>
         <button onclick="switchTab('tab-vefat')" id="btn-tab-vefat" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-flower-tulip"></i> Vefat Listesi
+          <i class="ph ph-flower-tulip text-amber-500"></i> Vefat Edenler
         </button>
         <button onclick="switchTab('tab-karsilastir')" id="btn-tab-karsilastir" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
           <i class="ph ph-columns"></i> Öncesi/Sonrası
-        </button>
-        <button onclick="switchTab('tab-ihbar')" id="btn-tab-ihbar" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-whatsapp-logo"></i> İhbar Hattı
         </button>
       </div>
 
@@ -83,14 +84,22 @@
 
         <!-- 1. HABER / MANŞET MODÜLÜ -->
         <div id="tab-haber" class="tab-content space-y-4">
+          <!-- Fotoğraf & Video Yükleme -->
           <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Haber Fotoğrafı</label>
-            <input type="file" id="mediaUploadImg" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
-            <button onclick="document.getElementById('mediaUploadImg').click()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
-              <i class="ph ph-image text-red-400"></i> Fotoğraf Seç
-            </button>
+            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Haber Fotoğrafı veya Videosu</label>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="file" id="mediaUploadImg" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+              <input type="file" id="mediaUploadVid" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
+              <button onclick="document.getElementById('mediaUploadImg').click()" class="py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
+                <i class="ph ph-image text-red-400"></i> Fotoğraf Seç
+              </button>
+              <button onclick="document.getElementById('mediaUploadVid').click()" class="py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
+                <i class="ph ph-video text-blue-400"></i> Video Seç
+              </button>
+            </div>
           </div>
 
+          <!-- Asayiş & Sansür -->
           <div class="p-3 bg-red-950/30 border border-red-900/60 rounded-lg space-y-2">
             <div class="flex items-center justify-between bg-slate-900/90 p-2 rounded border border-slate-800 text-xs">
               <span class="text-slate-300">Kan/Kırmızı Renk İzolasyonu (Gri Yap)</span>
@@ -106,59 +115,97 @@
             </div>
           </div>
 
+          <!-- Başlık & Spot Metinleri -->
           <div class="space-y-2">
-            <textarea id="titleText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-bold focus:border-red-500 outline-none resize-none" placeholder="Haber Başlığı..." oninput="render()">MANİSA'DA ELEKTRİK KESİNTİSİ YAŞANACAK</textarea>
-            <textarea id="spotText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 focus:border-red-500 outline-none resize-none" placeholder="Spot / Açıklama..." oninput="render()">Planlı bakım çalışmaları kapsamında Yunusemre ve Şehzadeler ilçelerinde gün boyu kesinti uygulanacak.</textarea>
+            <div>
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Manşet Başlığı</label>
+              <textarea id="titleText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-bold focus:border-red-500 outline-none resize-none" oninput="render()">MANİSA'DA ELEKTRİK KESİNTİSİ YAŞANACAK</textarea>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Spot / Açıklama Metni</label>
+              <textarea id="spotText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 focus:border-red-500 outline-none resize-none" oninput="render()">Planlı bakım çalışmaları kapsamında Yunusemre ve Şehzadeler ilçelerinde gün boyu kesinti uygulanacak.</textarea>
+            </div>
+          </div>
+
+          <!-- Okunabilirlik Gradyanı -->
+          <div class="p-2.5 bg-slate-950/70 rounded-lg border border-slate-800 space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-400">Yazı Okunabilirlik Gradyanı</span>
+              <span id="gradVal" class="text-red-400 font-mono">85%</span>
+            </div>
+            <input type="range" id="gradOpacity" min="0" max="1" step="0.05" value="0.85" class="w-full accent-red-600" oninput="document.getElementById('gradVal').innerText = Math.round(this.value * 100) + '%'; render();">
           </div>
         </div>
 
-        <!-- 2. PİYASA MODÜLÜ -->
+        <!-- 2. ALTIN & DÖVİZ MODÜLÜ -->
         <div id="tab-piyasa" class="tab-content hidden space-y-3">
           <div class="bg-slate-950 p-3 rounded-lg border border-amber-900/40 space-y-3">
+            <label class="text-xs font-bold text-amber-400 flex items-center gap-1">
+              <i class="ph-bold ph-coins"></i> Altın & Döviz Fiyat Listesi
+            </label>
             <div class="grid grid-cols-2 gap-2 text-xs">
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Gram Altın</span>
-                <input type="text" id="p_gram" value="3.450 / 3.490" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+                <input type="text" id="p_gram" value="3.450 / 3.490 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Çeyrek Altın</span>
-                <input type="text" id="p_ceyrek" value="5.620 / 5.710" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+                <input type="text" id="p_ceyrek" value="5.620 / 5.710 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+              </div>
+              <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">Yarım / Tam Altın</span>
+                <input type="text" id="p_yarim" value="11.240 / 22.800 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
+              </div>
+              <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">22 Ayar Bilezik</span>
+                <input type="text" id="p_bilezik" value="3.180 / 3.320 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Dolar ($)</span>
-                <input type="text" id="p_dolar" value="38.45 / 38.65" class="w-full bg-transparent font-bold text-emerald-400 outline-none" oninput="render()">
+                <input type="text" id="p_dolar" value="38.45 / 38.65 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
                 <span class="text-slate-400 block text-[10px]">Euro (€)</span>
-                <input type="text" id="p_euro" value="41.20 / 41.45" class="w-full bg-transparent font-bold text-emerald-400 outline-none" oninput="render()">
+                <input type="text" id="p_euro" value="41.20 / 41.45 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none" oninput="render()">
               </div>
             </div>
-            <input type="text" id="marketTitle" value="GÜNCEL MANİSA ALTIN & DÖVİZ" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-slate-200" oninput="render()">
+            <input type="text" id="marketTitle" value="GÜNCEL MANİSA ALTIN & DÖVİZ PİYASASI" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-slate-200" oninput="render()">
           </div>
         </div>
 
-        <!-- 3. VEFAT MODÜLÜ -->
+        <!-- 3. VEFAT LİSTESİ MODÜLÜ -->
         <div id="tab-vefat" class="tab-content hidden space-y-3">
           <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
-            <textarea id="vefatListText" rows="5" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200 outline-none" oninput="render()">Ahmet Yılmaz (74) - Şehzadeler / Hatuniye Camii
+            <div class="flex justify-between items-center">
+              <label class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                <i class="ph-bold ph-flower-tulip"></i> Günlük Vefat Edenler
+              </label>
+              <span class="text-[10px] text-slate-400">Mezarlıklar Daire Bşk.</span>
+            </div>
+            <textarea id="vefatListText" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200 outline-none" oninput="render()">Ahmet Yılmaz (74) - Şehzadeler / Hatuniye Camii
 Fatma Demir (68) - Yunusemre / Laleli Camii
-Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
-            <input type="text" id="vefatDateText" value="BUGÜN MANİSA'DA VEFAT EDENLER" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-center font-bold text-amber-400" oninput="render()">
+Mehmet Kaya (81) - Turgutlu / Pazar Camii
+Ayşe Çelik (62) - Akhisar / Yeni Gülruh Camii
+Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
+            <input type="text" id="vefatDateText" value="BUGÜN MANİSA'DA VEFAT EDENLER" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-center font-bold text-amber-400" oninput="render()">
           </div>
         </div>
 
-        <!-- 4. DİĞERLERİ -->
+        <!-- 4. ÖNCESİ / SONRASI -->
         <div id="tab-karsilastir" class="tab-content hidden space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="file" id="beforeImgUpload" accept="image/*" class="hidden" onchange="handleBeforeUpload(event)">
+            <input type="file" id="afterImgUpload" accept="image/*" class="hidden" onchange="handleAfterUpload(event)">
+            <button onclick="document.getElementById('beforeImgUpload').click()" class="py-2 bg-slate-800 border border-slate-700 rounded text-xs">Fotoğraf 1 (Öncesi)</button>
+            <button onclick="document.getElementById('afterImgUpload').click()" class="py-2 bg-slate-800 border border-slate-700 rounded text-xs">Fotoğraf 2 (Sonrası)</button>
+          </div>
           <input type="text" id="compareTitle" value="TARİHİ ÇARŞI RESTORASYONU" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold" oninput="render()">
         </div>
-        <div id="tab-ihbar" class="tab-content hidden space-y-3">
-          <input type="text" id="ihbarLocation" value="Şehzadeler / İzmir Caddesi" placeholder="Olay Yeri" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs" oninput="render()">
-        </div>
 
-        <!-- ORTAK AYARLAR -->
+        <!-- ORTAK AYARLAR: BOYUT & LOGO -->
         <div class="border-t border-slate-800 pt-3 space-y-3">
           <div>
-            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Boyut</label>
+            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Boyut / Format</label>
             <div class="grid grid-cols-4 gap-1.5">
               <button onclick="setRatio('1:1')" id="btn-1:1" class="ratio-btn bg-red-600 text-white py-1.5 rounded text-xs font-semibold flex flex-col items-center"><span>1:1</span></button>
               <button onclick="setRatio('9:16')" id="btn-9:16" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>9:16</span></button>
@@ -166,14 +213,32 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
               <button onclick="setRatio('4:5')" id="btn-4:5" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>4:5</span></button>
             </div>
           </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Hızlı Rozetler & Logo</label>
+              <input type="file" id="logoUpload" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
+              <button onclick="document.getElementById('logoUpload').click()" class="text-[11px] text-red-400 hover:text-red-300 flex items-center gap-1">
+                <i class="ph ph-plus-circle"></i> Logo Yükle
+              </button>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 mb-2">
+              <button onclick="setBadge('SON DAKİKA', '#dc2626')" class="bg-red-950/60 border border-red-800 text-red-300 text-xs font-bold py-1 rounded">🚨 SON DAKİKA</button>
+              <button onclick="setBadge('SİZDEN GELENLER', '#2563eb')" class="bg-blue-950/60 border border-blue-800 text-blue-300 text-xs font-bold py-1 rounded">📸 SİZDEN GELENLER</button>
+            </div>
+            <div id="logoList" class="flex gap-2 overflow-x-auto p-1.5 bg-slate-950 border border-slate-800 rounded min-h-[44px] items-center"></div>
+          </div>
         </div>
 
       </div>
     </div>
 
-    <!-- SAĞ: ÖNİZLEME TUVALİ -->
+    <!-- SAĞ: CANLI ÖNİZLEME TUVALİ -->
     <div class="flex-1 bg-slate-950 p-4 flex flex-col items-center justify-center overflow-auto relative">
-      <canvas id="previewCanvas" class="rounded-lg shadow-2xl max-w-full max-h-[75vh] object-contain border border-slate-800"></canvas>
+      <div id="canvasWrapper" class="relative max-h-full max-w-full flex items-center justify-center">
+        <canvas id="previewCanvas" class="rounded-lg shadow-2xl max-w-full max-h-[75vh] object-contain border border-slate-800"></canvas>
+      </div>
+      <video id="hiddenVideo" class="hidden" playsinline muted loop></video>
     </div>
 
   </div>
@@ -181,9 +246,18 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
   <script>
     const canvas = document.getElementById('previewCanvas');
     const ctx = canvas.getContext('2d');
+    const video = document.getElementById('hiddenVideo');
+
     let activeTab = 'tab-haber';
     let currentRatio = '1:1';
     let bgImage = null;
+    let beforeImg = null;
+    let afterImg = null;
+    let activeLogo = null;
+    let badgeText = 'SON DAKİKA';
+    let badgeColor = '#dc2626';
+    let isVideoMode = false;
+
     let blurZones = [];
     let isBrushMode = false;
     let isDrawing = false;
@@ -196,6 +270,7 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
     };
 
     window.onload = () => {
+      loadSavedLogos();
       initCanvasEvents();
       createDefaultPlaceholder();
     };
@@ -204,8 +279,13 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
       activeTab = tabId;
       document.querySelectorAll('.tab-btn').forEach(btn => btn.className = 'tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0');
       document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-      document.getElementById(`btn-${tabId}`).className = 'tab-btn tab-active px-3 py-1.5 rounded flex items-center gap-1 shrink-0';
-      document.getElementById(tabId).classList.remove('hidden');
+
+      const actBtn = document.getElementById(`btn-${tabId}`);
+      if (actBtn) actBtn.className = 'tab-btn tab-active px-3 py-1.5 rounded flex items-center gap-1 shrink-0';
+      
+      const actContent = document.getElementById(tabId);
+      if (actContent) actContent.classList.remove('hidden');
+
       render();
     }
 
@@ -215,10 +295,10 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
       const tCtx = temp.getContext('2d');
       tCtx.fillStyle = '#0f172a';
       tCtx.fillRect(0, 0, 1080, 1080);
-      tCtx.fillStyle = '#475569';
+      tCtx.fillStyle = '#334155';
       tCtx.font = 'bold 36px Montserrat';
       tCtx.textAlign = 'center';
-      tCtx.fillText('Görsel Yükleyin', 540, 540);
+      tCtx.fillText('Görsel veya Video Yükleyin', 540, 540);
       const img = new Image();
       img.src = temp.toDataURL();
       img.onload = () => { bgImage = img; setRatio('1:1'); };
@@ -226,16 +306,23 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
 
     function setRatio(ratio) {
       currentRatio = ratio;
-      document.querySelectorAll('.ratio-btn').forEach(btn => btn.className = 'ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700');
-      document.getElementById(`btn-${ratio}`).className = 'ratio-btn bg-red-600 text-white py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-transparent';
+      document.querySelectorAll('.ratio-btn').forEach(btn => {
+        btn.className = 'ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700';
+      });
+      const act = document.getElementById(`btn-${ratio}`);
+      if (act) act.className = 'ratio-btn bg-red-600 text-white py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-transparent';
+
       canvas.width = DIMENSIONS[ratio].width;
       canvas.height = DIMENSIONS[ratio].height;
       render();
     }
 
+    // --- MEDYA YÜKLEME ---
     function handleImageUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
+      isVideoMode = false;
+      video.pause();
       const reader = new FileReader();
       reader.onload = ev => {
         const img = new Image();
@@ -245,10 +332,85 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
       reader.readAsDataURL(file);
     }
 
+    function handleVideoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      isVideoMode = true;
+      video.src = URL.createObjectURL(file);
+      video.load();
+      video.onloadeddata = () => {
+        video.play();
+        startVideoLoop();
+      };
+    }
+
+    function startVideoLoop() {
+      function loop() {
+        if (isVideoMode) {
+          render();
+          requestAnimationFrame(loop);
+        }
+      }
+      loop();
+    }
+
+    function handleBeforeUpload(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => { const img = new Image(); img.onload = () => { beforeImg = img; render(); }; img.src = ev.target.result; };
+      r.readAsDataURL(f);
+    }
+    function handleAfterUpload(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => { const img = new Image(); img.onload = () => { afterImg = img; render(); }; img.src = ev.target.result; };
+      r.readAsDataURL(f);
+    }
+
+    function handleLogoUpload(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        let l = JSON.parse(localStorage.getItem('news_saved_logos') || '[]');
+        l.unshift(ev.target.result);
+        if (l.length > 8) l.pop();
+        localStorage.setItem('news_saved_logos', JSON.stringify(l));
+        loadSavedLogos();
+        selectLogo(ev.target.result);
+      };
+      r.readAsDataURL(f);
+    }
+
+    function loadSavedLogos() {
+      const l = JSON.parse(localStorage.getItem('news_saved_logos') || '[]');
+      const c = document.getElementById('logoList');
+      c.innerHTML = '';
+      l.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'h-7 w-7 object-contain bg-slate-900 border border-slate-700 hover:border-red-500 rounded p-1 cursor-pointer';
+        img.onclick = () => selectLogo(src);
+        c.appendChild(img);
+      });
+    }
+
+    function selectLogo(src) { const img = new Image(); img.onload = () => { activeLogo = img; render(); }; img.src = src; }
+    function setBadge(t, c) { badgeText = t; badgeColor = c; render(); }
+
+    // --- ASAYİŞ & BUZLAMA ---
     function toggleBrushMode() {
       isBrushMode = !isBrushMode;
-      document.getElementById('brushBtnText').innerText = isBrushMode ? 'Buzlama Aktif' : 'Plaka Fırçası';
-      canvas.classList.toggle('brush-active', isBrushMode);
+      const btn = document.getElementById('brushBtn');
+      const text = document.getElementById('brushBtnText');
+      if (isBrushMode) {
+        btn.className = 'py-1.5 bg-amber-600 text-white rounded text-xs font-medium flex items-center justify-center gap-1 shadow-lg shadow-amber-600/30';
+        text.innerText = 'Buzlama Aktif';
+        canvas.classList.add('brush-active');
+      } else {
+        btn.className = 'py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1';
+        text.innerText = 'Plaka Fırçası';
+        canvas.classList.remove('brush-active');
+      }
     }
 
     function autoBlurFaces() {
@@ -257,7 +419,7 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
     }
 
     function initCanvasEvents() {
-      const getPos = e => {
+      const getPos = (e) => {
         const rect = canvas.getBoundingClientRect();
         return {
           x: (e.clientX - rect.left) * (canvas.width / rect.width),
@@ -269,37 +431,365 @@ Mehmet Kaya (81) - Turgutlu / Pazar Camii</textarea>
       window.addEventListener('mouseup', () => isDrawing = false);
     }
 
+    function applyBloodDesaturation(ctx, w, h) {
+      try {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const d = imgData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const r = d[i], g = d[i+1], b = d[i+2];
+          if (r > 90 && r > g * 1.35 && r > b * 1.35) {
+            const gray = (r * 0.299 + g * 0.587 + b * 0.114);
+            d[i] = gray; d[i+1] = gray; d[i+2] = gray;
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch(e) {}
+    }
+
+    function applyPixelatedBlur(ctx, w, h) {
+      if (blurZones.length === 0) return;
+      blurZones.forEach(z => {
+        const size = Math.round(z.r * 2);
+        const startX = Math.max(0, Math.round(z.x - z.r));
+        const startY = Math.max(0, Math.round(z.y - z.r));
+        const blockW = Math.min(w - startX, size);
+        const blockH = Math.min(h - startY, size);
+        if (blockW <= 0 || blockH <= 0) return;
+
+        try {
+          const pixelSize = Math.max(8, Math.round(w * 0.015));
+          const subData = ctx.getImageData(startX, startY, blockW, blockH);
+          for (let py = 0; py < blockH; py += pixelSize) {
+            for (let px = 0; px < blockW; px += pixelSize) {
+              const pIdx = (py * blockW + px) * 4;
+              const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
+              for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
+                for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
+                  const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
+                  subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
+                }
+              }
+            }
+          }
+          ctx.putImageData(subData, startX, startY);
+        } catch(e) {}
+      });
+    }
+
+    // --- ORANTILI GÖRSEL SIĞDIRMA (COVER FIT - ASLA SÜNMEZ) ---
+    function drawCoverImage(ctx, source, w, h) {
+      const sw = isVideoMode ? source.videoWidth : source.width;
+      const sh = isVideoMode ? source.videoHeight : source.height;
+      if (!sw || !sh) return;
+
+      const sRatio = sw / sh;
+      const cRatio = w / h;
+      let dw, dh, dx, dy;
+
+      if (sRatio > cRatio) {
+        dh = h;
+        dw = h * sRatio;
+        dx = (w - dw) / 2;
+        dy = 0;
+      } else {
+        dw = w;
+        dh = w / sRatio;
+        dx = 0;
+        dy = (h - dh) / 2;
+      }
+      ctx.drawImage(source, dx, dy, dw, dh);
+    }
+
+    // --- ANA RENDER TUVALİ ---
     function render() {
-      const w = canvas.width, h = canvas.height, margin = w * 0.05;
+      const w = canvas.width;
+      const h = canvas.height;
+      const margin = w * 0.05;
       ctx.clearRect(0, 0, w, h);
 
-      if (activeTab === 'tab-piyasa') {
-        ctx.fillStyle = '#090d16'; ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = '#d97706'; ctx.fillRect(margin, margin, w - margin*2, w * 0.12);
-        ctx.fillStyle = '#ffffff'; ctx.font = `900 ${Math.round(w * 0.04)}px Montserrat`; ctx.textAlign = 'center';
-        ctx.fillText(document.getElementById('marketTitle').value, w/2, margin + w*0.075);
+      if (activeTab === 'tab-haber') {
+        renderHaberModule(w, h, margin);
+      } else if (activeTab === 'tab-piyasa') {
+        renderPiyasaModule(w, h, margin);
       } else if (activeTab === 'tab-vefat') {
-        ctx.fillStyle = '#0b0f19'; ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = '#d97706'; ctx.font = `bold ${Math.round(w * 0.04)}px Montserrat`; ctx.textAlign = 'center';
-        ctx.fillText(document.getElementById('vefatDateText').value, w/2, margin*2);
-      } else {
-        if (bgImage) ctx.drawImage(bgImage, 0, 0, w, h);
-        const bGrad = ctx.createLinearGradient(0, h * 0.4, 0, h);
-        bGrad.addColorStop(0, 'rgba(0,0,0,0)'); bGrad.addColorStop(1, 'rgba(0,0,0,0.85)');
-        ctx.fillStyle = bGrad; ctx.fillRect(0, 0, w, h);
-
-        const title = document.getElementById('titleText').value;
-        if (title) {
-          ctx.fillStyle = '#ffffff'; ctx.font = `900 ${Math.round(w * 0.06)}px Montserrat`;
-          ctx.fillText(title, margin, h - margin);
-        }
+        renderVefatModule(w, h, margin);
+      } else if (activeTab === 'tab-karsilastir') {
+        renderCompareModule(w, h, margin);
       }
     }
 
+    // 1. MANŞET / HABER ÇİZİMİ
+    function renderHaberModule(w, h, margin) {
+      const source = isVideoMode ? video : bgImage;
+      if (source) {
+        drawCoverImage(ctx, source, w, h);
+      }
+
+      if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, h);
+      applyPixelatedBlur(ctx, w, h);
+
+      // Koyu Gradyan (Okunabilirlik Katmanı)
+      const gradOpacity = parseFloat(document.getElementById('gradOpacity')?.value || 0.85);
+      if (gradOpacity > 0) {
+        const bGrad = ctx.createLinearGradient(0, h * 0.35, 0, h);
+        bGrad.addColorStop(0, 'rgba(0,0,0,0)');
+        bGrad.addColorStop(0.5, `rgba(0,0,0,${gradOpacity * 0.7})`);
+        bGrad.addColorStop(1, `rgba(0,0,0,${gradOpacity})`);
+        ctx.fillStyle = bGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        const tGrad = ctx.createLinearGradient(0, 0, 0, h * 0.22);
+        tGrad.addColorStop(0, `rgba(0,0,0,${gradOpacity * 0.6})`);
+        tGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = tGrad;
+        ctx.fillRect(0, 0, w, h * 0.22);
+      }
+
+      // Rozet & Logo
+      if (badgeText) {
+        ctx.save();
+        ctx.font = `bold ${Math.round(w * 0.032)}px Montserrat`;
+        const metrics = ctx.measureText(badgeText);
+        const px = w * 0.025; const bH = w * 0.065; const bW = metrics.width + (px * 2);
+        ctx.fillStyle = badgeColor;
+        ctx.fillRect(margin, margin, bW, bH);
+        ctx.fillStyle = '#FFFFFF'; ctx.textBaseline = 'middle';
+        ctx.fillText(badgeText, margin + px, margin + (bH / 2));
+        ctx.restore();
+      }
+
+      if (activeLogo) {
+        ctx.save();
+        const maxH = w * 0.08; const lW = activeLogo.width * (maxH / activeLogo.height);
+        ctx.drawImage(activeLogo, w - margin - lW, margin, lW, maxH);
+        ctx.restore();
+      }
+
+      // Başlık ve Spot Metinleri (Otomatik Satır Kaydırma)
+      const title = document.getElementById('titleText').value.trim();
+      const spot = document.getElementById('spotText').value.trim();
+      let currentY = h - margin;
+
+      if (spot) {
+        ctx.save();
+        const spotSize = Math.round(w * 0.035);
+        ctx.font = `500 ${spotSize}px Montserrat`;
+        ctx.fillStyle = '#e2e8f0';
+        ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 8;
+        const lines = getLines(ctx, spot, w - (margin * 2.5));
+        currentY -= (lines.length * spotSize * 1.35);
+        let sY = currentY;
+        lines.forEach(l => { ctx.fillText(l, margin, sY); sY += spotSize * 1.35; });
+        ctx.restore();
+        currentY -= (w * 0.03);
+      }
+
+      if (title) {
+        ctx.save();
+        const titleSize = Math.round(w * 0.058);
+        ctx.font = `900 ${titleSize}px Montserrat`;
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 12;
+        const lines = getLines(ctx, title, w - (margin * 2.5));
+        currentY -= (lines.length * titleSize * 1.25);
+        let tY = currentY;
+        lines.forEach(l => { ctx.fillText(l, margin, tY); tY += titleSize * 1.25; });
+        ctx.restore();
+      }
+    }
+
+    // 2. ALTIN & DÖVİZ GÖRSEL ŞÖLEN ÇİZİMİ
+    function renderPiyasaModule(w, h, margin) {
+      // Arka plan: Lüks Gece Mavisi / Koyu Gradyan
+      const bgGrad = ctx.createRadialGradient(w/2, h/2, 50, w/2, h/2, w);
+      bgGrad.addColorStop(0, '#0f172a');
+      bgGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Altın Yaldız Dış Çerçeve
+      ctx.strokeStyle = '#d97706';
+      ctx.lineWidth = w * 0.005;
+      ctx.strokeRect(margin * 0.5, margin * 0.5, w - margin, h - margin);
+
+      // Üst Başlık Şeridi
+      const headerH = w * 0.12;
+      const headGrad = ctx.createLinearGradient(margin, margin, w - margin, margin);
+      headGrad.addColorStop(0, '#b45309');
+      headGrad.addColorStop(0.5, '#f59e0b');
+      headGrad.addColorStop(1, '#b45309');
+      ctx.fillStyle = headGrad;
+      ctx.fillRect(margin, margin, w - (margin * 2), headerH);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = `900 ${Math.round(w * 0.042)}px Montserrat`;
+      ctx.textAlign = 'center';
+      ctx.fillText(document.getElementById('marketTitle').value, w / 2, margin + (headerH * 0.65));
+
+      // Altın & Döviz Kartları
+      const items = [
+        { name: 'GRAM ALTIN', val: document.getElementById('p_gram').value, icon: '🏆', isGold: true },
+        { name: 'ÇEYREK ALTIN', val: document.getElementById('p_ceyrek').value, icon: '🟡', isGold: true },
+        { name: 'YARIM / TAM ALTIN', val: document.getElementById('p_yarim').value, icon: '🪙', isGold: true },
+        { name: '22 AYAR BİLEZİK', val: document.getElementById('p_bilezik').value, icon: '✨', isGold: true },
+        { name: 'DOLAR ($)', val: document.getElementById('p_dolar').value, icon: '💵', isGold: false },
+        { name: 'EURO (€)', val: document.getElementById('p_euro').value, icon: '💶', isGold: false }
+      ];
+
+      let startY = margin + headerH + (w * 0.04);
+      const cardH = (h - startY - (margin * 1.5)) / items.length;
+
+      items.forEach(item => {
+        const cardW = w - (margin * 2);
+        
+        // Kart Arka Planı
+        ctx.fillStyle = item.isGold ? 'rgba(30, 41, 59, 0.75)' : 'rgba(15, 23, 42, 0.85)';
+        ctx.fillRect(margin, startY, cardW, cardH * 0.84);
+
+        // Sol Renk Şeridi
+        ctx.fillStyle = item.isGold ? '#f59e0b' : '#10b981';
+        ctx.fillRect(margin, startY, w * 0.015, cardH * 0.84);
+
+        // İsim
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${Math.round(w * 0.034)}px Montserrat`;
+        ctx.textAlign = 'left';
+        ctx.fillText(`${item.icon} ${item.name}`, margin + (w * 0.04), startY + (cardH * 0.52));
+
+        // Fiyat
+        ctx.fillStyle = item.isGold ? '#fbbf24' : '#34d399';
+        ctx.font = `900 ${Math.round(w * 0.038)}px Montserrat`;
+        ctx.textAlign = 'right';
+        ctx.fillText(item.val, w - margin - (w * 0.04), startY + (cardH * 0.52));
+
+        startY += cardH;
+      });
+
+      if (activeLogo) {
+        const maxH = w * 0.06; const lW = activeLogo.width * (maxH / activeLogo.height);
+        ctx.drawImage(activeLogo, (w - lW)/2, h - margin * 1.2, lW, maxH);
+      }
+    }
+
+    // 3. VEFAT LİSTESİ (KABRİSTAN & MANEVİ ŞÖLEN ÇİZİMİ)
+    function renderVefatModule(w, h, margin) {
+      // Arka plan koyu zarafet
+      ctx.fillStyle = '#060911'; ctx.fillRect(0, 0, w, h);
+
+      // Selvi & Mistik Arka Plan Gradyanı
+      const mistGrad = ctx.createLinearGradient(0, 0, 0, h);
+      mistGrad.addColorStop(0, '#111827');
+      mistGrad.addColorStop(0.5, '#0b0f19');
+      mistGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = mistGrad; ctx.fillRect(0, 0, w, h);
+
+      // Altın Yaldızlı Taziye Çerçevesi
+      ctx.strokeStyle = '#d97706';
+      ctx.lineWidth = w * 0.005;
+      ctx.strokeRect(margin * 0.6, margin * 0.6, w - (margin * 1.2), h - (margin * 1.2));
+
+      // Üst Başlık & Dua
+      ctx.save();
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = `900 ${Math.round(w * 0.044)}px Montserrat`;
+      ctx.textAlign = 'center';
+      ctx.fillText(document.getElementById('vefatDateText').value, w / 2, margin * 1.8);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = `italic 500 ${Math.round(w * 0.026)}px Montserrat`;
+      ctx.fillText('"İnna lillahi ve inna ileyhi raciun" • Merhum ve Merhumelere Allah\'tan Rahmet Dileriz', w / 2, margin * 2.5);
+      ctx.restore();
+
+      // İsimler & Camiler Listesi
+      const rawText = document.getElementById('vefatListText').value.trim();
+      const items = rawText.split('\n').filter(i => i.trim() !== '');
+      let startY = margin * 3.4;
+      const cardH = (h - startY - (margin * 1.5)) / Math.max(items.length, 4);
+
+      items.forEach(item => {
+        const parts = item.split(' - ');
+        const namePart = parts[0] || item;
+        const detailPart = parts[1] || '';
+
+        // Kart Kutucuğu
+        ctx.fillStyle = 'rgba(30, 41, 59, 0.6)';
+        ctx.fillRect(margin, startY, w - (margin * 2), cardH * 0.84);
+
+        // Sol Altın Hat
+        ctx.fillStyle = '#d97706';
+        ctx.fillRect(margin, startY, w * 0.015, cardH * 0.84);
+
+        // İsim
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${Math.round(w * 0.034)}px Montserrat`;
+        ctx.textAlign = 'left';
+        ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.04), startY + (cardH * 0.38));
+
+        // Cami & İlçe
+        if (detailPart) {
+          ctx.fillStyle = '#cbd5e1';
+          ctx.font = `500 ${Math.round(w * 0.026)}px Montserrat`;
+          ctx.fillText(`📍 ${detailPart}`, margin + (w * 0.04), startY + (cardH * 0.68));
+        }
+
+        startY += cardH;
+      });
+
+      if (activeLogo) {
+        const maxH = w * 0.06; const lW = activeLogo.width * (maxH / activeLogo.height);
+        ctx.drawImage(activeLogo, (w - lW)/2, h - margin * 1.2, lW, maxH);
+      }
+    }
+
+    // 4. ÖNCESİ / SONRASI
+    function renderCompareModule(w, h, margin) {
+      ctx.fillStyle = '#020617'; ctx.fillRect(0, 0, w, h);
+      const halfW = w / 2;
+      if (beforeImg) drawCoverImage(ctx, beforeImg, halfW, h);
+      if (afterImg) {
+        ctx.save();
+        ctx.translate(halfW, 0);
+        drawCoverImage(ctx, afterImg, halfW, h);
+        ctx.restore();
+      }
+      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = w * 0.006;
+      ctx.beginPath(); ctx.moveTo(halfW, 0); ctx.lineTo(halfW, h); ctx.stroke();
+    }
+
+    function getLines(ctx, text, maxW) {
+      const words = text.split(' '); const lines = []; let line = words[0];
+      for (let i = 1; i < words.length; i++) {
+        const test = line + " " + words[i];
+        if (ctx.measureText(test).width < maxW) line = test;
+        else { lines.push(line); line = words[i]; }
+      }
+      lines.push(line); return lines;
+    }
+
+    // --- İNDİRME ---
     function downloadFormat(fmt) {
       const a = document.createElement('a');
-      a.download = `medya-${Date.now()}.${fmt}`;
-      a.href = canvas.toDataURL(`image/${fmt}`);
+      const time = Date.now();
+      a.download = `medya-${currentRatio.replace(':', 'x')}-${time}.${fmt}`;
+      a.href = canvas.toDataURL(`image/${fmt}`, fmt === 'webp' ? 0.92 : 1.0);
+      a.click();
+    }
+
+    async function downloadAllSizesZip() {
+      const zip = new JSZip();
+      const ratios = ['1:1', '9:16', '16:9', '4:5'];
+      const originalRatio = currentRatio;
+      for (const r of ratios) {
+        setRatio(r);
+        render();
+        const dataUrl = canvas.toDataURL('image/png', 1.0);
+        zip.file(`kart-${r.replace(':', 'x')}.png`, dataUrl.replace(/^data:image\/png;base64,/, ""), { base64: true });
+      }
+      setRatio(originalRatio);
+      const content = await zip.generateAsync({ type: "blob" });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(content);
+      a.download = `tum-boyutlar-${Date.now()}.zip`;
       a.click();
     }
   </script>
