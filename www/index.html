@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v9</title>
+  <title>Medya Süper Stüdyo PRO v10 - Video & Haber Masası</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons -->
@@ -17,6 +17,7 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
+    .brush-active { cursor: crosshair !important; }
     .tab-active { background-color: #dc2626 !important; color: #ffffff !important; }
   </style>
 </head>
@@ -31,14 +32,20 @@
       <div>
         <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
           <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">PRO v9</span>
+          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v10 ULTIMATE</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Her Boyuta Uyumlu Tipografi & Medya Merkezi</p>
+        <p class="text-[10px] text-slate-400">InShot Tarzı Video Kırpma, Asayiş & Otomasyon Masası</p>
       </div>
     </div>
 
     <!-- Hızlı Çıktı Butonları -->
     <div class="flex items-center gap-2">
+      <!-- Video Kayıt Butonu -->
+      <button id="btnRecordVideo" onclick="toggleVideoExport()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-lg shadow-purple-600/30 transition">
+        <i class="ph-bold ph-video-camera"></i>
+        <span id="recordBtnText">Videoyu Kaydet (MP4)</span>
+      </button>
+
       <button onclick="downloadFormat('webp')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs flex items-center gap-1 transition">
         <i class="ph-bold ph-lightning"></i>
         <span>WebP</span>
@@ -65,7 +72,7 @@
       <!-- MODÜL SEKMELERİ -->
       <div class="flex overflow-x-auto border-b border-slate-800 bg-slate-950 p-1.5 gap-1 text-xs font-semibold">
         <button onclick="switchTab('tab-haber')" id="btn-tab-haber" class="tab-btn tab-active px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-newspaper"></i> Manşet
+          <i class="ph ph-newspaper"></i> Manşet & Video
         </button>
         <button onclick="switchTab('tab-piyasa')" id="btn-tab-piyasa" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
           <i class="ph ph-coins text-amber-400"></i> Altın & Döviz
@@ -78,36 +85,92 @@
       <!-- SEKME İÇERİKLERİ -->
       <div class="flex-1 overflow-y-auto p-4 space-y-4">
 
-        <!-- 1. MANŞET / HABER MODÜLÜ -->
+        <!-- =================== 1. MANŞET / HABER & VİDEO MODÜLÜ =================== -->
         <div id="tab-haber" class="tab-content space-y-4">
+          
+          <!-- Medya Seçimi -->
           <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
             <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Haber Fotoğrafı veya Videosu</label>
             <div class="grid grid-cols-2 gap-2">
               <input type="file" id="mediaUploadImg" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
               <input type="file" id="mediaUploadVid" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
-              <button onclick="document.getElementById('mediaUploadImg').click()" class="py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
-                <i class="ph ph-image text-red-400"></i> Fotoğraf Seç
+              <button onclick="document.getElementById('mediaUploadImg').click()" class="py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
+                <i class="ph ph-image text-red-400 text-base"></i> Fotoğraf Seç
               </button>
-              <button onclick="document.getElementById('mediaUploadVid').click()" class="py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
-                <i class="ph ph-video text-blue-400"></i> Video Seç
+              <button onclick="document.getElementById('mediaUploadVid').click()" class="py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
+                <i class="ph ph-video text-blue-400 text-base"></i> Video Seç
               </button>
             </div>
           </div>
 
-          <!-- Zoom & Netlik -->
-          <div class="p-3 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
+          <!-- INSHOT VİDEO KONTROLLERİ (Sadece Video Yüklendiğinde Görünür) -->
+          <div id="videoControlsBox" class="hidden p-3 bg-purple-950/30 border border-purple-800/60 rounded-lg space-y-3">
+            <label class="text-[11px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1">
+              <i class="ph-bold ph-scissors"></i> InShot Video Kırpma & Ses Araçları
+            </label>
+
+            <!-- Video Başlangıç & Bitiş (Trim) -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between text-slate-300">
+                <span>Başlangıç (sn): <span id="trimStartVal" class="text-purple-400 font-mono">0.0s</span></span>
+                <span>Bitiş (sn): <span id="trimEndVal" class="text-purple-400 font-mono">0.0s</span></span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <input type="range" id="trimStart" min="0" max="100" step="0.5" value="0" class="accent-purple-500" oninput="updateTrim()">
+                <input type="range" id="trimEnd" min="0" max="100" step="0.5" value="100" class="accent-purple-500" oninput="updateTrim()">
+              </div>
+            </div>
+
+            <!-- Video Hızı ve Ses -->
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button onclick="toggleVideoMute()" id="btnMute" class="py-1.5 bg-slate-900 border border-slate-700 rounded text-xs text-slate-300 flex items-center justify-center gap-1">
+                <i class="ph-bold ph-speaker-high" id="muteIcon"></i> <span id="muteText">Sesi Açık</span>
+              </button>
+              <select id="videoSpeed" class="bg-slate-900 border border-slate-700 rounded text-xs text-slate-300 px-2 outline-none" onchange="updateVideoSpeed(this.value)">
+                <option value="0.5">0.5x (Ağır Çekim)</option>
+                <option value="1.0" selected>1.0x (Normal Hız)</option>
+                <option value="1.5">1.5x (Hızlı)</option>
+                <option value="2.0">2.0x (Çok Hızlı)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- ASAYİŞ & GÜVENLİK KALKANI (Kan İzolasyonu & Canlı Buzlama) -->
+          <div class="p-3 bg-red-950/30 border border-red-900/60 rounded-lg space-y-2.5">
+            <label class="text-[11px] font-bold text-red-400 uppercase tracking-wider flex items-center gap-1">
+              <i class="ph-bold ph-shield-check"></i> Asayiş Güvenlik & Sansür
+            </label>
+            
+            <div class="flex items-center justify-between bg-slate-900/90 p-2 rounded border border-slate-800 text-xs">
+              <span class="text-slate-300 font-medium">🩸 Kan/Kırmızı Alanı Otomatik Gri Yap</span>
+              <input type="checkbox" id="bloodDesaturate" class="accent-red-500 w-4 h-4 cursor-pointer" onchange="render()">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="autoBlurFaces()" class="py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium text-amber-300 flex items-center justify-center gap-1">
+                <i class="ph-bold ph-user-focus"></i> Yüzü Buzla
+              </button>
+              <button onclick="toggleBrushMode()" id="brushBtn" class="py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1">
+                <i class="ph-bold ph-paint-brush"></i> <span id="brushBtnText">Plaka/Nesne Fırçası</span>
+              </button>
+            </div>
+            <button onclick="clearAllBlurs()" class="w-full text-[10px] text-slate-400 hover:text-red-400 underline text-center block">Tüm Buzlamaları Temizle</button>
+          </div>
+
+          <!-- YÜZ DETAYINI KORUYAN DOĞAL NETLEŞTİRİCİ -->
+          <div class="p-3 bg-slate-950/70 rounded-lg border border-emerald-900/40 space-y-2">
             <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-blue-400">Fotoğraf Zoom</span>
+              <span class="font-bold text-emerald-400 flex items-center gap-1">
+                <i class="ph-bold ph-sparkle"></i> Ultra Doğal Netleştirici (High-Pass)
+              </span>
+              <span id="sharpVal" class="text-emerald-400 font-mono">0.6</span>
+            </div>
+            <input type="range" id="filterSharp" min="0" max="2.5" step="0.2" value="0.6" class="w-full accent-emerald-500" oninput="document.getElementById('sharpVal').innerText = this.value; render();">
+            <div class="flex justify-between text-xs pt-1">
+              <span class="text-blue-400 font-bold">Fotoğraf/Video Zoom</span>
               <span id="zoomVal" class="text-blue-400 font-mono">1.0x</span>
             </div>
             <input type="range" id="imgZoom" min="0.5" max="3.0" step="0.05" value="1.0" class="w-full accent-blue-500" oninput="document.getElementById('zoomVal').innerText = parseFloat(this.value).toFixed(2) + 'x'; render();">
-            
-            <div class="flex justify-between items-center text-xs pt-1">
-              <span class="font-bold text-emerald-400">Yüz Dokusu Koruyucu Netlik</span>
-              <span id="sharpVal" class="text-emerald-400 font-mono">0.4</span>
-            </div>
-            <input type="range" id="filterSharp" min="0" max="2" step="0.2" value="0.4" class="w-full accent-emerald-500" oninput="document.getElementById('sharpVal').innerText = this.value; render();">
-            <p class="text-[10px] text-slate-400 italic">💡 Fotoğrafı tuval üzerinde parmağınızla/farenizle serbestçe kaydırabilirsiniz.</p>
           </div>
 
           <!-- Başlık Renk Seçimi -->
@@ -130,19 +193,19 @@
           <div class="space-y-2">
             <div>
               <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Manşet Başlığı</label>
-              <textarea id="titleText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-bold focus:border-red-500 outline-none resize-none" oninput="render()">MANİSA'DA ELEKTRİK KESİNTİSİ YAŞANACAK</textarea>
+              <textarea id="titleText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-bold focus:border-red-500 outline-none resize-none" oninput="render()">MANİSA'DA TRAFİK KAZASI: YARALILAR VAR</textarea>
             </div>
             <div>
               <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Spot / Açıklama Metni</label>
-              <textarea id="spotText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 focus:border-red-500 outline-none resize-none" oninput="render()">Planlı bakım çalışmaları kapsamında Yunusemre ve Şehzadeler ilçelerinde gün boyu kesinti uygulanacak.</textarea>
+              <textarea id="spotText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 focus:border-red-500 outline-none resize-none" oninput="render()">Olay yerine çok sayıda sağlık ve polis ekibi sevk edildi. Yaralılar hastaneye kaldırıldı.</textarea>
             </div>
           </div>
         </div>
 
-        <!-- 2. ALTIN & DÖVİZ MODÜLÜ -->
+        <!-- =================== 2. ALTIN & DÖVİZ MODÜLÜ =================== -->
         <div id="tab-piyasa" class="tab-content hidden space-y-3">
           <div class="bg-slate-950 p-3 rounded-lg border border-amber-900/40 space-y-3">
-            <div class="space-y-2">
+            <div class="space-y-1.5">
               <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Başlık Satırları</label>
               <input type="text" id="marketTitle1" value="ALTIN FİYATLARI" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-white uppercase" oninput="render()">
               <input type="text" id="marketTitle2" value="DÜŞTÜKÇE DÜŞÜYOR!" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-red-400 uppercase" oninput="render()">
@@ -180,7 +243,7 @@
           </div>
         </div>
 
-        <!-- 3. VEFAT LİSTESİ MODÜLÜ -->
+        <!-- =================== 3. VEFAT LİSTESİ MODÜLÜ =================== -->
         <div id="tab-vefat" class="tab-content hidden space-y-3">
           <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
             <div class="space-y-1.5">
@@ -198,7 +261,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           </div>
         </div>
 
-        <!-- =================== ORTAK AYARLAR =================== -->
+        <!-- =================== ORTAK AYARLAR (BOYUT & LOGO) =================== -->
         <div class="border-t border-slate-800 pt-3 space-y-3">
           <div>
             <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Boyut / Format</label>
@@ -239,7 +302,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       <div id="canvasWrapper" class="relative max-h-full max-w-full flex items-center justify-center">
         <canvas id="previewCanvas" class="rounded-lg shadow-2xl max-w-full max-h-[75vh] object-contain border border-slate-800 cursor-move"></canvas>
       </div>
-      <video id="hiddenVideo" class="hidden" playsinline muted loop></video>
+      <video id="hiddenVideo" class="hidden" playsinline loop></video>
     </div>
 
   </div>
@@ -256,6 +319,19 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let titleColor = '#ffffff';
     let isVideoMode = false;
 
+    // Asayiş & Buzlama Alanları
+    let blurZones = [];
+    let isBrushMode = false;
+
+    // InShot Video Trim & Ses
+    let videoStartTime = 0;
+    let videoEndTime = 100;
+    let isMuted = false;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let isRecording = false;
+
+    // Fotoğraf / Video Pan
     let imgPanX = 0;
     let imgPanY = 0;
     let dragMode = null;
@@ -274,8 +350,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     window.onload = () => {
       loadSavedLogos();
-      initDragEvents();
+      initDragAndBrushEvents();
       createDefaultPlaceholder();
+      setupVideoSync();
     };
 
     function switchTab(tabId) {
@@ -289,7 +366,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const actContent = document.getElementById(tabId);
       if (actContent) actContent.classList.remove('hidden');
 
-      render();
+      if (tabId === 'tab-vefat') setRatio('kapak');
+      else if (tabId === 'tab-piyasa') setRatio('9:16');
+      else setRatio('1:1');
     }
 
     function createDefaultPlaceholder() {
@@ -333,6 +412,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       if (!file) return;
       isVideoMode = false;
       video.pause();
+      document.getElementById('videoControlsBox').classList.add('hidden');
+      document.getElementById('btnRecordVideo').classList.add('hidden');
+
       const reader = new FileReader();
       reader.onload = ev => {
         const img = new Image();
@@ -350,15 +432,56 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const file = e.target.files[0];
       if (!file) return;
       isVideoMode = true;
+      document.getElementById('videoControlsBox').classList.remove('hidden');
+      document.getElementById('btnRecordVideo').classList.remove('hidden');
+
       video.src = URL.createObjectURL(file);
       video.load();
-      video.onloadeddata = () => {
+      video.onloadedmetadata = () => {
+        videoStartTime = 0;
+        videoEndTime = video.duration;
+        document.getElementById('trimStart').max = video.duration;
+        document.getElementById('trimEnd').max = video.duration;
+        document.getElementById('trimStart').value = 0;
+        document.getElementById('trimEnd').value = video.duration;
+        document.getElementById('trimStartVal').innerText = "0.0s";
+        document.getElementById('trimEndVal').innerText = video.duration.toFixed(1) + "s";
         video.play();
-        startVideoLoop();
+        startVideoRenderLoop();
       };
     }
 
-    function startVideoLoop() {
+    function setupVideoSync() {
+      video.addEventListener('timeupdate', () => {
+        if (isVideoMode) {
+          if (video.currentTime < videoStartTime) video.currentTime = videoStartTime;
+          if (video.currentTime >= videoEndTime) video.currentTime = videoStartTime;
+        }
+      });
+    }
+
+    function updateTrim() {
+      const s = parseFloat(document.getElementById('trimStart').value);
+      const e = parseFloat(document.getElementById('trimEnd').value);
+      if (s < e) {
+        videoStartTime = s;
+        videoEndTime = e;
+        document.getElementById('trimStartVal').innerText = s.toFixed(1) + "s";
+        document.getElementById('trimEndVal').innerText = e.toFixed(1) + "s";
+        video.currentTime = s;
+      }
+    }
+
+    function updateVideoSpeed(speed) { video.playbackRate = parseFloat(speed); }
+
+    function toggleVideoMute() {
+      isMuted = !isMuted;
+      video.muted = isMuted;
+      document.getElementById('muteText').innerText = isMuted ? 'Sessiz' : 'Sesi Açık';
+      document.getElementById('muteIcon').className = isMuted ? 'ph-bold ph-speaker-slash text-red-400' : 'ph-bold ph-speaker-high';
+    }
+
+    function startVideoRenderLoop() {
       function loop() {
         if (isVideoMode) {
           render();
@@ -368,8 +491,33 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       loop();
     }
 
-    // --- SÜRÜKLEME ---
-    function initDragEvents() {
+    // --- ASAYİŞ & BUZLAMA ---
+    function toggleBrushMode() {
+      isBrushMode = !isBrushMode;
+      const btn = document.getElementById('brushBtn');
+      const txt = document.getElementById('brushBtnText');
+      if (isBrushMode) {
+        btn.className = 'py-1.5 bg-amber-600 text-white rounded text-xs font-medium flex items-center justify-center gap-1 shadow-lg shadow-amber-600/30';
+        txt.innerText = 'Buzlama Aktif';
+        canvas.classList.add('brush-active');
+      } else {
+        btn.className = 'py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1';
+        txt.innerText = 'Plaka/Nesne Fırçası';
+        canvas.classList.remove('brush-active');
+      }
+    }
+
+    function autoBlurFaces() {
+      blurZones.push({ x: canvas.width * 0.5, y: canvas.height * 0.35, r: canvas.width * 0.12 });
+      render();
+    }
+
+    function clearAllBlurs() {
+      blurZones = [];
+      render();
+    }
+
+    function initDragAndBrushEvents() {
       const getPos = (e) => {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
@@ -381,6 +529,11 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
       const onStart = (e) => {
         const p = getPos(e);
+        if (isBrushMode) {
+          blurZones.push({ x: p.x, y: p.y, r: canvas.width * 0.05 });
+          render();
+          return;
+        }
         if (activeLogo && logoPos && Math.hypot(p.x - logoPos.x, p.y - logoPos.y) < 100) {
           isDragging = true; dragMode = 'logo'; dragStartX = p.x - logoPos.x; dragStartY = p.y - logoPos.y; return;
         }
@@ -391,8 +544,13 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       };
 
       const onMove = (e) => {
-        if (!isDragging) return;
         const p = getPos(e);
+        if (isBrushMode && e.buttons === 1) {
+          blurZones.push({ x: p.x, y: p.y, r: canvas.width * 0.05 });
+          render();
+          return;
+        }
+        if (!isDragging) return;
         if (dragMode === 'image') { imgPanX = p.x - dragStartX; imgPanY = p.y - dragStartY; render(); }
         else if (dragMode === 'logo') { logoPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
         else if (dragMode === 'text') { textPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
@@ -406,6 +564,79 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       canvas.addEventListener('touchstart', onStart, { passive: true });
       canvas.addEventListener('touchmove', onMove, { passive: true });
       window.addEventListener('touchend', onEnd);
+    }
+
+    // --- CANLI KAN İZOLASYONU & PİKSEL BUZLAMA ---
+    function applyBloodDesaturation(ctx, w, h) {
+      try {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const d = imgData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const r = d[i], g = d[i+1], b = d[i+2];
+          // Kırmızı baskın kan piksellerini algıla
+          if (r > 85 && r > g * 1.30 && r > b * 1.30) {
+            const gray = (r * 0.299 + g * 0.587 + b * 0.114);
+            d[i] = gray; d[i+1] = gray; d[i+2] = gray;
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch(e) {}
+    }
+
+    function applyPixelatedBlur(ctx, w, h) {
+      if (blurZones.length === 0) return;
+      blurZones.forEach(z => {
+        const size = Math.round(z.r * 2);
+        const startX = Math.max(0, Math.round(z.x - z.r));
+        const startY = Math.max(0, Math.round(z.y - z.r));
+        const blockW = Math.min(w - startX, size);
+        const blockH = Math.min(h - startY, size);
+        if (blockW <= 0 || blockH <= 0) return;
+
+        try {
+          const pixelSize = Math.max(10, Math.round(w * 0.02));
+          const subData = ctx.getImageData(startX, startY, blockW, blockH);
+          for (let py = 0; py < blockH; py += pixelSize) {
+            for (let px = 0; px < blockW; px += pixelSize) {
+              const pIdx = (py * blockW + px) * 4;
+              const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
+              for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
+                for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
+                  const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
+                  subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
+                }
+              }
+            }
+          }
+          ctx.putImageData(subData, startX, startY);
+        } catch(e) {}
+      });
+    }
+
+    // --- GELİŞMİŞ UNSHARP MASK (YÜZ DOKUSUNU BOZMAYAN NETLİK) ---
+    function applyNaturalSharpness(ctx, w, h, amount) {
+      if (amount <= 0) return;
+      try {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        const buff = new Uint8ClampedArray(data);
+        const a = amount * 0.22;
+
+        for (let y = 1; y < h - 1; y += 2) {
+          for (let x = 1; x < w - 1; x += 2) {
+            const idx = (y * w + x) * 4;
+            for (let c = 0; c < 3; c++) {
+              const val = buff[idx + c] * (1 + 4 * a) 
+                        - buff[idx - 4 + c] * a 
+                        - buff[idx + 4 + c] * a 
+                        - buff[idx - w * 4 + c] * a 
+                        - buff[idx + w * 4 + c] * a;
+              data[idx + c] = Math.min(255, Math.max(0, val));
+            }
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch (e) {}
     }
 
     // --- LOGO ---
@@ -453,33 +684,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       render();
     }
 
-    // --- DOĞAL NETLİK FİLTRESİ ---
-    function applyNaturalSharpness(ctx, w, h, amount) {
-      if (amount <= 0) return;
-      try {
-        const imgData = ctx.getImageData(0, 0, w, h);
-        const data = imgData.data;
-        const buff = new Uint8ClampedArray(data);
-        const a = amount * 0.20;
-
-        for (let y = 1; y < h - 1; y += 2) {
-          for (let x = 1; x < w - 1; x += 2) {
-            const idx = (y * w + x) * 4;
-            for (let c = 0; c < 3; c++) {
-              const val = buff[idx + c] * (1 + 4 * a) 
-                        - buff[idx - 4 + c] * a 
-                        - buff[idx + 4 + c] * a 
-                        - buff[idx - w * 4 + c] * a 
-                        - buff[idx + w * 4 + c] * a;
-              data[idx + c] = Math.min(255, Math.max(0, val));
-            }
-          }
-        }
-        ctx.putImageData(imgData, 0, 0);
-      } catch (e) {}
-    }
-
-    function drawDraggableImage(ctx, source, w, targetH) {
+    function drawDraggableMedia(ctx, source, w, targetH) {
       const sw = isVideoMode ? source.videoWidth : source.width;
       const sh = isVideoMode ? source.videoHeight : source.height;
       if (!sw || !sh) return;
@@ -497,7 +702,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.drawImage(source, dx, dy, dw, dh);
     }
 
-    // --- ANA RENDER MOTORU ---
+    // --- ANA RENDER TUVALİ ---
     function render() {
       const w = canvas.width;
       const h = canvas.height;
@@ -513,13 +718,16 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // 1. MANŞET / HABER ÇİZİMİ
+    // 1. MANŞET & VİDEO ÇİZİMİ
     function renderHaberModule(w, h, margin) {
       const source = isVideoMode ? video : bgImage;
       const isStory = currentRatio === '9:16';
 
       if (isStory) {
-        if (source) drawDraggableImage(ctx, source, w, h);
+        if (source) drawDraggableMedia(ctx, source, w, h);
+        if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, h);
+        applyPixelatedBlur(ctx, w, h);
+
         const bGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
         bGrad.addColorStop(0, 'rgba(0,0,0,0)');
         bGrad.addColorStop(0.4, 'rgba(0,0,0,0.75)');
@@ -534,7 +742,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         ctx.beginPath();
         ctx.rect(0, 0, w, photoH);
         ctx.clip();
-        if (source) drawDraggableImage(ctx, source, w, photoH);
+        if (source) drawDraggableMedia(ctx, source, w, photoH);
+        if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, photoH);
+        applyPixelatedBlur(ctx, w, photoH);
         ctx.restore();
 
         const panelGrad = ctx.createLinearGradient(0, photoH, 0, h);
@@ -617,11 +827,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // 2. ALTIN & DÖVİZ MODÜLÜ (HER BOYUTA TAM UYUMLU)
+    // 2. ALTIN & DÖVİZ MODÜLÜ
     function renderPiyasaModule(w, h, margin) {
-      const isVertical = h > w; // 9:16 mı yoksa Yatay/Kapak mı?
-
-      // Arka Plan
+      const isVertical = h > w;
       const bgGrad = ctx.createRadialGradient(w * 0.7, h * 0.7, 50, w / 2, h / 2, Math.max(w, h));
       bgGrad.addColorStop(0, '#1c1409');
       bgGrad.addColorStop(0.5, '#0d0905');
@@ -629,13 +837,11 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
-      // Başlık Alanı
       const t1 = document.getElementById('marketTitle1').value.trim();
       const t2 = document.getElementById('marketTitle2').value.trim();
 
       ctx.save();
       const topH = isVertical ? h * 0.20 : h * 0.28;
-      
       ctx.fillStyle = '#FFFFFF';
       ctx.font = `900 ${Math.round(isVertical ? w * 0.065 : h * 0.09)}px Montserrat`;
       ctx.textAlign = 'left';
@@ -650,12 +856,10 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         ctx.fillText(t2, margin, topH * 0.85);
       }
 
-      // Sağ Trend İkonu
       ctx.font = `900 ${Math.round(isVertical ? w * 0.06 : h * 0.10)}px Montserrat`;
       ctx.fillText('📉', w - margin - (isVertical ? 40 : 60), topH * 0.75);
       ctx.restore();
 
-      // Orta Panel
       const panelY = topH + (h * 0.02);
       const panelH = h - panelY - (isVertical ? h * 0.10 : h * 0.08);
       ctx.fillStyle = 'rgba(10, 10, 12, 0.82)';
@@ -676,7 +880,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const rowH = panelH / items.length;
       items.forEach((item, i) => {
         const ry = panelY + (i * rowH);
-        
         if (i > 0) {
           ctx.strokeStyle = 'rgba(255,255,255,0.06)';
           ctx.lineWidth = 1;
@@ -685,7 +888,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           ctx.lineTo(w - margin - 15, ry);
           ctx.stroke();
         }
-
         ctx.fillStyle = '#e2e8f0';
         ctx.font = `600 ${Math.round(isVertical ? w * 0.034 : h * 0.045)}px Montserrat`;
         ctx.textAlign = 'left';
@@ -698,11 +900,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       });
     }
 
-    // 3. VEFAT LİSTESİ (9:16 DİKEY VE 16:9/KAPAK YATAY UYUMLU)
+    // 3. VEFAT LİSTESİ
     function renderVefatModule(w, h, margin) {
-      const isVertical = h > w; // Dikey format mı?
-
-      // Zemin
+      const isVertical = h > w;
       const bg = ctx.createLinearGradient(0, 0, 0, h);
       bg.addColorStop(0, '#0c1322');
       bg.addColorStop(0.4, '#1e293b');
@@ -711,7 +911,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
 
-      // Üst Başlık Şeridi
       const topH = isVertical ? h * 0.22 : h * 0.32;
       const headGrad = ctx.createLinearGradient(0, 0, 0, topH);
       headGrad.addColorStop(0, 'rgba(0, 0, 0, 0.95)');
@@ -728,18 +927,15 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.shadowColor = '#000000';
       ctx.shadowBlur = 10;
 
-      // 1. Başlık
       ctx.fillStyle = '#FFFFFF';
       ctx.font = `900 ${Math.round(isVertical ? w * 0.065 : h * 0.085)}px 'Poppins', Montserrat`;
       ctx.fillText(h1, w / 2, topH * 0.40);
 
-      // 2. Başlık
       ctx.fillStyle = '#FFC700';
       ctx.font = `900 ${Math.round(isVertical ? w * 0.082 : h * 0.105)}px 'Poppins', Montserrat`;
       ctx.fillText(h2, w / 2, topH * 0.78);
       ctx.restore();
 
-      // Alt İsim Listesi Paneli
       const panelY = topH + (h * 0.02);
       const panelH = h - panelY - (h * 0.04);
       ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
@@ -758,7 +954,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         const namePart = parts[0] || item;
         const detailPart = parts[1] || '';
 
-        // İnce Satır Ayracı
         if (idx > 0) {
           ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
           ctx.lineWidth = 1;
@@ -769,7 +964,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         }
 
         if (isVertical) {
-          // DİKEY (9:16) DÜZEN: İsim Üstte, Cami Altta (Asla Üst Üste Binmez)
           ctx.fillStyle = '#FFFFFF';
           ctx.font = `bold ${Math.round(w * 0.038)}px Montserrat`;
           ctx.textAlign = 'left';
@@ -782,7 +976,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
             ctx.fillText(`📍 ${detailPart}`, margin + (w * 0.04), ry + (rowH * 0.78));
           }
         } else {
-          // YATAY (16:9 / Kapak) DÜZEN: İsim Solda, Cami Sağda
           ctx.fillStyle = '#FFFFFF';
           ctx.font = `bold ${Math.round(h * 0.042)}px Montserrat`;
           ctx.textAlign = 'left';
@@ -808,6 +1001,53 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       lines.push(line); return lines;
     }
 
+    // --- VİDEO CANLI DIŞA AKTARMA (RECORD & EXPORT MP4) ---
+    function toggleVideoExport() {
+      if (!isRecording) {
+        startRecording();
+      } else {
+        stopRecording();
+      }
+    }
+
+    function startRecording() {
+      recordedChunks = [];
+      const stream = canvas.captureStream(30); // 30 FPS
+      mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `medya-video-${Date.now()}.mp4`;
+        a.click();
+        document.getElementById('recordBtnText').innerText = "Videoyu Kaydet (MP4)";
+        document.getElementById('btnRecordVideo').classList.remove('bg-red-600');
+        document.getElementById('btnRecordVideo').classList.add('bg-purple-600');
+      };
+
+      video.currentTime = videoStartTime;
+      video.play();
+      mediaRecorder.start();
+      isRecording = true;
+      document.getElementById('recordBtnText').innerText = "🔴 Kaydediliyor... (Durdur)";
+      document.getElementById('btnRecordVideo').classList.remove('bg-purple-600');
+      document.getElementById('btnRecordVideo').classList.add('bg-red-600');
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        isRecording = false;
+      }
+    }
+
+    // --- DIŞA AKTARMA (GÖRSEL & ZİP) ---
     function downloadFormat(fmt) {
       const a = document.createElement('a');
       a.download = `medya-${currentRatio}-${Date.now()}.${fmt}`;
