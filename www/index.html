@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v7</title>
+  <title>Medya Süper Stüdyo PRO v8</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons -->
@@ -11,7 +11,7 @@
   <!-- JSZip -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Montserrat', sans-serif; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -31,9 +31,9 @@
       <div>
         <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
           <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">PRO v7</span>
+          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">PRO v8</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Gelişmiş Görsel & Tipografi Motoru</p>
+        <p class="text-[10px] text-slate-400">Gazetecilik Estetiği & Premium Otomasyon</p>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
   <!-- ANA ÇALIŞMA ALANI -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
-    <!-- SOL: KONTROL MENÜSÜ -->
+    <!-- SOL: KONTROL PANELİ -->
     <div class="w-full lg:w-[420px] bg-slate-900 border-r border-slate-800 flex flex-col h-[52vh] lg:h-[calc(100vh-61px)]">
       
       <!-- MODÜL SEKMELERİ -->
@@ -68,20 +68,18 @@
           <i class="ph ph-newspaper"></i> Manşet
         </button>
         <button onclick="switchTab('tab-piyasa')" id="btn-tab-piyasa" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-coins text-amber-400"></i> Altın & Döviz
+          <i class="ph ph-coins text-amber-400"></i> Altın & Döviz (9:16)
         </button>
         <button onclick="switchTab('tab-vefat')" id="btn-tab-vefat" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-flower-tulip text-amber-500"></i> Vefat Listesi
+          <i class="ph ph-flower-tulip text-amber-500"></i> Vefat Listesi (Kapak)
         </button>
       </div>
 
       <!-- SEKME İÇERİKLERİ -->
       <div class="flex-1 overflow-y-auto p-4 space-y-4">
 
-        <!-- =================== 1. MANŞET / HABER MODÜLÜ =================== -->
+        <!-- 1. HABER / MANŞET MODÜLÜ -->
         <div id="tab-haber" class="tab-content space-y-4">
-          
-          <!-- Medya Yükleme -->
           <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
             <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Haber Fotoğrafı veya Videosu</label>
             <div class="grid grid-cols-2 gap-2">
@@ -96,14 +94,20 @@
             </div>
           </div>
 
-          <!-- Fotoğraf Zoom & Taşıma Kontrolleri -->
+          <!-- Zoom & Doğal Netlik -->
           <div class="p-3 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
             <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-blue-400">Fotoğraf Yakınlaştırma (Zoom)</span>
+              <span class="font-bold text-blue-400">Fotoğraf Zoom</span>
               <span id="zoomVal" class="text-blue-400 font-mono">1.0x</span>
             </div>
             <input type="range" id="imgZoom" min="0.5" max="3.0" step="0.05" value="1.0" class="w-full accent-blue-500" oninput="document.getElementById('zoomVal').innerText = parseFloat(this.value).toFixed(2) + 'x'; render();">
-            <p class="text-[10px] text-slate-400 italic">💡 Fotoğrafı tuval üzerinden farenizle tutarak sağa, sola, yukarı ve aşağı serbestçe kaydırabilirsiniz.</p>
+            
+            <div class="flex justify-between items-center text-xs pt-1">
+              <span class="font-bold text-emerald-400">Yüz Dokusunu Koruyan Netlik</span>
+              <span id="sharpVal" class="text-emerald-400 font-mono">0.0</span>
+            </div>
+            <input type="range" id="filterSharp" min="0" max="2" step="0.2" value="0.4" class="w-full accent-emerald-500" oninput="document.getElementById('sharpVal').innerText = this.value; render();">
+            <p class="text-[10px] text-slate-400 italic">💡 Fotoğrafı tuval üzerinde parmağınızla/farenizle tutarak serbestçe kaydırabilirsiniz.</p>
           </div>
 
           <!-- Başlık Renk Seçimi -->
@@ -122,7 +126,7 @@
             </div>
           </div>
 
-          <!-- Başlık & Spot Metinleri -->
+          <!-- Başlık & Spot -->
           <div class="space-y-2">
             <div>
               <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Manşet Başlığı</label>
@@ -135,11 +139,17 @@
           </div>
         </div>
 
-        <!-- =================== 2. ALTIN & DÖVİZ MODÜLÜ =================== -->
+        <!-- 2. ALTIN & DÖVİZ MODÜLÜ -->
         <div id="tab-piyasa" class="tab-content hidden space-y-3">
           <div class="bg-slate-950 p-3 rounded-lg border border-amber-900/40 space-y-3">
-            <label class="text-xs font-bold text-amber-400 flex items-center gap-1">
-              <i class="ph-bold ph-coins"></i> Altın & Döviz Fiyat Listesi
+            <div class="space-y-2">
+              <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Başlık Satırları</label>
+              <input type="text" id="marketTitle1" value="ALTIN FİYATLARI" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-white uppercase" oninput="render()">
+              <input type="text" id="marketTitle2" value="DÜŞTÜKÇE DÜŞÜYOR!" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-red-400 uppercase" oninput="render()">
+            </div>
+
+            <label class="text-xs font-bold text-amber-400 flex items-center gap-1 pt-1">
+              <i class="ph-bold ph-coins"></i> Fiyat Listesi (Kibar & Okunaklı)
             </label>
             <div class="grid grid-cols-2 gap-2 text-xs">
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
@@ -151,7 +161,7 @@
                 <input type="text" id="p_ceyrek" value="5.620 / 5.710 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">Yarım / Tam Altın</span>
+                <span class="text-slate-400 block text-[10px]">Yarım / Tam</span>
                 <input type="text" id="p_yarim" value="11.240 / 22.800 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
               </div>
               <div class="bg-slate-900 p-2 rounded border border-slate-800">
@@ -167,29 +177,28 @@
                 <input type="text" id="p_euro" value="41.20 / 41.45 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none text-xs" oninput="render()">
               </div>
             </div>
-            <input type="text" id="marketTitle" value="GÜNCEL MANİSA PİYASALARI" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-slate-200" oninput="render()">
           </div>
         </div>
 
-        <!-- =================== 3. VEFAT LİSTESİ MODÜLÜ =================== -->
+        <!-- 3. VEFAT LİSTESİ MODÜLÜ -->
         <div id="tab-vefat" class="tab-content hidden space-y-3">
           <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
-            <div class="flex justify-between items-center">
-              <label class="text-xs font-bold text-amber-400 flex items-center gap-1">
-                <i class="ph-bold ph-flower-tulip"></i> Günlük Vefat Edenler
-              </label>
-              <span class="text-[10px] text-slate-400">Mezarlıklar Daire Bşk.</span>
+            <div class="space-y-1.5">
+              <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Başlık Şeridi (1200x630 Kapak)</label>
+              <input type="text" id="vefatHead1" value="MANİSA'DA BUGÜN" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-white uppercase" oninput="render()">
+              <input type="text" id="vefatHead2" value="VEFAT EDENLER!" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-yellow-400 uppercase" oninput="render()">
             </div>
+            
+            <label class="text-xs font-bold text-slate-300 block pt-1">İsim & Cami Listesi (Kibar & Düzenli)</label>
             <textarea id="vefatListText" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200 outline-none" oninput="render()">Ahmet Yılmaz (74) - Şehzadeler / Hatuniye Camii
 Fatma Demir (68) - Yunusemre / Laleli Camii
 Mehmet Kaya (81) - Turgutlu / Pazar Camii
 Ayşe Çelik (62) - Akhisar / Yeni Gülruh Camii
 Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
-            <input type="text" id="vefatDateText" value="BUGÜN MANİSA'DA VEFAT EDENLER" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-center font-bold text-amber-400" oninput="render()">
           </div>
         </div>
 
-        <!-- =================== ORTAK AYARLAR (BOYUT & LOGO) =================== -->
+        <!-- =================== ORTAK AYARLAR =================== -->
         <div class="border-t border-slate-800 pt-3 space-y-3">
           <div>
             <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Boyut / Format</label>
@@ -197,11 +206,11 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
               <button onclick="setRatio('1:1')" id="btn-1:1" class="ratio-btn bg-red-600 text-white py-1.5 rounded text-xs font-semibold flex flex-col items-center"><span>1:1</span></button>
               <button onclick="setRatio('9:16')" id="btn-9:16" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>9:16</span></button>
               <button onclick="setRatio('16:9')" id="btn-16:9" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>16:9</span></button>
-              <button onclick="setRatio('4:5')" id="btn-4:5" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>4:5</span></button>
+              <button onclick="setRatio('kapak')" id="btn-kapak" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>Kapak</span></button>
             </div>
           </div>
 
-          <!-- Logo Ayarları & Boyut Küçültme -->
+          <!-- Logo Ayarları -->
           <div class="p-2.5 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
             <div class="flex items-center justify-between">
               <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Logo Yönetimi</label>
@@ -247,23 +256,20 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let titleColor = '#ffffff';
     let isVideoMode = false;
 
-    // Fotoğraf Serbest Konum (Pan & Move)
     let imgPanX = 0;
     let imgPanY = 0;
-
-    // Sürüklenebilir Ögeler (Görsel veya Logo veya Metin)
-    let dragMode = null; // 'image' | 'logo' | 'text'
+    let dragMode = null;
     let isDragging = false;
     let dragStartX = 0, dragStartY = 0;
 
-    let logoPos = null; // {x, y}
-    let textPos = null; // {x, y}
+    let logoPos = null;
+    let textPos = null;
 
     const DIMENSIONS = {
       '1:1': { width: 1080, height: 1080 },
       '9:16': { width: 1080, height: 1920 },
       '16:9': { width: 1920, height: 1080 },
-      '4:5': { width: 1080, height: 1350 }
+      'kapak': { width: 1200, height: 630 }
     };
 
     window.onload = () => {
@@ -283,7 +289,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const actContent = document.getElementById(tabId);
       if (actContent) actContent.classList.remove('hidden');
 
-      render();
+      if (tabId === 'tab-vefat') setRatio('kapak');
+      else if (tabId === 'tab-piyasa') setRatio('9:16');
+      else setRatio('1:1');
     }
 
     function createDefaultPlaceholder() {
@@ -332,9 +340,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         const img = new Image();
         img.onload = () => {
           bgImage = img;
-          imgPanX = 0;
-          imgPanY = 0;
-          document.getElementById('imgZoom').value = 1.0;
+          imgPanX = 0; imgPanY = 0;
           render();
         };
         img.src = ev.target.result;
@@ -364,7 +370,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       loop();
     }
 
-    // --- SÜRÜKLEME VE SERBEST HAREKET MOTORU ---
+    // --- SÜRÜKLEME ---
     function initDragEvents() {
       const getPos = (e) => {
         const rect = canvas.getBoundingClientRect();
@@ -377,43 +383,21 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
       const onStart = (e) => {
         const p = getPos(e);
-        // 1. Logo seçildi mi?
         if (activeLogo && logoPos && Math.hypot(p.x - logoPos.x, p.y - logoPos.y) < 100) {
-          isDragging = true;
-          dragMode = 'logo';
-          dragStartX = p.x - logoPos.x;
-          dragStartY = p.y - logoPos.y;
-          return;
+          isDragging = true; dragMode = 'logo'; dragStartX = p.x - logoPos.x; dragStartY = p.y - logoPos.y; return;
         }
-        // 2. Metin seçildi mi?
         if (textPos && Math.hypot(p.x - textPos.x, p.y - textPos.y) < 180) {
-          isDragging = true;
-          dragMode = 'text';
-          dragStartX = p.x - textPos.x;
-          dragStartY = p.y - textPos.y;
-          return;
+          isDragging = true; dragMode = 'text'; dragStartX = p.x - textPos.x; dragStartY = p.y - textPos.y; return;
         }
-        // 3. Hiçbiri değilse fotoğrafı serbestçe kaydır
-        isDragging = true;
-        dragMode = 'image';
-        dragStartX = p.x - imgPanX;
-        dragStartY = p.y - imgPanY;
+        isDragging = true; dragMode = 'image'; dragStartX = p.x - imgPanX; dragStartY = p.y - imgPanY;
       };
 
       const onMove = (e) => {
         if (!isDragging) return;
         const p = getPos(e);
-        if (dragMode === 'image') {
-          imgPanX = p.x - dragStartX;
-          imgPanY = p.y - dragStartY;
-          render();
-        } else if (dragMode === 'logo') {
-          logoPos = { x: p.x - dragStartX, y: p.y - dragStartY };
-          render();
-        } else if (dragMode === 'text') {
-          textPos = { x: p.x - dragStartX, y: p.y - dragStartY };
-          render();
-        }
+        if (dragMode === 'image') { imgPanX = p.x - dragStartX; imgPanY = p.y - dragStartY; render(); }
+        else if (dragMode === 'logo') { logoPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
+        else if (dragMode === 'text') { textPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
       };
 
       const onEnd = () => { isDragging = false; dragMode = null; };
@@ -421,13 +405,12 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       canvas.addEventListener('mousedown', onStart);
       canvas.addEventListener('mousemove', onMove);
       window.addEventListener('mouseup', onEnd);
-
       canvas.addEventListener('touchstart', onStart, { passive: true });
       canvas.addEventListener('touchmove', onMove, { passive: true });
       window.addEventListener('touchend', onEnd);
     }
 
-    // --- LOGO YÖNETİMİ ---
+    // --- LOGO ---
     function handleLogoUpload(e) {
       const f = e.target.files[0]; if (!f) return;
       const r = new FileReader();
@@ -463,9 +446,8 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     function setLogoCorner(corner) {
       const w = canvas.width, h = canvas.height, m = w * 0.04;
-      const maxH = w * 0.045; // Boyut yarıya düşürüldü
+      const maxH = w * 0.042;
       const lW = activeLogo ? activeLogo.width * (maxH / activeLogo.height) : maxH;
-
       if (corner === 'top-right') logoPos = { x: w - m - lW, y: m };
       else if (corner === 'top-left') logoPos = { x: m, y: m };
       else if (corner === 'bottom-right') logoPos = { x: w - m - lW, y: h - m - maxH };
@@ -473,7 +455,32 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       render();
     }
 
-    // --- FOTOĞRAF ÇİZİMİ (SERBEST TAŞIMA VE ORANTI) ---
+    // --- DOĞAL NETLİK FİLTRESİ ---
+    function applyNaturalSharpness(ctx, w, h, amount) {
+      if (amount <= 0) return;
+      try {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        const buff = new Uint8ClampedArray(data);
+        const a = amount * 0.20;
+
+        for (let y = 1; y < h - 1; y += 2) {
+          for (let x = 1; x < w - 1; x += 2) {
+            const idx = (y * w + x) * 4;
+            for (let c = 0; c < 3; c++) {
+              const val = buff[idx + c] * (1 + 4 * a) 
+                        - buff[idx - 4 + c] * a 
+                        - buff[idx + 4 + c] * a 
+                        - buff[idx - w * 4 + c] * a 
+                        - buff[idx + w * 4 + c] * a;
+              data[idx + c] = Math.min(255, Math.max(0, val));
+            }
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch (e) {}
+    }
+
     function drawDraggableImage(ctx, source, w, targetH) {
       const sw = isVideoMode ? source.videoWidth : source.width;
       const sh = isVideoMode ? source.videoHeight : source.height;
@@ -484,13 +491,8 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const tRatio = w / targetH;
       let dw, dh;
 
-      if (sRatio > tRatio) {
-        dh = targetH * zoom;
-        dw = dh * sRatio;
-      } else {
-        dw = w * zoom;
-        dh = dw / sRatio;
-      }
+      if (sRatio > tRatio) { dh = targetH * zoom; dw = dh * sRatio; }
+      else { dw = w * zoom; dh = dw / sRatio; }
 
       const dx = (w - dw) / 2 + imgPanX;
       const dy = (targetH - dh) / 2 + imgPanY;
@@ -519,22 +521,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const isStory = currentRatio === '9:16';
 
       if (isStory) {
-        // HİKAYE FORMATI: Tam Ekran Fotoğraf + Şık Alt Gradyan
         if (source) drawDraggableImage(ctx, source, w, h);
-
         const bGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
         bGrad.addColorStop(0, 'rgba(0,0,0,0)');
         bGrad.addColorStop(0.4, 'rgba(0,0,0,0.75)');
         bGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
         ctx.fillStyle = bGrad;
         ctx.fillRect(0, 0, w, h);
-
         drawHeadlines(w, h, margin, false);
       } else {
-        // KARE / YATAY / DİKEY: Fotoğraf Üstte, Alt Bant Altta
         const bottomPanelH = Math.round(h * 0.30);
         const photoH = h - bottomPanelH;
-
         ctx.save();
         ctx.beginPath();
         ctx.rect(0, 0, w, photoH);
@@ -542,24 +539,23 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         if (source) drawDraggableImage(ctx, source, w, photoH);
         ctx.restore();
 
-        // Alt Haber Bandı Paneli
         const panelGrad = ctx.createLinearGradient(0, photoH, 0, h);
         panelGrad.addColorStop(0, '#090d16');
         panelGrad.addColorStop(1, '#020617');
         ctx.fillStyle = panelGrad;
         ctx.fillRect(0, photoH, w, bottomPanelH);
 
-        // Kırmızı Vurgu Şeridi
         ctx.fillStyle = '#dc2626';
         ctx.fillRect(0, photoH, w, w * 0.006);
-
         drawHeadlines(w, h, margin, true, photoH);
       }
 
-      // KÜÇÜLTÜLMÜŞ LOGO ÇİZİMİ (Yarı Boyut)
+      const sharp = parseFloat(document.getElementById('filterSharp')?.value || 0);
+      if (sharp > 0 && !isVideoMode) applyNaturalSharpness(ctx, w, h, sharp);
+
       if (activeLogo) {
         ctx.save();
-        const maxH = w * 0.042; // Küçültülmüş boyut
+        const maxH = w * 0.042;
         const lW = activeLogo.width * (maxH / activeLogo.height);
         const lx = logoPos ? logoPos.x : w - margin - lW;
         const ly = logoPos ? logoPos.y : margin;
@@ -600,6 +596,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           const sSize = Math.round(w * 0.032);
           ctx.font = `500 ${sSize}px Montserrat`;
           ctx.fillStyle = '#cbd5e1';
+          ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 8;
           const lines = getLines(ctx, spot, w - (margin * 2));
           curY -= (lines.length * sSize * 1.3);
           let sY = curY;
@@ -612,6 +609,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           const tSize = Math.round(w * 0.052);
           ctx.font = `900 ${tSize}px Montserrat`;
           ctx.fillStyle = titleColor;
+          ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 10;
           const lines = getLines(ctx, title, w - (margin * 2));
           curY -= (lines.length * tSize * 1.2);
           let tY = curY;
@@ -621,116 +619,173 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // 2. ALTIN & DÖVİZ MODÜLÜ (Düzenlenmiş & Sığdırılmış)
+    // 2. ALTIN & DÖVİZ (9:16 HİKAYE - LÜKS FİNANS DÜZENİ)
     function renderPiyasaModule(w, h, margin) {
-      // Arka Plan
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-      bgGrad.addColorStop(0, '#0a1020');
-      bgGrad.addColorStop(1, '#02050e');
+      // Arka Plan (Lüks Koyu Kahve / Siyah Degrade)
+      const bgGrad = ctx.createRadialGradient(w * 0.8, h * 0.8, 100, w / 2, h / 2, h);
+      bgGrad.addColorStop(0, '#1c1409');
+      bgGrad.addColorStop(0.4, '#0f0c08');
+      bgGrad.addColorStop(1, '#050403');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
-      // Başlık
-      const headH = Math.round(h * 0.075);
-      ctx.fillStyle = '#f59e0b';
-      ctx.fillRect(margin, margin, w - (margin * 2), headH);
+      // Üst Bölüm (Görselin Üst %25'i)
+      const topH = h * 0.23;
+      const t1 = document.getElementById('marketTitle1').value.trim();
+      const t2 = document.getElementById('marketTitle2').value.trim();
 
-      ctx.fillStyle = '#090d16';
-      ctx.font = `900 ${Math.round(headH * 0.42)}px Montserrat`;
-      ctx.textAlign = 'center';
-      ctx.fillText(document.getElementById('marketTitle').value, w / 2, margin + (headH * 0.65));
+      ctx.save();
+      // Başlık 1: Beyaz
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `900 ${Math.round(w * 0.065)}px Montserrat`;
+      ctx.textAlign = 'left';
+      ctx.fillText(t1, margin, topH * 0.45);
 
-      // Veriler
+      // Başlık 2: Kırmızı/Turuncu Degrade
+      if (t2) {
+        const grad = ctx.createLinearGradient(margin, 0, w * 0.8, 0);
+        grad.addColorStop(0, '#ef4444');
+        grad.addColorStop(1, '#f97316');
+        ctx.fillStyle = grad;
+        ctx.font = `900 ${Math.round(w * 0.075)}px 'Poppins', Montserrat`;
+        ctx.fillText(t2, margin, topH * 0.80);
+      }
+
+      // Sağ Üst: Kırmızı Trend Mumu & Aşağı Ok İkonu
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(w - margin - 35, topH * 0.28, 12, 45);
+      ctx.fillRect(w - margin - 18, topH * 0.38, 12, 30);
+      ctx.font = `900 ${Math.round(w * 0.06)}px Montserrat`;
+      ctx.fillText('📉', w - margin - 55, topH * 0.78);
+      ctx.restore();
+
+      // Orta Bölüm (%50'lik Yarı Saydam Koyu Panel)
+      const panelY = topH + (h * 0.02);
+      const panelH = h * 0.58;
+      ctx.fillStyle = 'rgba(10, 10, 12, 0.82)';
+      ctx.fillRect(margin, panelY, w - (margin * 2), panelH);
+
+      // Sol Altın Kılavuz Çizgisi
+      ctx.fillStyle = '#d97706';
+      ctx.fillRect(margin, panelY, w * 0.01, panelH);
+
+      // Fiyat Satırları (Kibar & Okunaklı Boyutlar)
       const items = [
         { name: 'GRAM ALTIN', val: document.getElementById('p_gram').value, icon: '🏆', gold: true },
         { name: 'ÇEYREK ALTIN', val: document.getElementById('p_ceyrek').value, icon: '🟡', gold: true },
-        { name: 'YARIM / TAM ALTIN', val: document.getElementById('p_yarim').value, icon: '🪙', gold: true },
+        { name: 'YARIM / TAM', val: document.getElementById('p_yarim').value, icon: '🪙', gold: true },
         { name: '22 AYAR BİLEZİK', val: document.getElementById('p_bilezik').value, icon: '✨', gold: true },
         { name: 'DOLAR ($)', val: document.getElementById('p_dolar').value, icon: '💵', gold: false },
         { name: 'EURO (€)', val: document.getElementById('p_euro').value, icon: '💶', gold: false }
       ];
 
-      const startY = margin + headH + (h * 0.025);
-      const totalAvailableH = h - startY - (margin * 1.5);
-      const cardGap = h * 0.012;
-      const cardH = (totalAvailableH - (cardGap * (items.length - 1))) / items.length;
+      const rowH = panelH / items.length;
+      items.forEach((item, i) => {
+        const ry = panelY + (i * rowH);
+        
+        // Satır Bölücü İnce Çizgi
+        if (i > 0) {
+          ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(margin + 20, ry);
+          ctx.lineTo(w - margin - 20, ry);
+          ctx.stroke();
+        }
 
-      items.forEach((item, idx) => {
-        const cy = startY + idx * (cardH + cardGap);
-        const cardW = w - (margin * 2);
-
-        // Kart Arka Planı
-        ctx.fillStyle = 'rgba(26, 36, 56, 0.75)';
-        ctx.fillRect(margin, cy, cardW, cardH);
-
-        // Sol Vurgu Şeridi
-        ctx.fillStyle = item.gold ? '#f59e0b' : '#10b981';
-        ctx.fillRect(margin, cy, w * 0.015, cardH);
-
-        // 1. Satır: İsim (Sol Üst)
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = `bold ${Math.round(cardH * 0.28)}px Montserrat`;
+        // İsim (Kibar Font)
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = `600 ${Math.round(w * 0.034)}px Montserrat`;
         ctx.textAlign = 'left';
-        ctx.fillText(`${item.icon} ${item.name}`, margin + (w * 0.035), cy + (cardH * 0.40));
+        ctx.fillText(`${item.icon} ${item.name}`, margin + (w * 0.05), ry + (rowH * 0.58));
 
-        // 2. Satır: Fiyat (Büyük ve Net)
+        // Fiyat (Net & Şık)
         ctx.fillStyle = item.gold ? '#fbbf24' : '#34d399';
-        ctx.font = `900 ${Math.round(cardH * 0.40)}px Montserrat`;
-        ctx.textAlign = 'left';
-        ctx.fillText(item.val, margin + (w * 0.035), cy + (cardH * 0.82));
+        ctx.font = `800 ${Math.round(w * 0.038)}px Montserrat`;
+        ctx.textAlign = 'right';
+        ctx.fillText(item.val, w - margin - (w * 0.05), ry + (rowH * 0.58));
       });
+
+      // Alt Bölüm (%15)
+      ctx.fillStyle = '#ef4444';
+      ctx.font = `bold ${Math.round(w * 0.030)}px Montserrat`;
+      ctx.textAlign = 'center';
+      ctx.fillText('🔻 Anlık piyasa ve kuyumcu kurları değişkenlik gösterebilir', w / 2, h - (margin * 1.5));
     }
 
-    // 3. VEFAT LİSTESİ (Düzenlenmiş & Sığdırılmış)
+    // 3. VEFAT LİSTESİ (1200x630px KAPAK GÖRSELİ KOMPOZİSYONU)
     function renderVefatModule(w, h, margin) {
-      ctx.fillStyle = '#05070d'; ctx.fillRect(0, 0, w, h);
-      const mist = ctx.createLinearGradient(0, 0, 0, h);
-      mist.addColorStop(0, '#0f172a'); mist.addColorStop(1, '#020617');
-      ctx.fillStyle = mist; ctx.fillRect(0, 0, w, h);
+      // Altta Mezarlık & Çiçek Arka Plan Gradyanı
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, '#0c1322');
+      bg.addColorStop(0.35, '#1e293b');
+      bg.addColorStop(0.70, '#152e28'); // Çimen/Yeşillik tonu
+      bg.addColorStop(1, '#0a1714');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
 
-      // Başlık
-      const headH = Math.round(h * 0.065);
-      ctx.fillStyle = '#f59e0b';
-      ctx.font = `900 ${Math.round(w * 0.042)}px Montserrat`;
+      // Üst %35 Koyu/Siyah Degrade Başlık Şeridi
+      const topH = h * 0.35;
+      const headGrad = ctx.createLinearGradient(0, 0, 0, topH);
+      headGrad.addColorStop(0, 'rgba(0, 0, 0, 0.95)');
+      headGrad.addColorStop(0.7, 'rgba(5, 8, 15, 0.85)');
+      headGrad.addColorStop(1, 'rgba(5, 8, 15, 0)');
+      ctx.fillStyle = headGrad;
+      ctx.fillRect(0, 0, w, topH);
+
+      // Başlık Metinleri (Gazetecilik Estetiği)
+      const h1 = document.getElementById('vefatHead1').value.trim();
+      const h2 = document.getElementById('vefatHead2').value.trim();
+
+      ctx.save();
       ctx.textAlign = 'center';
-      ctx.fillText(document.getElementById('vefatDateText').value, w / 2, margin + (headH * 0.5));
+      ctx.shadowColor = '#000000';
+      ctx.shadowBlur = 10;
 
-      // Dua
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = `italic 500 ${Math.round(w * 0.022)}px Montserrat`;
-      ctx.fillText('“İnna lillahi ve inna ileyhi raciun” • Merhum ve Merhumelere Allah\'tan Rahmet Dileriz', w / 2, margin + (headH * 0.95));
+      // 1. Satır: "MANİSA'DA BUGÜN" - Beyaz, Kalın
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `900 ${Math.round(h * 0.085)}px 'Poppins', Montserrat`;
+      ctx.fillText(h1, w / 2, topH * 0.42);
 
+      // 2. Satır: "VEFAT EDENLER!" - Sarı (#FFC700)
+      ctx.fillStyle = '#FFC700';
+      ctx.font = `900 ${Math.round(h * 0.105)}px 'Poppins', Montserrat`;
+      ctx.fillText(h2, w / 2, topH * 0.78);
+      ctx.restore();
+
+      // Alt %38'lik Yarı Saydam Koyu Panel (Opaklık %75)
+      const panelH = h * 0.58;
+      const panelY = h - panelH - (h * 0.04);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+      ctx.fillRect(margin, panelY, w - (margin * 2), panelH);
+
+      // İnce Sarı Üst Çizgi
+      ctx.fillStyle = '#FFC700';
+      ctx.fillRect(margin, panelY, w - (margin * 2), 2);
+
+      // İsimler Listesi (Kibar, Küçük & Sıkışmayan Boyut)
       const raw = document.getElementById('vefatListText').value.trim();
       const items = raw.split('\n').filter(i => i.trim() !== '');
-
-      const startY = margin + headH + (h * 0.035);
-      const totalAvailableH = h - startY - (margin * 1.5);
-      const cardGap = h * 0.012;
-      const cardH = (totalAvailableH - (cardGap * (items.length - 1))) / Math.max(items.length, 4);
+      const rowH = panelH / Math.max(items.length, 4);
 
       items.forEach((item, idx) => {
-        const cy = startY + idx * (cardH + cardGap);
+        const ry = panelY + (idx * rowH);
         const parts = item.split(' - ');
         const namePart = parts[0] || item;
         const detailPart = parts[1] || '';
 
-        ctx.fillStyle = 'rgba(26, 36, 56, 0.65)';
-        ctx.fillRect(margin, cy, w - (margin * 2), cardH);
-
-        ctx.fillStyle = '#d97706';
-        ctx.fillRect(margin, cy, w * 0.012, cardH);
-
         // İsim
-        ctx.fillStyle = '#ffffff';
-        ctx.font = `bold ${Math.round(cardH * 0.34)}px Montserrat`;
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = `bold ${Math.round(h * 0.042)}px Montserrat`;
         ctx.textAlign = 'left';
-        ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.035), cy + (cardH * 0.44));
+        ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.03), ry + (rowH * 0.48));
 
-        // Cami & İlçe
+        // Cami / İlçe
         if (detailPart) {
           ctx.fillStyle = '#94a3b8';
-          ctx.font = `500 ${Math.round(cardH * 0.26)}px Montserrat`;
-          ctx.fillText(`📍 ${detailPart}`, margin + (w * 0.035), cy + (cardH * 0.82));
+          ctx.font = `500 ${Math.round(h * 0.034)}px Montserrat`;
+          ctx.textAlign = 'right';
+          ctx.fillText(`📍 ${detailPart}`, w - margin - (w * 0.03), ry + (rowH * 0.48));
         }
       });
     }
@@ -747,20 +802,20 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     function downloadFormat(fmt) {
       const a = document.createElement('a');
-      a.download = `medya-${currentRatio.replace(':', 'x')}-${Date.now()}.${fmt}`;
+      a.download = `medya-${currentRatio}-${Date.now()}.${fmt}`;
       a.href = canvas.toDataURL(`image/${fmt}`, fmt === 'webp' ? 0.92 : 1.0);
       a.click();
     }
 
     async function downloadAllSizesZip() {
       const zip = new JSZip();
-      const ratios = ['1:1', '9:16', '16:9', '4:5'];
+      const ratios = ['1:1', '9:16', '16:9', 'kapak'];
       const originalRatio = currentRatio;
       for (const r of ratios) {
         setRatio(r);
         render();
         const dataUrl = canvas.toDataURL('image/png', 1.0);
-        zip.file(`kart-${r.replace(':', 'x')}.png`, dataUrl.replace(/^data:image\/png;base64,/, ""), { base64: true });
+        zip.file(`kart-${r}.png`, dataUrl.replace(/^data:image\/png;base64,/, ""), { base64: true });
       }
       setRatio(originalRatio);
       const content = await zip.generateAsync({ type: "blob" });
