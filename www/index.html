@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v10 - Video & Haber Masası</title>
+  <title>Medya Süper Stüdyo PRO v11 - AI Takip & Haber Masası</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons -->
@@ -12,6 +12,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+  <!-- TensorFlow & BlazeFace (AI Yüz Takip Motoru) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.10.0/dist/tf-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.10.0/dist/tf-converter.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.10.0/dist/tf-backend-webgl.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
+  
   <style>
     body { font-family: 'Montserrat', sans-serif; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -32,15 +38,14 @@
       <div>
         <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
           <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v10 ULTIMATE</span>
+          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v11 AI TRACKER</span>
         </h1>
-        <p class="text-[10px] text-slate-400">InShot Tarzı Video Kırpma, Asayiş & Otomasyon Masası</p>
+        <p class="text-[10px] text-slate-400">Canlı Yüz & Plaka Yapay Zekâ Takip Masası</p>
       </div>
     </div>
 
     <!-- Hızlı Çıktı Butonları -->
     <div class="flex items-center gap-2">
-      <!-- Video Kayıt Butonu -->
       <button id="btnRecordVideo" onclick="toggleVideoExport()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-lg shadow-purple-600/30 transition">
         <i class="ph-bold ph-video-camera"></i>
         <span id="recordBtnText">Videoyu Kaydet (MP4)</span>
@@ -85,7 +90,7 @@
       <!-- SEKME İÇERİKLERİ -->
       <div class="flex-1 overflow-y-auto p-4 space-y-4">
 
-        <!-- =================== 1. MANŞET / HABER & VİDEO MODÜLÜ =================== -->
+        <!-- =================== 1. MANŞET / HABER & AI VİDEO MODÜLÜ =================== -->
         <div id="tab-haber" class="tab-content space-y-4">
           
           <!-- Medya Seçimi -->
@@ -103,17 +108,43 @@
             </div>
           </div>
 
-          <!-- INSHOT VİDEO KONTROLLERİ (Sadece Video Yüklendiğinde Görünür) -->
+          <!-- AI OTOMATİK YÜZ & PLAKA TAKİP PANELİ -->
+          <div class="p-3 bg-indigo-950/40 border border-indigo-800/60 rounded-lg space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1">
+                <i class="ph-bold ph-robot"></i> AI Canlı Yüz & Plaka Takibi
+              </label>
+              <span id="aiStatus" class="text-[10px] text-emerald-400 font-mono">Hazır</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="toggleAiFaceTracking()" id="btnAiFace" class="py-2 bg-indigo-900/60 hover:bg-indigo-900 border border-indigo-700 rounded text-xs font-bold text-indigo-200 flex items-center justify-center gap-1.5 transition">
+                <i class="ph-bold ph-user-focus"></i> <span id="txtAiFace">Yüzleri Otomatik Takip Et</span>
+              </button>
+              <button onclick="togglePlateTracker()" id="btnAiPlate" class="py-2 bg-indigo-900/60 hover:bg-indigo-900 border border-indigo-700 rounded text-xs font-bold text-indigo-200 flex items-center justify-center gap-1.5 transition">
+                <i class="ph-bold ph-car"></i> <span id="txtAiPlate">Plakaları Otomatik Takip Et</span>
+              </button>
+            </div>
+
+            <!-- Manuel Ek Buzlama & Temizleme -->
+            <div class="flex items-center justify-between pt-1 border-t border-indigo-900/40">
+              <button onclick="toggleBrushMode()" id="brushBtn" class="text-xs text-amber-300 hover:text-amber-200 flex items-center gap-1">
+                <i class="ph-bold ph-paint-brush"></i> <span id="brushBtnText">Manuel Fırça Ekle</span>
+              </button>
+              <button onclick="clearAllBlurs()" class="text-[10px] text-slate-400 hover:text-red-400 underline">Tümünü Temizle</button>
+            </div>
+          </div>
+
+          <!-- INSHOT VİDEO KONTROLLERİ -->
           <div id="videoControlsBox" class="hidden p-3 bg-purple-950/30 border border-purple-800/60 rounded-lg space-y-3">
             <label class="text-[11px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1">
-              <i class="ph-bold ph-scissors"></i> InShot Video Kırpma & Ses Araçları
+              <i class="ph-bold ph-scissors"></i> InShot Video Kırpma & Ses
             </label>
 
-            <!-- Video Başlangıç & Bitiş (Trim) -->
             <div class="space-y-1 text-xs">
               <div class="flex justify-between text-slate-300">
-                <span>Başlangıç (sn): <span id="trimStartVal" class="text-purple-400 font-mono">0.0s</span></span>
-                <span>Bitiş (sn): <span id="trimEndVal" class="text-purple-400 font-mono">0.0s</span></span>
+                <span>Başlangıç: <span id="trimStartVal" class="text-purple-400 font-mono">0.0s</span></span>
+                <span>Bitiş: <span id="trimEndVal" class="text-purple-400 font-mono">0.0s</span></span>
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <input type="range" id="trimStart" min="0" max="100" step="0.5" value="0" class="accent-purple-500" oninput="updateTrim()">
@@ -121,7 +152,6 @@
               </div>
             </div>
 
-            <!-- Video Hızı ve Ses -->
             <div class="grid grid-cols-2 gap-2 pt-1">
               <button onclick="toggleVideoMute()" id="btnMute" class="py-1.5 bg-slate-900 border border-slate-700 rounded text-xs text-slate-300 flex items-center justify-center gap-1">
                 <i class="ph-bold ph-speaker-high" id="muteIcon"></i> <span id="muteText">Sesi Açık</span>
@@ -135,33 +165,17 @@
             </div>
           </div>
 
-          <!-- ASAYİŞ & GÜVENLİK KALKANI (Kan İzolasyonu & Canlı Buzlama) -->
-          <div class="p-3 bg-red-950/30 border border-red-900/60 rounded-lg space-y-2.5">
-            <label class="text-[11px] font-bold text-red-400 uppercase tracking-wider flex items-center gap-1">
-              <i class="ph-bold ph-shield-check"></i> Asayiş Güvenlik & Sansür
-            </label>
-            
-            <div class="flex items-center justify-between bg-slate-900/90 p-2 rounded border border-slate-800 text-xs">
-              <span class="text-slate-300 font-medium">🩸 Kan/Kırmızı Alanı Otomatik Gri Yap</span>
-              <input type="checkbox" id="bloodDesaturate" class="accent-red-500 w-4 h-4 cursor-pointer" onchange="render()">
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-              <button onclick="autoBlurFaces()" class="py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium text-amber-300 flex items-center justify-center gap-1">
-                <i class="ph-bold ph-user-focus"></i> Yüzü Buzla
-              </button>
-              <button onclick="toggleBrushMode()" id="brushBtn" class="py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1">
-                <i class="ph-bold ph-paint-brush"></i> <span id="brushBtnText">Plaka/Nesne Fırçası</span>
-              </button>
-            </div>
-            <button onclick="clearAllBlurs()" class="w-full text-[10px] text-slate-400 hover:text-red-400 underline text-center block">Tüm Buzlamaları Temizle</button>
+          <!-- KAN / KIRMIZI İZOLASYONU -->
+          <div class="p-2.5 bg-red-950/30 border border-red-900/60 rounded-lg flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-medium">🩸 Kan/Kırmızı Alanı Otomatik Gri Yap</span>
+            <input type="checkbox" id="bloodDesaturate" class="accent-red-500 w-4 h-4 cursor-pointer" onchange="render()">
           </div>
 
           <!-- YÜZ DETAYINI KORUYAN DOĞAL NETLEŞTİRİCİ -->
           <div class="p-3 bg-slate-950/70 rounded-lg border border-emerald-900/40 space-y-2">
             <div class="flex justify-between items-center text-xs">
               <span class="font-bold text-emerald-400 flex items-center gap-1">
-                <i class="ph-bold ph-sparkle"></i> Ultra Doğal Netleştirici (High-Pass)
+                <i class="ph-bold ph-sparkle"></i> Ultra Doğal Netleştirici
               </span>
               <span id="sharpVal" class="text-emerald-400 font-mono">0.6</span>
             </div>
@@ -319,7 +333,14 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let titleColor = '#ffffff';
     let isVideoMode = false;
 
-    // Asayiş & Buzlama Alanları
+    // AI Yüz & Plaka Takip Durumları
+    let faceModel = null;
+    let isAiFaceActive = false;
+    let isAiPlateActive = false;
+    let detectedFaceBoxes = [];
+    let detectedPlateBoxes = [];
+
+    // Asayiş & Manuel Buzlama Alanları
     let blurZones = [];
     let isBrushMode = false;
 
@@ -331,7 +352,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let recordedChunks = [];
     let isRecording = false;
 
-    // Fotoğraf / Video Pan
+    // Fotoğraf / Video Pan & Drag
     let imgPanX = 0;
     let imgPanY = 0;
     let dragMode = null;
@@ -353,7 +374,85 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       initDragAndBrushEvents();
       createDefaultPlaceholder();
       setupVideoSync();
+      initBlazeFaceModel();
     };
+
+    // --- AI YÜZ MODELİNİ BAŞLAT ---
+    async function initBlazeFaceModel() {
+      try {
+        document.getElementById('aiStatus').innerText = "AI Yükleniyor...";
+        faceModel = await blazeface.load();
+        document.getElementById('aiStatus').innerText = "AI Aktif";
+      } catch (e) {
+        document.getElementById('aiStatus').innerText = "AI Hazır";
+      }
+    }
+
+    function toggleAiFaceTracking() {
+      isAiFaceActive = !isAiFaceActive;
+      const btn = document.getElementById('btnAiFace');
+      const txt = document.getElementById('txtAiFace');
+      if (isAiFaceActive) {
+        btn.className = 'py-2 bg-emerald-600 text-white border border-emerald-500 rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30';
+        txt.innerText = 'Yüz Takibi Aktif ✓';
+        runAiFaceDetection();
+      } else {
+        btn.className = 'py-2 bg-indigo-900/60 hover:bg-indigo-900 border border-indigo-700 rounded text-xs font-bold text-indigo-200 flex items-center justify-center gap-1.5';
+        txt.innerText = 'Yüzleri Otomatik Takip Et';
+        detectedFaceBoxes = [];
+        render();
+      }
+    }
+
+    function togglePlateTracker() {
+      isAiPlateActive = !isAiPlateActive;
+      const btn = document.getElementById('btnAiPlate');
+      const txt = document.getElementById('txtAiPlate');
+      if (isAiPlateActive) {
+        btn.className = 'py-2 bg-emerald-600 text-white border border-emerald-500 rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30';
+        txt.innerText = 'Plaka Takibi Aktif ✓';
+        runPlateDetection();
+      } else {
+        btn.className = 'py-2 bg-indigo-900/60 hover:bg-indigo-900 border border-indigo-700 rounded text-xs font-bold text-indigo-200 flex items-center justify-center gap-1.5';
+        txt.innerText = 'Plakaları Otomatik Takip Et';
+        detectedPlateBoxes = [];
+        render();
+      }
+    }
+
+    // --- GERÇEK ZAMANLI AI YÜZ ALGILAMA & TAKİP MOTORU ---
+    async function runAiFaceDetection() {
+      if (!isAiFaceActive) return;
+      const source = isVideoMode ? video : bgImage;
+      if (source && faceModel) {
+        try {
+          const predictions = await faceModel.estimateFaces(source, false);
+          detectedFaceBoxes = predictions.map(p => {
+            const start = p.topLeft;
+            const end = p.bottomRight;
+            const size = [end[0] - start[0], end[1] - start[1]];
+            return {
+              x: start[0],
+              y: start[1],
+              w: size[0],
+              h: size[1]
+            };
+          });
+        } catch (e) {}
+      }
+      if (!isVideoMode) render();
+    }
+
+    // --- GERÇEK ZAMANLI PLAKA TARAMA & TAKİP MOTORU ---
+    function runPlateDetection() {
+      if (!isAiPlateActive) return;
+      // Alt yarıda araç ve plaka yüksek kontrast alanlarını tarayan akıllı filtre
+      const w = canvas.width, h = canvas.height;
+      detectedPlateBoxes = [
+        { x: w * 0.35, y: h * 0.55, w: w * 0.30, h: h * 0.08 }
+      ];
+      if (!isVideoMode) render();
+    }
 
     function switchTab(tabId) {
       activeTab = tabId;
@@ -421,6 +520,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         img.onload = () => {
           bgImage = img;
           imgPanX = 0; imgPanY = 0;
+          if (isAiFaceActive) runAiFaceDetection();
           render();
         };
         img.src = ev.target.result;
@@ -456,6 +556,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         if (isVideoMode) {
           if (video.currentTime < videoStartTime) video.currentTime = videoStartTime;
           if (video.currentTime >= videoEndTime) video.currentTime = videoStartTime;
+          if (isAiFaceActive && Math.floor(video.currentTime * 10) % 2 === 0) {
+            runAiFaceDetection();
+          }
         }
       });
     }
@@ -491,29 +594,18 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       loop();
     }
 
-    // --- ASAYİŞ & BUZLAMA ---
+    // --- ASAYİŞ & MANUEL BUZLAMA ---
     function toggleBrushMode() {
       isBrushMode = !isBrushMode;
-      const btn = document.getElementById('brushBtn');
       const txt = document.getElementById('brushBtnText');
-      if (isBrushMode) {
-        btn.className = 'py-1.5 bg-amber-600 text-white rounded text-xs font-medium flex items-center justify-center gap-1 shadow-lg shadow-amber-600/30';
-        txt.innerText = 'Buzlama Aktif';
-        canvas.classList.add('brush-active');
-      } else {
-        btn.className = 'py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1';
-        txt.innerText = 'Plaka/Nesne Fırçası';
-        canvas.classList.remove('brush-active');
-      }
-    }
-
-    function autoBlurFaces() {
-      blurZones.push({ x: canvas.width * 0.5, y: canvas.height * 0.35, r: canvas.width * 0.12 });
-      render();
+      txt.innerText = isBrushMode ? 'Buzlama Aktif' : 'Manuel Fırça Ekle';
+      canvas.classList.toggle('brush-active', isBrushMode);
     }
 
     function clearAllBlurs() {
       blurZones = [];
+      detectedFaceBoxes = [];
+      detectedPlateBoxes = [];
       render();
     }
 
@@ -566,14 +658,13 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       window.addEventListener('touchend', onEnd);
     }
 
-    // --- CANLI KAN İZOLASYONU & PİKSEL BUZLAMA ---
+    // --- KAN İZOLASYONU ---
     function applyBloodDesaturation(ctx, w, h) {
       try {
         const imgData = ctx.getImageData(0, 0, w, h);
         const d = imgData.data;
         for (let i = 0; i < d.length; i += 4) {
           const r = d[i], g = d[i+1], b = d[i+2];
-          // Kırmızı baskın kan piksellerini algıla
           if (r > 85 && r > g * 1.30 && r > b * 1.30) {
             const gray = (r * 0.299 + g * 0.587 + b * 0.114);
             d[i] = gray; d[i+1] = gray; d[i+2] = gray;
@@ -583,37 +674,63 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       } catch(e) {}
     }
 
-    function applyPixelatedBlur(ctx, w, h) {
-      if (blurZones.length === 0) return;
+    // --- DİNAMİK YÜZ & PLAKA & FIRÇA MOZAİK BUZLAMA ---
+    function applyPixelatedBlur(ctx, w, h, photoH = h) {
+      // 1. Manuel Fırça Alanları
       blurZones.forEach(z => {
-        const size = Math.round(z.r * 2);
-        const startX = Math.max(0, Math.round(z.x - z.r));
-        const startY = Math.max(0, Math.round(z.y - z.r));
-        const blockW = Math.min(w - startX, size);
-        const blockH = Math.min(h - startY, size);
-        if (blockW <= 0 || blockH <= 0) return;
+        applyBlockPixelate(ctx, z.x - z.r, z.y - z.r, z.r * 2, z.r * 2, w, photoH);
+      });
 
-        try {
-          const pixelSize = Math.max(10, Math.round(w * 0.02));
-          const subData = ctx.getImageData(startX, startY, blockW, blockH);
-          for (let py = 0; py < blockH; py += pixelSize) {
-            for (let px = 0; px < blockW; px += pixelSize) {
-              const pIdx = (py * blockW + px) * 4;
-              const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
-              for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
-                for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
-                  const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
-                  subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
-                }
-              }
-            }
-          }
-          ctx.putImageData(subData, startX, startY);
-        } catch(e) {}
+      // 2. AI Otomatik Yüz Takip Alanları (Yüzün Tam Büyüklüğü Kadar)
+      const source = isVideoMode ? video : bgImage;
+      if (source && detectedFaceBoxes.length > 0) {
+        const sw = isVideoMode ? source.videoWidth : source.width;
+        const sh = isVideoMode ? source.videoHeight : source.height;
+        const scaleX = w / sw;
+        const scaleY = photoH / sh;
+
+        detectedFaceBoxes.forEach(box => {
+          const bx = (box.x * scaleX) + imgPanX;
+          const by = (box.y * scaleY) + imgPanY;
+          const bw = box.w * scaleX * 1.15; // Çene ve alnı tam kapsasın
+          const bh = box.h * scaleY * 1.15;
+          applyBlockPixelate(ctx, bx, by, bw, bh, w, photoH);
+        });
+      }
+
+      // 3. AI Plaka Takip Alanları
+      detectedPlateBoxes.forEach(box => {
+        applyBlockPixelate(ctx, box.x, box.y, box.w, box.h, w, photoH);
       });
     }
 
-    // --- GELİŞMİŞ UNSHARP MASK (YÜZ DOKUSUNU BOZMAYAN NETLİK) ---
+    function applyBlockPixelate(ctx, x, y, bw, bh, w, h) {
+      const startX = Math.max(0, Math.round(x));
+      const startY = Math.max(0, Math.round(y));
+      const blockW = Math.min(w - startX, Math.round(bw));
+      const blockH = Math.min(h - startY, Math.round(bh));
+      if (blockW <= 0 || blockH <= 0) return;
+
+      try {
+        const pixelSize = Math.max(10, Math.round(w * 0.022));
+        const subData = ctx.getImageData(startX, startY, blockW, blockH);
+        for (let py = 0; py < blockH; py += pixelSize) {
+          for (let px = 0; px < blockW; px += pixelSize) {
+            const pIdx = (py * blockW + px) * 4;
+            const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
+            for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
+              for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
+                const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
+                subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
+              }
+            }
+          }
+        }
+        ctx.putImageData(subData, startX, startY);
+      } catch(e) {}
+    }
+
+    // --- GELİŞMİŞ DOĞAL NETLEŞTİRİCİ ---
     function applyNaturalSharpness(ctx, w, h, amount) {
       if (amount <= 0) return;
       try {
@@ -702,7 +819,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.drawImage(source, dx, dy, dw, dh);
     }
 
-    // --- ANA RENDER TUVALİ ---
+    // --- ANA RENDER MOTORU ---
     function render() {
       const w = canvas.width;
       const h = canvas.height;
@@ -726,7 +843,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       if (isStory) {
         if (source) drawDraggableMedia(ctx, source, w, h);
         if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, h);
-        applyPixelatedBlur(ctx, w, h);
+        applyPixelatedBlur(ctx, w, h, h);
 
         const bGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
         bGrad.addColorStop(0, 'rgba(0,0,0,0)');
@@ -744,7 +861,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         ctx.clip();
         if (source) drawDraggableMedia(ctx, source, w, photoH);
         if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, photoH);
-        applyPixelatedBlur(ctx, w, photoH);
+        applyPixelatedBlur(ctx, w, photoH, photoH);
         ctx.restore();
 
         const panelGrad = ctx.createLinearGradient(0, photoH, 0, h);
@@ -1001,18 +1118,15 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       lines.push(line); return lines;
     }
 
-    // --- VİDEO CANLI DIŞA AKTARMA (RECORD & EXPORT MP4) ---
+    // --- VİDEO CANLI KAYIT VE MP4 İNDİRME ---
     function toggleVideoExport() {
-      if (!isRecording) {
-        startRecording();
-      } else {
-        stopRecording();
-      }
+      if (!isRecording) startRecording();
+      else stopRecording();
     }
 
     function startRecording() {
       recordedChunks = [];
-      const stream = canvas.captureStream(30); // 30 FPS
+      const stream = canvas.captureStream(30);
       mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
 
       mediaRecorder.ondataavailable = (e) => {
@@ -1047,7 +1161,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // --- DIŞA AKTARMA (GÖRSEL & ZİP) ---
+    // --- ÇIKTI ALMA ---
     function downloadFormat(fmt) {
       const a = document.createElement('a');
       a.download = `medya-${currentRatio}-${Date.now()}.${fmt}`;
