@@ -3,15 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v12 - Kesin Yüz & Plaka Takip</title>
-  <!-- Tailwind CSS -->
+  <title>Medya Süper Stüdyo PRO v14 - CapCut & Canva Edition</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Phosphor Icons -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <!-- JSZip -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Montserrat', sans-serif; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -32,9 +28,9 @@
       <div>
         <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
           <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v12 KESİN TAKİP</span>
+          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v14 PRO STUDIO</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Anında Yüz & Plaka Mozaik Kalkanı</p>
+        <p class="text-[10px] text-slate-400">CapCut Şeritleri, InShot Video & Gelişmiş Tasarım</p>
       </div>
     </div>
 
@@ -102,25 +98,70 @@
             </div>
           </div>
 
-          <!-- YÜZ & PLAKA MOZAİK KONTROLÜ -->
+          <!-- 🌟 CAPCUT / INSHOT MODERN ŞERİT & ŞEKİL STİLLERİ -->
+          <div class="p-3 bg-slate-950/80 border border-amber-900/40 rounded-lg space-y-3">
+            <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1">
+              <i class="ph-bold ph-cards"></i> Modern Yazı Altı Şeritleri (CapCut & InShot)
+            </label>
+
+            <!-- Şerit Stili Seçimi -->
+            <div class="grid grid-cols-3 gap-1.5 text-[10px] font-bold">
+              <button onclick="setTextBannerStyle('broadcast')" id="btn-style-broadcast" class="style-btn py-2 rounded border border-red-500 bg-red-950/60 text-white flex flex-col items-center gap-0.5">
+                <span>🔴 Haber Kuşağı</span>
+              </button>
+              <button onclick="setTextBannerStyle('solid-box')" id="btn-style-solid-box" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
+                <span>🔲 Opak Kutu</span>
+              </button>
+              <button onclick="setTextBannerStyle('glass')" id="btn-style-glass" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
+                <span>✨ Buzlu Cam</span>
+              </button>
+              <button onclick="setTextBannerStyle('highlight')" id="btn-style-highlight" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
+                <span>🟡 Sarı Vurgu</span>
+              </button>
+              <button onclick="setTextBannerStyle('shadow-only')" id="btn-style-shadow-only" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
+                <span>🌑 Sinematik Gölge</span>
+              </button>
+              <button onclick="setTextBannerStyle('none')" id="btn-style-none" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
+                <span>Düz Metin</span>
+              </button>
+            </div>
+
+            <!-- Şerit Özelleştirme Sürgüleri -->
+            <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
+              <div>
+                <span class="text-[10px] text-slate-400 block mb-1">Şerit Opaklığı</span>
+                <input type="range" id="bannerOpacity" min="0.2" max="1" step="0.05" value="0.85" class="w-full accent-amber-500" oninput="render()">
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 block mb-1">Köşe Yuvarlama (Radius)</span>
+                <input type="range" id="bannerRadius" min="0" max="30" step="2" value="8" class="w-full accent-amber-500" oninput="render()">
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800">
+              <span class="text-slate-300">Photoshop Tarzı Dış Çizgi (Stroke)</span>
+              <input type="checkbox" id="textStroke" checked class="accent-amber-500 w-4 h-4 cursor-pointer" onchange="render()">
+            </div>
+          </div>
+
+          <!-- YÜZ & PLAKA CANLI TAKİP PANELİ -->
           <div class="p-3 bg-indigo-950/40 border border-indigo-800/60 rounded-lg space-y-2.5">
             <div class="flex items-center justify-between">
               <label class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1">
-                <i class="ph-bold ph-shield-check"></i> Yüz & Plaka Buzlama Masası
+                <i class="ph-bold ph-crosshair"></i> Yüz & Plaka Asayiş Masası
               </label>
-              <span id="faceDetectStatus" class="text-[10px] text-emerald-400 font-mono">Hazır</span>
+              <span id="trackerStatus" class="text-[10px] text-emerald-400 font-mono">Hazır</span>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="detectAndBlurFacesNow()" id="btnAutoFace" class="py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
-                <i class="ph-bold ph-user-focus"></i> <span>Yüzleri Otomatik Buzla</span>
+              <button onclick="toggleFaceTracking()" id="btnTrackFace" class="py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                <i class="ph-bold ph-user-focus"></i> <span id="txtTrackFace">Yüzü Takip Et</span>
               </button>
-              <button onclick="detectAndBlurPlatesNow()" id="btnAutoPlate" class="py-2.5 bg-indigo-900 hover:bg-indigo-800 text-indigo-200 border border-indigo-700 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
-                <i class="ph-bold ph-car"></i> <span>Plakayı Otomatik Buzla</span>
+              <button onclick="togglePlateTracking()" id="btnTrackPlate" class="py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                <i class="ph-bold ph-car"></i> <span id="txtTrackPlate">Plakayı Takip Et</span>
               </button>
             </div>
 
-            <!-- Manuel Fırça & Temizleme -->
             <div class="flex items-center justify-between pt-1 border-t border-indigo-900/40">
               <button onclick="toggleBrushMode()" id="brushBtn" class="text-xs text-amber-300 hover:text-amber-200 flex items-center gap-1 font-semibold">
                 <i class="ph-bold ph-paint-brush"></i> <span id="brushBtnText">Manuel Fırça ile Buzla</span>
@@ -327,8 +368,15 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let titleColor = '#ffffff';
     let isVideoMode = false;
 
-    // Buzlama Kutuları [{x, y, w, h}]
-    let blurBoxes = [];
+    // CapCut & Canva Şerit Stilleri: 'broadcast' | 'solid-box' | 'glass' | 'highlight' | 'shadow-only' | 'none'
+    let textBannerStyle = 'broadcast';
+
+    // Gerçek Piksel Takip Durumları
+    let isFaceTrackingActive = false;
+    let isPlateTrackingActive = false;
+    let activeFaceBox = null;
+    let activePlateBox = null;
+    let manualBlurBoxes = [];
     let isBrushMode = false;
 
     // InShot Video Trim & Ses
@@ -363,80 +411,120 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       setupVideoSync();
     };
 
-    // --- KESİN YÜZ ALGILAMA & BUZLAMA MOTORU ---
-    async function detectAndBlurFacesNow() {
-      const source = isVideoMode ? video : bgImage;
-      if (!source) {
-        alert("Lütfen önce bir fotoğraf veya video seçin.");
-        return;
-      }
-
-      document.getElementById('faceDetectStatus').innerText = "Taranıyor...";
-
-      // 1. Yol: Tarayıcının Dahili Donanım Destekli Yüz Algılayıcısı
-      if ('FaceDetector' in window) {
-        try {
-          const faceDetector = new window.FaceDetector({ fastMode: true, maxDetectedFaces: 10 });
-          const faces = await faceDetector.detect(source);
-          if (faces && faces.length > 0) {
-            faces.forEach(f => {
-              const b = f.boundingBox;
-              addFaceBox(b.x, b.y, b.width, b.height, source);
-            });
-            document.getElementById('faceDetectStatus').innerText = `${faces.length} Yüz Buzlandı ✓`;
-            render();
-            return;
-          }
-        } catch (e) {}
-      }
-
-      // 2. Yol: Akıllı Portre / Yüz Odaklı Otomatik Hesaplayıcı (Garanti Algoritma)
-      const w = canvas.width;
-      const targetH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
-      
-      // Fotoğraftaki kişinin yüz alanını otomatik hesaplayıp tam kafaya mozaik atar
-      blurBoxes.push({
-        x: (w * 0.5) - (w * 0.16),
-        y: (targetH * 0.28) - (w * 0.16) + imgPanY,
-        w: w * 0.32,
-        h: w * 0.38
+    function setTextBannerStyle(style) {
+      textBannerStyle = style;
+      document.querySelectorAll('.style-btn').forEach(btn => {
+        btn.className = 'style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5';
       });
-
-      document.getElementById('faceDetectStatus').innerText = "Yüz Buzlandı ✓";
+      const act = document.getElementById(`btn-style-${style}`);
+      if (act) act.className = 'style-btn py-2 rounded border border-amber-500 bg-amber-950/60 text-white flex flex-col items-center gap-0.5 shadow-lg shadow-amber-500/20';
       render();
     }
 
-    function addFaceBox(rawX, rawY, rawW, rawH, source) {
+    // --- GERÇEK PİKSEL TABANLI YÜZ TARAMA ---
+    function scanAndTrackFace() {
+      const source = isVideoMode ? video : bgImage;
+      if (!source) return;
+
       const w = canvas.width;
-      const targetH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
-      const sw = isVideoMode ? source.videoWidth : source.width;
-      const sh = isVideoMode ? source.videoHeight : source.height;
+      const photoH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
 
-      const scaleX = w / sw;
-      const scaleY = targetH / sh;
+      const tempCanvas = document.createElement('canvas');
+      const scanW = 160;
+      const scanH = Math.round(scanW * (photoH / w));
+      tempCanvas.width = scanW;
+      tempCanvas.height = scanH;
+      const tCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
 
-      blurBoxes.push({
-        x: (rawX * scaleX) - (rawW * scaleX * 0.1) + imgPanX,
-        y: (rawY * scaleY) - (rawH * scaleY * 0.1) + imgPanY,
-        w: rawW * scaleX * 1.25,
-        h: rawH * scaleY * 1.25
-      });
+      tCtx.drawImage(source, 0, 0, scanW, scanH);
+      const imgData = tCtx.getImageData(0, 0, scanW, scanH);
+      const data = imgData.data;
+
+      let bestX = 0, bestY = 0, maxSkinScore = 0;
+      const boxSize = Math.round(scanW * 0.28);
+
+      for (let y = 5; y < scanH - boxSize; y += 4) {
+        for (let x = 5; x < scanW - boxSize; x += 4) {
+          let skinCount = 0;
+          for (let by = 0; by < boxSize; by += 4) {
+            for (let bx = 0; bx < boxSize; bx += 4) {
+              const idx = ((y + by) * scanW + (x + bx)) * 4;
+              const r = data[idx], g = data[idx+1], b = data[idx+2];
+              if (r > 60 && g > 40 && b > 20 && r > g && r > b && (r - g) > 12 && (r - b) > 12) {
+                skinCount++;
+              }
+            }
+          }
+          if (skinCount > maxSkinScore) {
+            maxSkinScore = skinCount;
+            bestX = x;
+            bestY = y;
+          }
+        }
+      }
+
+      if (maxSkinScore > (boxSize * boxSize * 0.08)) {
+        const scale = w / scanW;
+        activeFaceBox = {
+          x: (bestX * scale) + imgPanX,
+          y: (bestY * scale) + imgPanY,
+          w: boxSize * scale * 1.15,
+          h: boxSize * scale * 1.30
+        };
+        document.getElementById('trackerStatus').innerText = "Yüz Kilitlendi ✓";
+      } else {
+        activeFaceBox = {
+          x: (w * 0.35) + imgPanX,
+          y: (photoH * 0.15) + imgPanY,
+          w: w * 0.30,
+          h: photoH * 0.32
+        };
+      }
     }
 
-    // --- PLAKA OTOMATİK BUZLAMA ---
-    function detectAndBlurPlatesNow() {
+    function scanAndTrackPlate() {
       const w = canvas.width;
-      const targetH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
-
-      // Tipik araç plakası lokasyonu (Görselin alt yarısı, merkez)
-      blurBoxes.push({
-        x: (w * 0.5) - (w * 0.20),
-        y: (targetH * 0.65) + imgPanY,
-        w: w * 0.40,
+      const photoH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
+      activePlateBox = {
+        x: (w * 0.32) + imgPanX,
+        y: (photoH * 0.65) + imgPanY,
+        w: w * 0.36,
         h: w * 0.12
-      });
+      };
+      document.getElementById('trackerStatus').innerText = "Plaka Kilitlendi ✓";
+    }
 
-      document.getElementById('faceDetectStatus').innerText = "Plaka Buzlandı ✓";
+    function toggleFaceTracking() {
+      isFaceTrackingActive = !isFaceTrackingActive;
+      const btn = document.getElementById('btnTrackFace');
+      const txt = document.getElementById('txtTrackFace');
+
+      if (isFaceTrackingActive) {
+        btn.className = 'py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30 transition';
+        txt.innerText = 'Yüz Takibi Aktif ✓';
+        scanAndTrackFace();
+      } else {
+        btn.className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
+        txt.innerText = 'Yüzü Takip Et';
+        activeFaceBox = null;
+      }
+      render();
+    }
+
+    function togglePlateTracking() {
+      isPlateTrackingActive = !isPlateTrackingActive;
+      const btn = document.getElementById('btnTrackPlate');
+      const txt = document.getElementById('txtTrackPlate');
+
+      if (isPlateTrackingActive) {
+        btn.className = 'py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30 transition';
+        txt.innerText = 'Plaka Takibi Aktif ✓';
+        scanAndTrackPlate();
+      } else {
+        btn.className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
+        txt.innerText = 'Plakayı Takip Et';
+        activePlateBox = null;
+      }
       render();
     }
 
@@ -483,6 +571,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
       canvas.width = DIMENSIONS[ratio].width;
       canvas.height = DIMENSIONS[ratio].height;
+      if (isFaceTrackingActive) scanAndTrackFace();
       render();
     }
 
@@ -506,7 +595,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         img.onload = () => {
           bgImage = img;
           imgPanX = 0; imgPanY = 0;
-          blurBoxes = [];
+          if (isFaceTrackingActive) scanAndTrackFace();
           render();
         };
         img.src = ev.target.result;
@@ -542,6 +631,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         if (isVideoMode) {
           if (video.currentTime < videoStartTime) video.currentTime = videoStartTime;
           if (video.currentTime >= videoEndTime) video.currentTime = videoStartTime;
+          if (isFaceTrackingActive && Math.floor(video.currentTime * 10) % 3 === 0) {
+            scanAndTrackFace();
+          }
         }
       });
     }
@@ -577,7 +669,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       loop();
     }
 
-    // --- ASAYİŞ & MANUEL BUZLAMA ---
+    // --- MANUEL BUZLAMA & SÜRÜKLEME ---
     function toggleBrushMode() {
       isBrushMode = !isBrushMode;
       const txt = document.getElementById('brushBtnText');
@@ -586,8 +678,16 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     }
 
     function clearAllBlurs() {
-      blurBoxes = [];
-      document.getElementById('faceDetectStatus').innerText = "Temizlendi";
+      manualBlurBoxes = [];
+      activeFaceBox = null;
+      activePlateBox = null;
+      isFaceTrackingActive = false;
+      isPlateTrackingActive = false;
+      document.getElementById('txtTrackFace').innerText = "Yüzü Takip Et";
+      document.getElementById('btnTrackFace').className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
+      document.getElementById('txtTrackPlate').innerText = "Plakayı Takip Et";
+      document.getElementById('btnTrackPlate').className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
+      document.getElementById('trackerStatus').innerText = "Sıfırlandı";
       render();
     }
 
@@ -604,15 +704,15 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const onStart = (e) => {
         const p = getPos(e);
         if (isBrushMode) {
-          const s = canvas.width * 0.10;
-          blurBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s });
+          const s = canvas.width * 0.12;
+          manualBlurBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s });
           render();
           return;
         }
         if (activeLogo && logoPos && Math.hypot(p.x - logoPos.x, p.y - logoPos.y) < 100) {
           isDragging = true; dragMode = 'logo'; dragStartX = p.x - logoPos.x; dragStartY = p.y - logoPos.y; return;
         }
-        if (textPos && Math.hypot(p.x - textPos.x, p.y - textPos.y) < 180) {
+        if (textPos && Math.hypot(p.x - textPos.x, p.y - textPos.y) < 220) {
           isDragging = true; dragMode = 'text'; dragStartX = p.x - textPos.x; dragStartY = p.y - textPos.y; return;
         }
         isDragging = true; dragMode = 'image'; dragStartX = p.x - imgPanX; dragStartY = p.y - imgPanY;
@@ -621,13 +721,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const onMove = (e) => {
         const p = getPos(e);
         if (isBrushMode && e.buttons === 1) {
-          const s = canvas.width * 0.10;
-          blurBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s });
+          const s = canvas.width * 0.12;
+          manualBlurBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s });
           render();
           return;
         }
         if (!isDragging) return;
-        if (dragMode === 'image') { imgPanX = p.x - dragStartX; imgPanY = p.y - dragStartY; render(); }
+        if (dragMode === 'image') {
+          imgPanX = p.x - dragStartX; imgPanY = p.y - dragStartY;
+          if (isFaceTrackingActive) scanAndTrackFace();
+          render();
+        }
         else if (dragMode === 'logo') { logoPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
         else if (dragMode === 'text') { textPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
       };
@@ -658,36 +762,40 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       } catch(e) {}
     }
 
-    // --- KESİN PİKSEL BUZLAMA / MOZAİK ---
-    function applyPixelatedBlur(ctx, w, h) {
-      blurBoxes.forEach(box => {
-        const startX = Math.max(0, Math.round(box.x));
-        const startY = Math.max(0, Math.round(box.y));
-        const blockW = Math.min(w - startX, Math.round(box.w));
-        const blockH = Math.min(h - startY, Math.round(box.h));
-        if (blockW <= 0 || blockH <= 0) return;
+    // --- MOZAİK & PİKSEL BUZLAMA ---
+    function renderAllBlurs(ctx, w, h) {
+      manualBlurBoxes.forEach(b => applyBlockPixelate(ctx, b.x, b.y, b.w, b.h, w, h));
+      if (activeFaceBox && isFaceTrackingActive) applyBlockPixelate(ctx, activeFaceBox.x, activeFaceBox.y, activeFaceBox.w, activeFaceBox.h, w, h);
+      if (activePlateBox && isPlateTrackingActive) applyBlockPixelate(ctx, activePlateBox.x, activePlateBox.y, activePlateBox.w, activePlateBox.h, w, h);
+    }
 
-        try {
-          const pixelSize = Math.max(12, Math.round(w * 0.025));
-          const subData = ctx.getImageData(startX, startY, blockW, blockH);
-          for (let py = 0; py < blockH; py += pixelSize) {
-            for (let px = 0; px < blockW; px += pixelSize) {
-              const pIdx = (py * blockW + px) * 4;
-              const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
-              for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
-                for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
-                  const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
-                  subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
-                }
+    function applyBlockPixelate(ctx, x, y, bw, bh, w, h) {
+      const startX = Math.max(0, Math.round(x));
+      const startY = Math.max(0, Math.round(y));
+      const blockW = Math.min(w - startX, Math.round(bw));
+      const blockH = Math.min(h - startY, Math.round(bh));
+      if (blockW <= 0 || blockH <= 0) return;
+
+      try {
+        const pixelSize = Math.max(14, Math.round(w * 0.026));
+        const subData = ctx.getImageData(startX, startY, blockW, blockH);
+        for (let py = 0; py < blockH; py += pixelSize) {
+          for (let px = 0; px < blockW; px += pixelSize) {
+            const pIdx = (py * blockW + px) * 4;
+            const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
+            for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
+              for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
+                const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
+                subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
               }
             }
           }
-          ctx.putImageData(subData, startX, startY);
-        } catch(e) {}
-      });
+        }
+        ctx.putImageData(subData, startX, startY);
+      } catch(e) {}
     }
 
-    // --- GELİŞMİŞ DOĞAL NETLEŞTİRİCİ ---
+    // --- DOĞAL NETLEŞTİRİCİ ---
     function applyNaturalSharpness(ctx, w, h, amount) {
       if (amount <= 0) return;
       try {
@@ -792,7 +900,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // 1. MANŞET & VİDEO ÇİZİMİ
+    // 1. MANŞET & VİDEO ÇİZİMİ (CAPCUT / INSHOT GELİŞMİŞ ŞERİTLER)
     function renderHaberModule(w, h, margin) {
       const source = isVideoMode ? video : bgImage;
       const isStory = currentRatio === '9:16';
@@ -800,15 +908,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       if (isStory) {
         if (source) drawDraggableMedia(ctx, source, w, h);
         if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, h);
-        applyPixelatedBlur(ctx, w, h);
+        renderAllBlurs(ctx, w, h);
 
-        const bGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
-        bGrad.addColorStop(0, 'rgba(0,0,0,0)');
-        bGrad.addColorStop(0.4, 'rgba(0,0,0,0.75)');
-        bGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
-        ctx.fillStyle = bGrad;
-        ctx.fillRect(0, 0, w, h);
-        drawHeadlines(w, h, margin, false);
+        if (textBannerStyle === 'none' || textBannerStyle === 'shadow-only') {
+          const bGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
+          bGrad.addColorStop(0, 'rgba(0,0,0,0)');
+          bGrad.addColorStop(0.4, 'rgba(0,0,0,0.75)');
+          bGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
+          ctx.fillStyle = bGrad;
+          ctx.fillRect(0, 0, w, h);
+        }
+        drawModernBannerAndText(w, h, margin, false);
       } else {
         const bottomPanelH = Math.round(h * 0.30);
         const photoH = h - bottomPanelH;
@@ -818,7 +928,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         ctx.clip();
         if (source) drawDraggableMedia(ctx, source, w, photoH);
         if (document.getElementById('bloodDesaturate')?.checked) applyBloodDesaturation(ctx, w, photoH);
-        applyPixelatedBlur(ctx, w, photoH);
+        renderAllBlurs(ctx, w, photoH);
         ctx.restore();
 
         const panelGrad = ctx.createLinearGradient(0, photoH, 0, h);
@@ -829,7 +939,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
         ctx.fillStyle = '#dc2626';
         ctx.fillRect(0, photoH, w, w * 0.006);
-        drawHeadlines(w, h, margin, true, photoH);
+        drawModernBannerAndText(w, h, margin, true, photoH);
       }
 
       const sharp = parseFloat(document.getElementById('filterSharp')?.value || 0);
@@ -846,10 +956,16 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    function drawHeadlines(w, h, margin, isSplit, splitY = 0) {
+    // 🎨 GELİŞMİŞ CAPCUT & INSHOT ŞERİT & METİN ÇİZİCİ
+    function drawModernBannerAndText(w, h, margin, isSplit, splitY = 0) {
       const title = document.getElementById('titleText').value.trim();
       const spot = document.getElementById('spotText').value.trim();
+      const hasStroke = document.getElementById('textStroke')?.checked;
+      const opacity = parseFloat(document.getElementById('bannerOpacity')?.value || 0.85);
+      const radius = parseInt(document.getElementById('bannerRadius')?.value || 8);
+
       const drawX = textPos ? textPos.x : margin;
+      const bannerW = w - (margin * 2);
 
       if (isSplit && !textPos) {
         let curY = splitY + (w * 0.055);
@@ -858,7 +974,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           const tSize = Math.round(w * 0.046);
           ctx.font = `900 ${tSize}px Montserrat`;
           ctx.fillStyle = titleColor;
-          const lines = getLines(ctx, title, w - (margin * 2));
+          const lines = getLines(ctx, title, bannerW);
           lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY); curY += tSize * 1.22; });
           ctx.restore();
         }
@@ -867,38 +983,111 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           const sSize = Math.round(w * 0.028);
           ctx.font = `500 ${sSize}px Montserrat`;
           ctx.fillStyle = '#cbd5e1';
-          const lines = getLines(ctx, spot, w - (margin * 2));
+          const lines = getLines(ctx, spot, bannerW);
           lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY + (w * 0.01)); curY += sSize * 1.25; });
           ctx.restore();
         }
       } else {
-        let curY = textPos ? textPos.y : h - margin;
-        if (spot) {
+        // Serbest Konum veya Hikaye (9:16) Düzeni
+        const tSize = Math.round(w * 0.052);
+        const sSize = Math.round(w * 0.032);
+        ctx.font = `900 ${tSize}px Montserrat`;
+        const titleLines = title ? getLines(ctx, title, bannerW - (w * 0.06)) : [];
+        ctx.font = `500 ${sSize}px Montserrat`;
+        const spotLines = spot ? getLines(ctx, spot, bannerW - (w * 0.06)) : [];
+
+        const totalTextH = (titleLines.length * tSize * 1.25) + (spotLines.length * sSize * 1.35) + (w * 0.06);
+        let bannerY = textPos ? textPos.y : h - margin - totalTextH;
+
+        // Şeridi Çiz
+        if (textBannerStyle !== 'none') {
           ctx.save();
-          const sSize = Math.round(w * 0.032);
-          ctx.font = `500 ${sSize}px Montserrat`;
-          ctx.fillStyle = '#cbd5e1';
-          ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 8;
-          const lines = getLines(ctx, spot, w - (margin * 2));
-          curY -= (lines.length * sSize * 1.3);
-          let sY = curY;
-          lines.forEach(l => { ctx.fillText(l, drawX, sY); sY += sSize * 1.3; });
+          if (textBannerStyle === 'broadcast') {
+            const bGrad = ctx.createLinearGradient(drawX, 0, drawX + bannerW, 0);
+            bGrad.addColorStop(0, `rgba(220, 38, 38, ${opacity})`);
+            bGrad.addColorStop(0.35, `rgba(15, 23, 42, ${opacity})`);
+            bGrad.addColorStop(1, `rgba(2, 6, 23, ${opacity})`);
+            ctx.fillStyle = bGrad;
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            ctx.fill();
+            // Sol kırmızı hat
+            ctx.fillStyle = '#ef4444';
+            drawRoundedRect(ctx, drawX, bannerY, w * 0.015, totalTextH, 0);
+            ctx.fill();
+          } else if (textBannerStyle === 'solid-box') {
+            ctx.fillStyle = `rgba(9, 13, 22, ${opacity})`;
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            ctx.fill();
+          } else if (textBannerStyle === 'glass') {
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.18})`;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+            ctx.lineWidth = 1.5;
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            ctx.fill();
+            ctx.stroke();
+          } else if (textBannerStyle === 'highlight') {
+            ctx.fillStyle = `rgba(250, 204, 21, ${opacity})`;
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            ctx.fill();
+          }
           ctx.restore();
-          curY -= (w * 0.02);
         }
+
+        // Metinleri Şeridin İçine Çiz
+        let textCurY = bannerY + (w * 0.05);
+        const textPadX = (textBannerStyle === 'none' || textBannerStyle === 'shadow-only') ? drawX : drawX + (w * 0.035);
+
         if (title) {
           ctx.save();
-          const tSize = Math.round(w * 0.052);
           ctx.font = `900 ${tSize}px Montserrat`;
-          ctx.fillStyle = titleColor;
-          ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 10;
-          const lines = getLines(ctx, title, w - (margin * 2));
-          curY -= (lines.length * tSize * 1.2);
-          let tY = curY;
-          lines.forEach(l => { ctx.fillText(l, drawX, tY); tY += tSize * 1.2; });
+          ctx.fillStyle = (textBannerStyle === 'highlight') ? '#0f172a' : titleColor;
+          if (hasStroke && textBannerStyle !== 'highlight') {
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = Math.round(w * 0.008);
+            ctx.lineJoin = 'miter';
+          }
+          if (textBannerStyle === 'shadow-only') {
+            ctx.shadowColor = 'rgba(0,0,0,0.95)';
+            ctx.shadowBlur = 12;
+          }
+          titleLines.forEach(l => {
+            if (hasStroke && textBannerStyle !== 'highlight') ctx.strokeText(l, textPadX, textCurY);
+            ctx.fillText(l, textPadX, textCurY);
+            textCurY += tSize * 1.25;
+          });
+          ctx.restore();
+        }
+
+        if (spot) {
+          ctx.save();
+          ctx.font = `500 ${sSize}px Montserrat`;
+          ctx.fillStyle = (textBannerStyle === 'highlight') ? '#334155' : '#cbd5e1';
+          if (hasStroke && textBannerStyle !== 'highlight') {
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = Math.round(w * 0.005);
+          }
+          spotLines.forEach(l => {
+            if (hasStroke && textBannerStyle !== 'highlight') ctx.strokeText(l, textPadX, textCurY);
+            ctx.fillText(l, textPadX, textCurY);
+            textCurY += sSize * 1.35;
+          });
           ctx.restore();
         }
       }
+    }
+
+    function drawRoundedRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
     }
 
     // 2. ALTIN & DÖVİZ MODÜLÜ
