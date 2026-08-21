@@ -3,355 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v14 - CapCut & Canva Edition</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <title>Medya Süper Stüdyo PRO v15</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Montserrat', sans-serif; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #020617; color: #f8fafc; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
+    
+    /* Header */
+    header { background-color: #0f172a; border-bottom: 1px solid #1e293b; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+    .logo-area { display: flex; align-items: center; gap: 10px; }
+    .logo-badge { background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+    .header-btns { display: flex; gap: 8px; }
+
+    /* Layout */
+    .main-container { display: flex; flex: 1; height: calc(100vh - 53px); }
+    .sidebar { width: 420px; background-color: #090d16; border-right: 1px solid #1e293b; display: flex; flex-direction: column; }
+    .canvas-area { flex: 1; background-color: #020617; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: auto; }
+
+    /* Tabs */
+    .tabs-bar { display: flex; background: #020617; border-bottom: 1px solid #1e293b; padding: 6px; gap: 4px; }
+    .tab-btn { flex: 1; padding: 8px 4px; background: #1e293b; color: #94a3b8; border: none; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .tab-btn.active { background: #dc2626; color: #ffffff; }
+
+    /* Content & Form Controls */
+    .tab-content { padding: 14px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .hidden { display: none !important; }
+    .card-box { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .card-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px; }
+
+    /* Buttons */
+    .btn { padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-red { background: #dc2626; color: #fff; }
+    .btn-red:hover { background: #b91c1c; }
+    .btn-dark { background: #1e293b; color: #cbd5e1; border-color: #334155; }
+    .btn-dark:hover { background: #334155; }
+    .btn-purple { background: #7c3aed; color: #fff; }
+    .btn-green { background: #059669; color: #fff; }
+    .btn-amber { background: #d97706; color: #fff; }
+
+    /* Inputs */
+    input[type="text"], textarea, select { width: 100%; background: #020617; border: 1px solid #334155; border-radius: 6px; padding: 8px; color: #f8fafc; font-size: 12px; outline: none; }
+    input[type="text"]:focus, textarea:focus { border-color: #dc2626; }
+    input[type="range"] { width: 100%; accent-color: #dc2626; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
+
+    /* Canvas */
+    #previewCanvas { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7); cursor: move; border: 1px solid #1e293b; }
     .brush-active { cursor: crosshair !important; }
-    .tab-active { background-color: #dc2626 !important; color: #ffffff !important; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col select-none">
+<body>
 
-  <!-- ÜST HEADER -->
-  <header class="bg-slate-900 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between shadow-lg">
-    <div class="flex items-center gap-3">
-      <div class="bg-red-600/20 p-2 rounded-lg border border-red-600/40">
-        <i class="ph-bold ph-broadcast text-red-500 text-xl"></i>
-      </div>
+  <!-- HEADER -->
+  <header>
+    <div class="logo-area">
+      <span style="font-size: 18px;">🔴</span>
       <div>
-        <h1 class="font-bold text-sm lg:text-base tracking-wide flex items-center gap-2">
-          <span>Medya Süper Stüdyo</span>
-          <span class="text-[10px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">v14 PRO STUDIO</span>
-        </h1>
-        <p class="text-[10px] text-slate-400">CapCut Şeritleri, InShot Video & Gelişmiş Tasarım</p>
+        <div style="font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px;">
+          Medya Süper Stüdyo <span class="logo-badge">PRO v15</span>
+        </div>
+        <div style="font-size: 10px; color: #64748b;">Haber Masası & Gelişmiş Tasarım Editörü</div>
       </div>
     </div>
-
-    <!-- Hızlı Çıktı Butonları -->
-    <div class="flex items-center gap-2">
-      <button id="btnRecordVideo" onclick="toggleVideoExport()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-lg shadow-purple-600/30 transition">
-        <i class="ph-bold ph-video-camera"></i>
-        <span id="recordBtnText">Videoyu Kaydet (MP4)</span>
+    <div class="header-btns">
+      <button id="btnRecordVideo" onclick="toggleVideoExport()" class="btn btn-purple hidden">
+        <span id="recordBtnText">🎥 Videoyu Kaydet (MP4)</span>
       </button>
-
-      <button onclick="downloadFormat('webp')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs flex items-center gap-1 transition">
-        <i class="ph-bold ph-lightning"></i>
-        <span>WebP</span>
-      </button>
-
-      <button onclick="downloadAllSizesZip()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs flex items-center gap-1.5 transition">
-        <i class="ph-bold ph-file-zip text-sm"></i>
-        <span>Zip (Tümü)</span>
-      </button>
-
-      <button onclick="downloadFormat('png')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-lg shadow-red-600/30 text-xs transition">
-        <i class="ph-bold ph-download-simple text-sm"></i>
-        <span>Görsel İndir</span>
-      </button>
+      <button onclick="downloadFormat('webp')" class="btn btn-dark" style="color: #34d399;">⚡ WebP</button>
+      <button onclick="downloadAllSizesZip()" class="btn btn-dark" style="color: #fbbf24;">📦 Zip (Tümü)</button>
+      <button onclick="downloadFormat('png')" class="btn btn-red">📥 Görsel İndir</button>
     </div>
   </header>
 
-  <!-- ANA GÖVDE -->
-  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
-
-    <!-- SOL: KONTROL MENÜSÜ -->
-    <div class="w-full lg:w-[420px] bg-slate-900 border-r border-slate-800 flex flex-col h-[52vh] lg:h-[calc(100vh-61px)]">
+  <!-- MAIN -->
+  <div class="main-container">
+    
+    <!-- SOL: KONTROL PANELİ -->
+    <div class="sidebar">
       
-      <!-- MODÜL SEKMELERİ -->
-      <div class="flex overflow-x-auto border-b border-slate-800 bg-slate-950 p-1.5 gap-1 text-xs font-semibold">
-        <button onclick="switchTab('tab-haber')" id="btn-tab-haber" class="tab-btn tab-active px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-newspaper"></i> Manşet & Video
-        </button>
-        <button onclick="switchTab('tab-piyasa')" id="btn-tab-piyasa" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-coins text-amber-400"></i> Altın & Döviz
-        </button>
-        <button onclick="switchTab('tab-vefat')" id="btn-tab-vefat" class="tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0">
-          <i class="ph ph-flower-tulip text-amber-500"></i> Vefat Listesi
-        </button>
+      <!-- SEKMELER -->
+      <div class="tabs-bar">
+        <button onclick="switchTab('tab-haber')" id="btn-tab-haber" class="tab-btn active">📰 Manşet & Video</button>
+        <button onclick="switchTab('tab-piyasa')" id="btn-tab-piyasa" class="tab-btn">🪙 Altın & Döviz</button>
+        <button onclick="switchTab('tab-vefat')" id="btn-tab-vefat" class="tab-btn">🥀 Vefat Listesi</button>
       </div>
 
-      <!-- SEKME İÇERİKLERİ -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-4">
-
-        <!-- =================== 1. MANŞET / HABER & VİDEO MODÜLÜ =================== -->
-        <div id="tab-haber" class="tab-content space-y-4">
-          
-          <!-- Medya Seçimi -->
-          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Haber Fotoğrafı veya Videosu</label>
-            <div class="grid grid-cols-2 gap-2">
-              <input type="file" id="mediaUploadImg" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
-              <input type="file" id="mediaUploadVid" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
-              <button onclick="document.getElementById('mediaUploadImg').click()" class="py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
-                <i class="ph ph-image text-red-400 text-base"></i> Fotoğraf Seç
-              </button>
-              <button onclick="document.getElementById('mediaUploadVid').click()" class="py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs font-medium flex items-center justify-center gap-1.5">
-                <i class="ph ph-video text-blue-400 text-base"></i> Video Seç
-              </button>
-            </div>
+      <!-- SEKME 1: MANŞET & VİDEO -->
+      <div id="tab-haber" class="tab-content">
+        
+        <div class="card-box">
+          <div class="card-title">Medya Yükle</div>
+          <div class="grid-2">
+            <input type="file" id="mediaUploadImg" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+            <input type="file" id="mediaUploadVid" accept="video/*" style="display: none;" onchange="handleVideoUpload(event)">
+            <button onclick="document.getElementById('mediaUploadImg').click()" class="btn btn-dark">🖼️ Fotoğraf Seç</button>
+            <button onclick="document.getElementById('mediaUploadVid').click()" class="btn btn-dark">🎬 Video Seç</button>
           </div>
+        </div>
 
-          <!-- 🌟 CAPCUT / INSHOT MODERN ŞERİT & ŞEKİL STİLLERİ -->
-          <div class="p-3 bg-slate-950/80 border border-amber-900/40 rounded-lg space-y-3">
-            <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1">
-              <i class="ph-bold ph-cards"></i> Modern Yazı Altı Şeritleri (CapCut & InShot)
-            </label>
-
-            <!-- Şerit Stili Seçimi -->
-            <div class="grid grid-cols-3 gap-1.5 text-[10px] font-bold">
-              <button onclick="setTextBannerStyle('broadcast')" id="btn-style-broadcast" class="style-btn py-2 rounded border border-red-500 bg-red-950/60 text-white flex flex-col items-center gap-0.5">
-                <span>🔴 Haber Kuşağı</span>
-              </button>
-              <button onclick="setTextBannerStyle('solid-box')" id="btn-style-solid-box" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
-                <span>🔲 Opak Kutu</span>
-              </button>
-              <button onclick="setTextBannerStyle('glass')" id="btn-style-glass" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
-                <span>✨ Buzlu Cam</span>
-              </button>
-              <button onclick="setTextBannerStyle('highlight')" id="btn-style-highlight" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
-                <span>🟡 Sarı Vurgu</span>
-              </button>
-              <button onclick="setTextBannerStyle('shadow-only')" id="btn-style-shadow-only" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
-                <span>🌑 Sinematik Gölge</span>
-              </button>
-              <button onclick="setTextBannerStyle('none')" id="btn-style-none" class="style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5">
-                <span>Düz Metin</span>
-              </button>
-            </div>
-
-            <!-- Şerit Özelleştirme Sürgüleri -->
-            <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
-              <div>
-                <span class="text-[10px] text-slate-400 block mb-1">Şerit Opaklığı</span>
-                <input type="range" id="bannerOpacity" min="0.2" max="1" step="0.05" value="0.85" class="w-full accent-amber-500" oninput="render()">
-              </div>
-              <div>
-                <span class="text-[10px] text-slate-400 block mb-1">Köşe Yuvarlama (Radius)</span>
-                <input type="range" id="bannerRadius" min="0" max="30" step="2" value="8" class="w-full accent-amber-500" oninput="render()">
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800">
-              <span class="text-slate-300">Photoshop Tarzı Dış Çizgi (Stroke)</span>
-              <input type="checkbox" id="textStroke" checked class="accent-amber-500 w-4 h-4 cursor-pointer" onchange="render()">
-            </div>
+        <!-- CAPCUT ŞERİT STİLLERİ -->
+        <div class="card-box" style="border-color: #b45309;">
+          <div class="card-title" style="color: #f59e0b;">Modern Yazı Altı Şeritleri (CapCut/InShot)</div>
+          <div class="grid-3">
+            <button onclick="setTextBannerStyle('broadcast')" class="btn btn-dark" id="btn-style-broadcast" style="font-size: 10px; border-color: #dc2626;">🔴 Haber Kuşağı</button>
+            <button onclick="setTextBannerStyle('solid-box')" class="btn btn-dark" id="btn-style-solid-box" style="font-size: 10px;">🔲 Opak Kutu</button>
+            <button onclick="setTextBannerStyle('glass')" class="btn btn-dark" id="btn-style-glass" style="font-size: 10px;">✨ Buzlu Cam</button>
+            <button onclick="setTextBannerStyle('highlight')" class="btn btn-dark" id="btn-style-highlight" style="font-size: 10px;">🟡 Sarı Vurgu</button>
+            <button onclick="setTextBannerStyle('shadow-only')" class="btn btn-dark" id="btn-style-shadow-only" style="font-size: 10px;">🌑 Sinematik</button>
+            <button onclick="setTextBannerStyle('none')" class="btn btn-dark" id="btn-style-none" style="font-size: 10px;">Düz Metin</button>
           </div>
-
-          <!-- YÜZ & PLAKA CANLI TAKİP PANELİ -->
-          <div class="p-3 bg-indigo-950/40 border border-indigo-800/60 rounded-lg space-y-2.5">
-            <div class="flex items-center justify-between">
-              <label class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1">
-                <i class="ph-bold ph-crosshair"></i> Yüz & Plaka Asayiş Masası
-              </label>
-              <span id="trackerStatus" class="text-[10px] text-emerald-400 font-mono">Hazır</span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-              <button onclick="toggleFaceTracking()" id="btnTrackFace" class="py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
-                <i class="ph-bold ph-user-focus"></i> <span id="txtTrackFace">Yüzü Takip Et</span>
-              </button>
-              <button onclick="togglePlateTracking()" id="btnTrackPlate" class="py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition">
-                <i class="ph-bold ph-car"></i> <span id="txtTrackPlate">Plakayı Takip Et</span>
-              </button>
-            </div>
-
-            <div class="flex items-center justify-between pt-1 border-t border-indigo-900/40">
-              <button onclick="toggleBrushMode()" id="brushBtn" class="text-xs text-amber-300 hover:text-amber-200 flex items-center gap-1 font-semibold">
-                <i class="ph-bold ph-paint-brush"></i> <span id="brushBtnText">Manuel Fırça ile Buzla</span>
-              </button>
-              <button onclick="clearAllBlurs()" class="text-[10px] text-slate-400 hover:text-red-400 underline">Buzlamaları Sıfırla</button>
-            </div>
-          </div>
-
-          <!-- INSHOT VİDEO KONTROLLERİ -->
-          <div id="videoControlsBox" class="hidden p-3 bg-purple-950/30 border border-purple-800/60 rounded-lg space-y-3">
-            <label class="text-[11px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1">
-              <i class="ph-bold ph-scissors"></i> InShot Video Kırpma & Ses
-            </label>
-
-            <div class="space-y-1 text-xs">
-              <div class="flex justify-between text-slate-300">
-                <span>Başlangıç: <span id="trimStartVal" class="text-purple-400 font-mono">0.0s</span></span>
-                <span>Bitiş: <span id="trimEndVal" class="text-purple-400 font-mono">0.0s</span></span>
-              </div>
-              <div class="grid grid-cols-2 gap-2">
-                <input type="range" id="trimStart" min="0" max="100" step="0.5" value="0" class="accent-purple-500" oninput="updateTrim()">
-                <input type="range" id="trimEnd" min="0" max="100" step="0.5" value="100" class="accent-purple-500" oninput="updateTrim()">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 pt-1">
-              <button onclick="toggleVideoMute()" id="btnMute" class="py-1.5 bg-slate-900 border border-slate-700 rounded text-xs text-slate-300 flex items-center justify-center gap-1">
-                <i class="ph-bold ph-speaker-high" id="muteIcon"></i> <span id="muteText">Sesi Açık</span>
-              </button>
-              <select id="videoSpeed" class="bg-slate-900 border border-slate-700 rounded text-xs text-slate-300 px-2 outline-none" onchange="updateVideoSpeed(this.value)">
-                <option value="0.5">0.5x (Ağır Çekim)</option>
-                <option value="1.0" selected>1.0x (Normal Hız)</option>
-                <option value="1.5">1.5x (Hızlı)</option>
-                <option value="2.0">2.0x (Çok Hızlı)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- KAN / KIRMIZI İZOLASYONU -->
-          <div class="p-2.5 bg-red-950/30 border border-red-900/60 rounded-lg flex items-center justify-between text-xs">
-            <span class="text-slate-300 font-medium">🩸 Kan/Kırmızı Alanı Otomatik Gri Yap</span>
-            <input type="checkbox" id="bloodDesaturate" class="accent-red-500 w-4 h-4 cursor-pointer" onchange="render()">
-          </div>
-
-          <!-- YÜZ DETAYINI KORUYAN DOĞAL NETLEŞTİRİCİ -->
-          <div class="p-3 bg-slate-950/70 rounded-lg border border-emerald-900/40 space-y-2">
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-emerald-400 flex items-center gap-1">
-                <i class="ph-bold ph-sparkle"></i> Ultra Doğal Netleştirici
-              </span>
-              <span id="sharpVal" class="text-emerald-400 font-mono">0.6</span>
-            </div>
-            <input type="range" id="filterSharp" min="0" max="2.5" step="0.2" value="0.6" class="w-full accent-emerald-500" oninput="document.getElementById('sharpVal').innerText = this.value; render();">
-            <div class="flex justify-between text-xs pt-1">
-              <span class="text-blue-400 font-bold">Fotoğraf/Video Zoom</span>
-              <span id="zoomVal" class="text-blue-400 font-mono">1.0x</span>
-            </div>
-            <input type="range" id="imgZoom" min="0.5" max="3.0" step="0.05" value="1.0" class="w-full accent-blue-500" oninput="document.getElementById('zoomVal').innerText = parseFloat(this.value).toFixed(2) + 'x'; render();">
-          </div>
-
-          <!-- Başlık Renk Seçimi -->
-          <div>
-            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Başlık Rengi</label>
-            <div class="grid grid-cols-3 gap-2">
-              <button onclick="setTitleColor('#ffffff')" class="py-1.5 rounded border border-white/40 bg-slate-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow">
-                <span class="w-3 h-3 rounded-full bg-white"></span> Beyaz
-              </button>
-              <button onclick="setTitleColor('#facc15')" class="py-1.5 rounded border border-yellow-500/40 bg-slate-800 text-yellow-400 text-xs font-bold flex items-center justify-center gap-1.5">
-                <span class="w-3 h-3 rounded-full bg-yellow-400"></span> Sarı
-              </button>
-              <button onclick="setTitleColor('#ef4444')" class="py-1.5 rounded border border-red-500/40 bg-slate-800 text-red-400 text-xs font-bold flex items-center justify-center gap-1.5">
-                <span class="w-3 h-3 rounded-full bg-red-500"></span> Kırmızı
-              </button>
-            </div>
-          </div>
-
-          <!-- Başlık & Spot -->
-          <div class="space-y-2">
+          <div class="grid-2" style="margin-top: 4px;">
             <div>
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Manşet Başlığı</label>
-              <textarea id="titleText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-bold focus:border-red-500 outline-none resize-none" oninput="render()">MANİSA'DA TRAFİK KAZASI: YARALILAR VAR</textarea>
+              <span style="font-size: 10px; color: #94a3b8;">Opaklık</span>
+              <input type="range" id="bannerOpacity" min="0.2" max="1" step="0.05" value="0.85" oninput="render()">
             </div>
             <div>
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Spot / Açıklama Metni</label>
-              <textarea id="spotText" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 focus:border-red-500 outline-none resize-none" oninput="render()">Olay yerine çok sayıda sağlık ve polis ekibi sevk edildi. Yaralılar hastaneye kaldırıldı.</textarea>
+              <span style="font-size: 10px; color: #94a3b8;">Köşe Yuvarlama</span>
+              <input type="range" id="bannerRadius" min="0" max="30" step="2" value="8" oninput="render()">
             </div>
           </div>
         </div>
 
-        <!-- =================== 2. ALTIN & DÖVİZ MODÜLÜ =================== -->
-        <div id="tab-piyasa" class="tab-content hidden space-y-3">
-          <div class="bg-slate-950 p-3 rounded-lg border border-amber-900/40 space-y-3">
-            <div class="space-y-1.5">
-              <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Başlık Satırları</label>
-              <input type="text" id="marketTitle1" value="ALTIN FİYATLARI" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-white uppercase" oninput="render()">
-              <input type="text" id="marketTitle2" value="DÜŞTÜKÇE DÜŞÜYOR!" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-red-400 uppercase" oninput="render()">
-            </div>
-
-            <label class="text-xs font-bold text-amber-400 flex items-center gap-1 pt-1">
-              <i class="ph-bold ph-coins"></i> Fiyat Listesi
-            </label>
-            <div class="grid grid-cols-2 gap-2 text-xs">
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">Gram Altın</span>
-                <input type="text" id="p_gram" value="3.450 / 3.490 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">Çeyrek Altın</span>
-                <input type="text" id="p_ceyrek" value="5.620 / 5.710 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">Yarım / Tam</span>
-                <input type="text" id="p_yarim" value="11.240 / 22.800 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">22 Ayar Bilezik</span>
-                <input type="text" id="p_bilezik" value="3.180 / 3.320 TL" class="w-full bg-transparent font-bold text-amber-400 outline-none text-xs" oninput="render()">
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">Dolar ($)</span>
-                <input type="text" id="p_dolar" value="38.45 / 38.65 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none text-xs" oninput="render()">
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">Euro (€)</span>
-                <input type="text" id="p_euro" value="41.20 / 41.45 TL" class="w-full bg-transparent font-bold text-emerald-400 outline-none text-xs" oninput="render()">
-              </div>
-            </div>
+        <!-- ASAYİŞ & BUZLAMA -->
+        <div class="card-box" style="border-color: #4338ca;">
+          <div class="card-title" style="color: #818cf8; display: flex; justify-content: space-between;">
+            <span>Yüz & Plaka Asayiş Masası</span>
+            <span id="trackerStatus" style="color: #34d399; font-size: 10px;">Hazır</span>
+          </div>
+          <div class="grid-2">
+            <button onclick="toggleFaceTracking()" id="btnTrackFace" class="btn btn-dark">👤 Yüzü Takip Et</button>
+            <button onclick="togglePlateTracking()" id="btnTrackPlate" class="btn btn-dark">🚗 Plakayı Takip Et</button>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <button onclick="toggleBrushMode()" id="brushBtn" style="background: none; border: none; color: #f59e0b; font-size: 11px; cursor: pointer;">🖌️ Manuel Fırça Ekle</button>
+            <button onclick="clearAllBlurs()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer; text-decoration: underline;">Sıfırla</button>
           </div>
         </div>
 
-        <!-- =================== 3. VEFAT LİSTESİ MODÜLÜ =================== -->
-        <div id="tab-vefat" class="tab-content hidden space-y-3">
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
-            <div class="space-y-1.5">
-              <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Başlık Satırları</label>
-              <input type="text" id="vefatHead1" value="MANİSA'DA BUGÜN" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-white uppercase" oninput="render()">
-              <input type="text" id="vefatHead2" value="VEFAT EDENLER!" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-bold text-yellow-400 uppercase" oninput="render()">
+        <!-- INSHOT VİDEO TRİM -->
+        <div id="videoControlsBox" class="card-box hidden" style="border-color: #7c3aed;">
+          <div class="card-title" style="color: #c084fc;">InShot Video Kırpma</div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1;">
+            <span>Başlangıç: <b id="trimStartVal" style="color: #c084fc;">0.0s</b></span>
+            <span>Bitiş: <b id="trimEndVal" style="color: #c084fc;">0.0s</b></span>
+          </div>
+          <div class="grid-2">
+            <input type="range" id="trimStart" min="0" max="100" step="0.5" value="0" oninput="updateTrim()">
+            <input type="range" id="trimEnd" min="0" max="100" step="0.5" value="100" oninput="updateTrim()">
+          </div>
+          <div class="grid-2" style="margin-top: 4px;">
+            <button onclick="toggleVideoMute()" id="btnMute" class="btn btn-dark" style="font-size: 11px;">🔊 Sesi Açık</button>
+            <select id="videoSpeed" onchange="updateVideoSpeed(this.value)">
+              <option value="0.5">0.5x Ağır</option>
+              <option value="1.0" selected>1.0x Normal</option>
+              <option value="1.5">1.5x Hızlı</option>
+              <option value="2.0">2.0x Çok Hızlı</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- KAN İZOLASYONU & NETLEŞTİRME -->
+        <div class="card-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+            <span>🩸 Kan/Kırmızı Alanı Otomatik Gri Yap</span>
+            <input type="checkbox" id="bloodDesaturate" onchange="render()">
+          </div>
+          <div style="margin-top: 6px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px;">
+              <span>Ultra Doğal Netleştirici</span>
+              <span id="sharpVal" style="color: #34d399;">0.6</span>
             </div>
-            
-            <label class="text-xs font-bold text-slate-300 block pt-1">İsim & Cami Listesi</label>
-            <textarea id="vefatListText" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200 outline-none" oninput="render()">Ahmet Yılmaz (74) - Şehzadeler / Hatuniye Camii
+            <input type="range" id="filterSharp" min="0" max="2.5" step="0.2" value="0.6" oninput="document.getElementById('sharpVal').innerText = this.value; render();">
+          </div>
+          <div style="margin-top: 6px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px;">
+              <span>Fotoğraf/Video Zoom</span>
+              <span id="zoomVal" style="color: #60a5fa;">1.0x</span>
+            </div>
+            <input type="range" id="imgZoom" min="0.5" max="3.0" step="0.05" value="1.0" oninput="document.getElementById('zoomVal').innerText = parseFloat(this.value).toFixed(2) + 'x'; render();">
+          </div>
+        </div>
+
+        <!-- BAŞLIK & SPOT -->
+        <div class="card-box">
+          <div class="card-title">Manşet Başlığı & Renk</div>
+          <div class="grid-3" style="margin-bottom: 6px;">
+            <button onclick="setTitleColor('#ffffff')" class="btn btn-dark" style="font-size: 11px;">⚪ Beyaz</button>
+            <button onclick="setTitleColor('#facc15')" class="btn btn-dark" style="color: #facc15; font-size: 11px;">🟡 Sarı</button>
+            <button onclick="setTitleColor('#ef4444')" class="btn btn-dark" style="color: #ef4444; font-size: 11px;">🔴 Kırmızı</button>
+          </div>
+          <textarea id="titleText" rows="2" oninput="render()">MANİSA'DA TRAFİK KAZASI: YARALILAR VAR</textarea>
+          <textarea id="spotText" rows="2" style="margin-top: 6px;" oninput="render()">Olay yerine çok sayıda sağlık ve polis ekibi sevk edildi.</textarea>
+        </div>
+
+      </div>
+
+      <!-- SEKME 2: ALTIN & DÖVİZ -->
+      <div id="tab-piyasa" class="tab-content hidden">
+        <div class="card-box">
+          <div class="card-title" style="color: #f59e0b;">Başlık Satırları</div>
+          <input type="text" id="marketTitle1" value="ALTIN FİYATLARI" oninput="render()" style="margin-bottom: 6px;">
+          <input type="text" id="marketTitle2" value="DÜŞTÜKÇE DÜŞÜYOR!" oninput="render()" style="color: #ef4444; font-weight: bold;">
+        </div>
+        <div class="card-box">
+          <div class="card-title">Fiyat Listesi</div>
+          <div class="grid-2">
+            <div><span style="font-size: 10px; color: #94a3b8;">Gram Altın</span><input type="text" id="p_gram" value="3.450 / 3.490 TL" oninput="render()"></div>
+            <div><span style="font-size: 10px; color: #94a3b8;">Çeyrek Altın</span><input type="text" id="p_ceyrek" value="5.620 / 5.710 TL" oninput="render()"></div>
+            <div><span style="font-size: 10px; color: #94a3b8;">Yarım / Tam</span><input type="text" id="p_yarim" value="11.240 / 22.800 TL" oninput="render()"></div>
+            <div><span style="font-size: 10px; color: #94a3b8;">22 Ayar Bilezik</span><input type="text" id="p_bilezik" value="3.180 / 3.320 TL" oninput="render()"></div>
+            <div><span style="font-size: 10px; color: #94a3b8;">Dolar ($)</span><input type="text" id="p_dolar" value="38.45 / 38.65 TL" oninput="render()"></div>
+            <div><span style="font-size: 10px; color: #94a3b8;">Euro (€)</span><input type="text" id="p_euro" value="41.20 / 41.45 TL" oninput="render()"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKME 3: VEFAT -->
+      <div id="tab-vefat" class="tab-content hidden">
+        <div class="card-box">
+          <div class="card-title" style="color: #f59e0b;">Başlık Satırları</div>
+          <input type="text" id="vefatHead1" value="MANİSA'DA BUGÜN" oninput="render()" style="margin-bottom: 6px;">
+          <input type="text" id="vefatHead2" value="VEFAT EDENLER!" oninput="render()" style="color: #facc15; font-weight: bold;">
+        </div>
+        <div class="card-box">
+          <div class="card-title">İsim & Cami Listesi</div>
+          <textarea id="vefatListText" rows="6" oninput="render()">Ahmet Yılmaz (74) - Şehzadeler / Hatuniye Camii
 Fatma Demir (68) - Yunusemre / Laleli Camii
 Mehmet Kaya (81) - Turgutlu / Pazar Camii
 Ayşe Çelik (62) - Akhisar / Yeni Gülruh Camii
 Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
-          </div>
         </div>
-
-        <!-- =================== ORTAK AYARLAR (BOYUT & LOGO) =================== -->
-        <div class="border-t border-slate-800 pt-3 space-y-3">
-          <div>
-            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Boyut / Format</label>
-            <div class="grid grid-cols-4 gap-1.5">
-              <button onclick="setRatio('1:1')" id="btn-1:1" class="ratio-btn bg-red-600 text-white py-1.5 rounded text-xs font-semibold flex flex-col items-center"><span>1:1</span></button>
-              <button onclick="setRatio('9:16')" id="btn-9:16" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>9:16</span></button>
-              <button onclick="setRatio('16:9')" id="btn-16:9" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>16:9</span></button>
-              <button onclick="setRatio('kapak')" id="btn-kapak" class="ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700"><span>Kapak</span></button>
-            </div>
-          </div>
-
-          <!-- Logo Ayarları -->
-          <div class="p-2.5 bg-slate-950/70 rounded-lg border border-slate-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Logo Yönetimi</label>
-              <input type="file" id="logoUpload" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
-              <button onclick="document.getElementById('logoUpload').click()" class="text-[11px] text-red-400 hover:text-red-300 flex items-center gap-1 font-medium">
-                <i class="ph ph-plus-circle"></i> Logo Yükle
-              </button>
-            </div>
-            
-            <div class="grid grid-cols-4 gap-1 text-[10px]">
-              <button onclick="setLogoCorner('top-right')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sağ Üst</button>
-              <button onclick="setLogoCorner('top-left')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sol Üst</button>
-              <button onclick="setLogoCorner('bottom-right')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sağ Alt</button>
-              <button onclick="setLogoCorner('bottom-left')" class="bg-slate-900 border border-slate-700 py-1 rounded hover:border-red-500">Sol Alt</button>
-            </div>
-
-            <div id="logoList" class="flex gap-2 overflow-x-auto p-1.5 bg-slate-900 border border-slate-800 rounded min-h-[38px] items-center"></div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- ORTAK AYARLAR (BOYUT & LOGO) -->
+      <div style="padding: 12px; border-top: 1px solid #1e293b; background: #090d16; display: flex; flex-direction: column; gap: 8px;">
+        <div class="grid-4">
+          <button onclick="setRatio('1:1')" id="btn-1:1" class="btn btn-red" style="font-size: 10px;">1:1 Kare</button>
+          <button onclick="setRatio('9:16')" id="btn-9:16" class="btn btn-dark" style="font-size: 10px;">9:16 Dikey</button>
+          <button onclick="setRatio('16:9')" id="btn-16:9" class="btn btn-dark" style="font-size: 10px;">16:9 Yatay</button>
+          <button onclick="setRatio('kapak')" id="btn-kapak" class="btn btn-dark" style="font-size: 10px;">Kapak</button>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <input type="file" id="logoUpload" accept="image/*" style="display: none;" onchange="handleLogoUpload(event)">
+          <button onclick="document.getElementById('logoUpload').click()" class="btn btn-dark" style="font-size: 11px;">➕ Logo Yükle</button>
+          <div class="grid-4" style="gap: 4px;">
+            <button onclick="setLogoCorner('top-right')" class="btn btn-dark" style="font-size: 9px; padding: 4px;">Sağ Üst</button>
+            <button onclick="setLogoCorner('top-left')" class="btn btn-dark" style="font-size: 9px; padding: 4px;">Sol Üst</button>
+            <button onclick="setLogoCorner('bottom-right')" class="btn btn-dark" style="font-size: 9px; padding: 4px;">Sağ Alt</button>
+            <button onclick="setLogoCorner('bottom-left')" class="btn btn-dark" style="font-size: 9px; padding: 4px;">Sol Alt</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- SAĞ: CANLI ÖNİZLEME TUVALİ -->
-    <div class="flex-1 bg-slate-950 p-4 flex flex-col items-center justify-center overflow-auto relative">
-      <div id="canvasWrapper" class="relative max-h-full max-w-full flex items-center justify-center">
-        <canvas id="previewCanvas" class="rounded-lg shadow-2xl max-w-full max-h-[75vh] object-contain border border-slate-800 cursor-move"></canvas>
-      </div>
-      <video id="hiddenVideo" class="hidden" playsinline loop></video>
+    <div class="canvas-area">
+      <canvas id="previewCanvas"></canvas>
+      <video id="hiddenVideo" style="display: none;" playsinline loop></video>
     </div>
 
   </div>
@@ -367,11 +278,8 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let activeLogo = null;
     let titleColor = '#ffffff';
     let isVideoMode = false;
-
-    // CapCut & Canva Şerit Stilleri: 'broadcast' | 'solid-box' | 'glass' | 'highlight' | 'shadow-only' | 'none'
     let textBannerStyle = 'broadcast';
 
-    // Gerçek Piksel Takip Durumları
     let isFaceTrackingActive = false;
     let isPlateTrackingActive = false;
     let activeFaceBox = null;
@@ -379,7 +287,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let manualBlurBoxes = [];
     let isBrushMode = false;
 
-    // InShot Video Trim & Ses
     let videoStartTime = 0;
     let videoEndTime = 100;
     let isMuted = false;
@@ -387,7 +294,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let recordedChunks = [];
     let isRecording = false;
 
-    // Fotoğraf / Video Pan & Drag
     let imgPanX = 0;
     let imgPanY = 0;
     let dragMode = null;
@@ -405,7 +311,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     };
 
     window.onload = () => {
-      loadSavedLogos();
       initDragAndBrushEvents();
       createDefaultPlaceholder();
       setupVideoSync();
@@ -413,19 +318,21 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     function setTextBannerStyle(style) {
       textBannerStyle = style;
-      document.querySelectorAll('.style-btn').forEach(btn => {
-        btn.className = 'style-btn py-2 rounded border border-slate-700 bg-slate-900 text-slate-300 flex flex-col items-center gap-0.5';
+      document.querySelectorAll('.card-box button[id^="btn-style-"]').forEach(btn => {
+        btn.style.borderColor = '#334155';
+        btn.style.background = '#1e293b';
       });
       const act = document.getElementById(`btn-style-${style}`);
-      if (act) act.className = 'style-btn py-2 rounded border border-amber-500 bg-amber-950/60 text-white flex flex-col items-center gap-0.5 shadow-lg shadow-amber-500/20';
+      if (act) {
+        act.style.borderColor = '#f59e0b';
+        act.style.background = '#78350f';
+      }
       render();
     }
 
-    // --- GERÇEK PİKSEL TABANLI YÜZ TARAMA ---
     function scanAndTrackFace() {
       const source = isVideoMode ? video : bgImage;
       if (!source) return;
-
       const w = canvas.width;
       const photoH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
 
@@ -435,7 +342,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       tempCanvas.width = scanW;
       tempCanvas.height = scanH;
       const tCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-
       tCtx.drawImage(source, 0, 0, scanW, scanH);
       const imgData = tCtx.getImageData(0, 0, scanW, scanH);
       const data = imgData.data;
@@ -497,15 +403,13 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     function toggleFaceTracking() {
       isFaceTrackingActive = !isFaceTrackingActive;
       const btn = document.getElementById('btnTrackFace');
-      const txt = document.getElementById('txtTrackFace');
-
       if (isFaceTrackingActive) {
-        btn.className = 'py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30 transition';
-        txt.innerText = 'Yüz Takibi Aktif ✓';
+        btn.style.background = '#059669';
+        btn.innerText = "✓ Yüz Takipte";
         scanAndTrackFace();
       } else {
-        btn.className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
-        txt.innerText = 'Yüzü Takip Et';
+        btn.style.background = '#1e293b';
+        btn.innerText = "👤 Yüzü Takip Et";
         activeFaceBox = null;
       }
       render();
@@ -514,15 +418,13 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     function togglePlateTracking() {
       isPlateTrackingActive = !isPlateTrackingActive;
       const btn = document.getElementById('btnTrackPlate');
-      const txt = document.getElementById('txtTrackPlate');
-
       if (isPlateTrackingActive) {
-        btn.className = 'py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30 transition';
-        txt.innerText = 'Plaka Takibi Aktif ✓';
+        btn.style.background = '#059669';
+        btn.innerText = "✓ Plaka Takipte";
         scanAndTrackPlate();
       } else {
-        btn.className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
-        txt.innerText = 'Plakayı Takip Et';
+        btn.style.background = '#1e293b';
+        btn.innerText = "🚗 Plakayı Takip Et";
         activePlateBox = null;
       }
       render();
@@ -530,14 +432,11 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     function switchTab(tabId) {
       activeTab = tabId;
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.className = 'tab-btn bg-slate-800 text-slate-300 px-3 py-1.5 rounded flex items-center gap-1 shrink-0');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
 
-      const actBtn = document.getElementById(`btn-${tabId}`);
-      if (actBtn) actBtn.className = 'tab-btn tab-active px-3 py-1.5 rounded flex items-center gap-1 shrink-0';
-      
-      const actContent = document.getElementById(tabId);
-      if (actContent) actContent.classList.remove('hidden');
+      document.getElementById(`btn-${tabId}`).classList.add('active');
+      document.getElementById(tabId).classList.remove('hidden');
 
       if (tabId === 'tab-vefat') setRatio('kapak');
       else if (tabId === 'tab-piyasa') setRatio('9:16');
@@ -551,7 +450,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       tCtx.fillStyle = '#0f172a';
       tCtx.fillRect(0, 0, 1080, 1080);
       tCtx.fillStyle = '#334155';
-      tCtx.font = 'bold 36px Montserrat';
+      tCtx.font = 'bold 36px sans-serif';
       tCtx.textAlign = 'center';
       tCtx.fillText('Görsel veya Video Yükleyin', 540, 540);
       const img = new Image();
@@ -561,13 +460,12 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     function setRatio(ratio) {
       currentRatio = ratio;
-      logoPos = null;
-      textPos = null;
-      document.querySelectorAll('.ratio-btn').forEach(btn => {
-        btn.className = 'ratio-btn bg-slate-800 text-slate-300 py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-slate-700';
+      logoPos = null; textPos = null;
+      document.querySelectorAll('.grid-4 button[id^="btn-"]').forEach(btn => {
+        btn.className = 'btn btn-dark';
       });
       const act = document.getElementById(`btn-${ratio}`);
-      if (act) act.className = 'ratio-btn bg-red-600 text-white py-1.5 rounded text-xs font-semibold flex flex-col items-center border border-transparent';
+      if (act) act.className = 'btn btn-red';
 
       canvas.width = DIMENSIONS[ratio].width;
       canvas.height = DIMENSIONS[ratio].height;
@@ -575,12 +473,8 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       render();
     }
 
-    function setTitleColor(color) {
-      titleColor = color;
-      render();
-    }
+    function setTitleColor(color) { titleColor = color; render(); }
 
-    // --- MEDYA YÜKLEME ---
     function handleImageUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -642,8 +536,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const s = parseFloat(document.getElementById('trimStart').value);
       const e = parseFloat(document.getElementById('trimEnd').value);
       if (s < e) {
-        videoStartTime = s;
-        videoEndTime = e;
+        videoStartTime = s; videoEndTime = e;
         document.getElementById('trimStartVal').innerText = s.toFixed(1) + "s";
         document.getElementById('trimEndVal').innerText = e.toFixed(1) + "s";
         video.currentTime = s;
@@ -655,8 +548,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     function toggleVideoMute() {
       isMuted = !isMuted;
       video.muted = isMuted;
-      document.getElementById('muteText').innerText = isMuted ? 'Sessiz' : 'Sesi Açık';
-      document.getElementById('muteIcon').className = isMuted ? 'ph-bold ph-speaker-slash text-red-400' : 'ph-bold ph-speaker-high';
+      document.getElementById('btnMute').innerText = isMuted ? '🔇 Sessiz' : '🔊 Sesi Açık';
     }
 
     function startVideoRenderLoop() {
@@ -669,24 +561,20 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       loop();
     }
 
-    // --- MANUEL BUZLAMA & SÜRÜKLEME ---
     function toggleBrushMode() {
       isBrushMode = !isBrushMode;
-      const txt = document.getElementById('brushBtnText');
-      txt.innerText = isBrushMode ? 'Buzlama Aktif' : 'Manuel Fırça ile Buzla';
+      document.getElementById('brushBtn').innerText = isBrushMode ? '🖌️ Buzlama Aktif (Çizin)' : '🖌️ Manuel Fırça Ekle';
       canvas.classList.toggle('brush-active', isBrushMode);
     }
 
     function clearAllBlurs() {
       manualBlurBoxes = [];
-      activeFaceBox = null;
-      activePlateBox = null;
-      isFaceTrackingActive = false;
-      isPlateTrackingActive = false;
-      document.getElementById('txtTrackFace').innerText = "Yüzü Takip Et";
-      document.getElementById('btnTrackFace').className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
-      document.getElementById('txtTrackPlate').innerText = "Plakayı Takip Et";
-      document.getElementById('btnTrackPlate').className = 'py-2 bg-indigo-900 hover:bg-indigo-800 border border-indigo-700 text-indigo-200 rounded text-xs font-bold flex items-center justify-center gap-1.5 transition';
+      activeFaceBox = null; activePlateBox = null;
+      isFaceTrackingActive = false; isPlateTrackingActive = false;
+      document.getElementById('btnTrackFace').innerText = "👤 Yüzü Takip Et";
+      document.getElementById('btnTrackFace').style.background = '#1e293b';
+      document.getElementById('btnTrackPlate').innerText = "🚗 Plakayı Takip Et";
+      document.getElementById('btnTrackPlate').style.background = '#1e293b';
       document.getElementById('trackerStatus').innerText = "Sıfırlandı";
       render();
     }
@@ -746,7 +634,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       window.addEventListener('touchend', onEnd);
     }
 
-    // --- KAN İZOLASYONU ---
     function applyBloodDesaturation(ctx, w, h) {
       try {
         const imgData = ctx.getImageData(0, 0, w, h);
@@ -762,7 +649,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       } catch(e) {}
     }
 
-    // --- MOZAİK & PİKSEL BUZLAMA ---
     function renderAllBlurs(ctx, w, h) {
       manualBlurBoxes.forEach(b => applyBlockPixelate(ctx, b.x, b.y, b.w, b.h, w, h));
       if (activeFaceBox && isFaceTrackingActive) applyBlockPixelate(ctx, activeFaceBox.x, activeFaceBox.y, activeFaceBox.w, activeFaceBox.h, w, h);
@@ -795,7 +681,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       } catch(e) {}
     }
 
-    // --- DOĞAL NETLEŞTİRİCİ ---
     function applyNaturalSharpness(ctx, w, h, amount) {
       if (amount <= 0) return;
       try {
@@ -803,16 +688,13 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         const data = imgData.data;
         const buff = new Uint8ClampedArray(data);
         const a = amount * 0.22;
-
         for (let y = 1; y < h - 1; y += 2) {
           for (let x = 1; x < w - 1; x += 2) {
             const idx = (y * w + x) * 4;
             for (let c = 0; c < 3; c++) {
               const val = buff[idx + c] * (1 + 4 * a) 
-                        - buff[idx - 4 + c] * a 
-                        - buff[idx + 4 + c] * a 
-                        - buff[idx - w * 4 + c] * a 
-                        - buff[idx + w * 4 + c] * a;
+                        - buff[idx - 4 + c] * a - buff[idx + 4 + c] * a 
+                        - buff[idx - w * 4 + c] * a - buff[idx + w * 4 + c] * a;
               data[idx + c] = Math.min(255, Math.max(0, val));
             }
           }
@@ -821,38 +703,15 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       } catch (e) {}
     }
 
-    // --- LOGO ---
     function handleLogoUpload(e) {
       const f = e.target.files[0]; if (!f) return;
       const r = new FileReader();
       r.onload = ev => {
-        let l = JSON.parse(localStorage.getItem('news_saved_logos') || '[]');
-        l.unshift(ev.target.result);
-        if (l.length > 8) l.pop();
-        localStorage.setItem('news_saved_logos', JSON.stringify(l));
-        loadSavedLogos();
-        selectLogo(ev.target.result);
+        const img = new Image();
+        img.onload = () => { activeLogo = img; logoPos = null; render(); };
+        img.src = ev.target.result;
       };
       r.readAsDataURL(f);
-    }
-
-    function loadSavedLogos() {
-      const l = JSON.parse(localStorage.getItem('news_saved_logos') || '[]');
-      const c = document.getElementById('logoList');
-      c.innerHTML = '';
-      l.forEach(src => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.className = 'h-6 w-6 object-contain bg-slate-900 border border-slate-700 hover:border-red-500 rounded p-1 cursor-pointer';
-        img.onclick = () => selectLogo(src);
-        c.appendChild(img);
-      });
-    }
-
-    function selectLogo(src) {
-      const img = new Image();
-      img.onload = () => { activeLogo = img; logoPos = null; render(); };
-      img.src = src;
     }
 
     function setLogoCorner(corner) {
@@ -870,21 +729,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       const sw = isVideoMode ? source.videoWidth : source.width;
       const sh = isVideoMode ? source.videoHeight : source.height;
       if (!sw || !sh) return;
-
       const zoom = parseFloat(document.getElementById('imgZoom')?.value || 1.0);
       const sRatio = sw / sh;
       const tRatio = w / targetH;
       let dw, dh;
-
       if (sRatio > tRatio) { dh = targetH * zoom; dw = dh * sRatio; }
       else { dw = w * zoom; dh = dw / sRatio; }
-
       const dx = (w - dw) / 2 + imgPanX;
       const dy = (targetH - dh) / 2 + imgPanY;
       ctx.drawImage(source, dx, dy, dw, dh);
     }
 
-    // --- ANA RENDER MOTORU ---
     function render() {
       const w = canvas.width;
       const h = canvas.height;
@@ -900,7 +755,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // 1. MANŞET & VİDEO ÇİZİMİ (CAPCUT / INSHOT GELİŞMİŞ ŞERİTLER)
     function renderHaberModule(w, h, margin) {
       const source = isVideoMode ? video : bgImage;
       const isStory = currentRatio === '9:16';
@@ -956,11 +810,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // 🎨 GELİŞMİŞ CAPCUT & INSHOT ŞERİT & METİN ÇİZİCİ
     function drawModernBannerAndText(w, h, margin, isSplit, splitY = 0) {
       const title = document.getElementById('titleText').value.trim();
       const spot = document.getElementById('spotText').value.trim();
-      const hasStroke = document.getElementById('textStroke')?.checked;
       const opacity = parseFloat(document.getElementById('bannerOpacity')?.value || 0.85);
       const radius = parseInt(document.getElementById('bannerRadius')?.value || 8);
 
@@ -972,7 +824,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         if (title) {
           ctx.save();
           const tSize = Math.round(w * 0.046);
-          ctx.font = `900 ${tSize}px Montserrat`;
+          ctx.font = `900 ${tSize}px sans-serif`;
           ctx.fillStyle = titleColor;
           const lines = getLines(ctx, title, bannerW);
           lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY); curY += tSize * 1.22; });
@@ -981,25 +833,23 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         if (spot) {
           ctx.save();
           const sSize = Math.round(w * 0.028);
-          ctx.font = `500 ${sSize}px Montserrat`;
+          ctx.font = `500 ${sSize}px sans-serif`;
           ctx.fillStyle = '#cbd5e1';
           const lines = getLines(ctx, spot, bannerW);
           lines.slice(0, 2).forEach(l => { ctx.fillText(l, drawX, curY + (w * 0.01)); curY += sSize * 1.25; });
           ctx.restore();
         }
       } else {
-        // Serbest Konum veya Hikaye (9:16) Düzeni
         const tSize = Math.round(w * 0.052);
         const sSize = Math.round(w * 0.032);
-        ctx.font = `900 ${tSize}px Montserrat`;
+        ctx.font = `900 ${tSize}px sans-serif`;
         const titleLines = title ? getLines(ctx, title, bannerW - (w * 0.06)) : [];
-        ctx.font = `500 ${sSize}px Montserrat`;
+        ctx.font = `500 ${sSize}px sans-serif`;
         const spotLines = spot ? getLines(ctx, spot, bannerW - (w * 0.06)) : [];
 
         const totalTextH = (titleLines.length * tSize * 1.25) + (spotLines.length * sSize * 1.35) + (w * 0.06);
         let bannerY = textPos ? textPos.y : h - margin - totalTextH;
 
-        // Şeridi Çiz
         if (textBannerStyle !== 'none') {
           ctx.save();
           if (textBannerStyle === 'broadcast') {
@@ -1010,7 +860,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
             ctx.fillStyle = bGrad;
             drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
             ctx.fill();
-            // Sol kırmızı hat
             ctx.fillStyle = '#ef4444';
             drawRoundedRect(ctx, drawX, bannerY, w * 0.015, totalTextH, 0);
             ctx.fill();
@@ -1033,25 +882,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           ctx.restore();
         }
 
-        // Metinleri Şeridin İçine Çiz
         let textCurY = bannerY + (w * 0.05);
         const textPadX = (textBannerStyle === 'none' || textBannerStyle === 'shadow-only') ? drawX : drawX + (w * 0.035);
 
         if (title) {
           ctx.save();
-          ctx.font = `900 ${tSize}px Montserrat`;
+          ctx.font = `900 ${tSize}px sans-serif`;
           ctx.fillStyle = (textBannerStyle === 'highlight') ? '#0f172a' : titleColor;
-          if (hasStroke && textBannerStyle !== 'highlight') {
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = Math.round(w * 0.008);
-            ctx.lineJoin = 'miter';
-          }
           if (textBannerStyle === 'shadow-only') {
-            ctx.shadowColor = 'rgba(0,0,0,0.95)';
-            ctx.shadowBlur = 12;
+            ctx.shadowColor = 'rgba(0,0,0,0.95)'; ctx.shadowBlur = 12;
           }
           titleLines.forEach(l => {
-            if (hasStroke && textBannerStyle !== 'highlight') ctx.strokeText(l, textPadX, textCurY);
             ctx.fillText(l, textPadX, textCurY);
             textCurY += tSize * 1.25;
           });
@@ -1060,14 +901,9 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
         if (spot) {
           ctx.save();
-          ctx.font = `500 ${sSize}px Montserrat`;
+          ctx.font = `500 ${sSize}px sans-serif`;
           ctx.fillStyle = (textBannerStyle === 'highlight') ? '#334155' : '#cbd5e1';
-          if (hasStroke && textBannerStyle !== 'highlight') {
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = Math.round(w * 0.005);
-          }
           spotLines.forEach(l => {
-            if (hasStroke && textBannerStyle !== 'highlight') ctx.strokeText(l, textPadX, textCurY);
             ctx.fillText(l, textPadX, textCurY);
             textCurY += sSize * 1.35;
           });
@@ -1090,7 +926,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.closePath();
     }
 
-    // 2. ALTIN & DÖVİZ MODÜLÜ
     function renderPiyasaModule(w, h, margin) {
       const isVertical = h > w;
       const bgGrad = ctx.createRadialGradient(w * 0.7, h * 0.7, 50, w / 2, h / 2, Math.max(w, h));
@@ -1106,7 +941,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       ctx.save();
       const topH = isVertical ? h * 0.20 : h * 0.28;
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = `900 ${Math.round(isVertical ? w * 0.065 : h * 0.09)}px Montserrat`;
+      ctx.font = `900 ${Math.round(isVertical ? w * 0.065 : h * 0.09)}px sans-serif`;
       ctx.textAlign = 'left';
       ctx.fillText(t1, margin, topH * 0.45);
 
@@ -1115,11 +950,11 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         grad.addColorStop(0, '#ef4444');
         grad.addColorStop(1, '#f97316');
         ctx.fillStyle = grad;
-        ctx.font = `900 ${Math.round(isVertical ? w * 0.075 : h * 0.11)}px 'Poppins', Montserrat`;
+        ctx.font = `900 ${Math.round(isVertical ? w * 0.075 : h * 0.11)}px sans-serif`;
         ctx.fillText(t2, margin, topH * 0.85);
       }
 
-      ctx.font = `900 ${Math.round(isVertical ? w * 0.06 : h * 0.10)}px Montserrat`;
+      ctx.font = `900 ${Math.round(isVertical ? w * 0.06 : h * 0.10)}px sans-serif`;
       ctx.fillText('📉', w - margin - (isVertical ? 40 : 60), topH * 0.75);
       ctx.restore();
 
@@ -1152,18 +987,17 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           ctx.stroke();
         }
         ctx.fillStyle = '#e2e8f0';
-        ctx.font = `600 ${Math.round(isVertical ? w * 0.034 : h * 0.045)}px Montserrat`;
+        ctx.font = `600 ${Math.round(isVertical ? w * 0.034 : h * 0.045)}px sans-serif`;
         ctx.textAlign = 'left';
         ctx.fillText(`${item.icon} ${item.name}`, margin + (w * 0.04), ry + (rowH * 0.58));
 
         ctx.fillStyle = item.gold ? '#fbbf24' : '#34d399';
-        ctx.font = `800 ${Math.round(isVertical ? w * 0.038 : h * 0.048)}px Montserrat`;
+        ctx.font = `800 ${Math.round(isVertical ? w * 0.038 : h * 0.048)}px sans-serif`;
         ctx.textAlign = 'right';
         ctx.fillText(item.val, w - margin - (w * 0.04), ry + (rowH * 0.58));
       });
     }
 
-    // 3. VEFAT LİSTESİ
     function renderVefatModule(w, h, margin) {
       const isVertical = h > w;
       const bg = ctx.createLinearGradient(0, 0, 0, h);
@@ -1187,15 +1021,14 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
       ctx.save();
       ctx.textAlign = 'center';
-      ctx.shadowColor = '#000000';
-      ctx.shadowBlur = 10;
+      ctx.shadowColor = '#000000'; ctx.shadowBlur = 10;
 
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = `900 ${Math.round(isVertical ? w * 0.065 : h * 0.085)}px 'Poppins', Montserrat`;
+      ctx.font = `900 ${Math.round(isVertical ? w * 0.065 : h * 0.085)}px sans-serif`;
       ctx.fillText(h1, w / 2, topH * 0.40);
 
       ctx.fillStyle = '#FFC700';
-      ctx.font = `900 ${Math.round(isVertical ? w * 0.082 : h * 0.105)}px 'Poppins', Montserrat`;
+      ctx.font = `900 ${Math.round(isVertical ? w * 0.082 : h * 0.105)}px sans-serif`;
       ctx.fillText(h2, w / 2, topH * 0.78);
       ctx.restore();
 
@@ -1228,25 +1061,25 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
         if (isVertical) {
           ctx.fillStyle = '#FFFFFF';
-          ctx.font = `bold ${Math.round(w * 0.038)}px Montserrat`;
+          ctx.font = `bold ${Math.round(w * 0.038)}px sans-serif`;
           ctx.textAlign = 'left';
           ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.04), ry + (rowH * 0.42));
 
           if (detailPart) {
             ctx.fillStyle = '#94a3b8';
-            ctx.font = `500 ${Math.round(w * 0.030)}px Montserrat`;
+            ctx.font = `500 ${Math.round(w * 0.030)}px sans-serif`;
             ctx.textAlign = 'left';
             ctx.fillText(`📍 ${detailPart}`, margin + (w * 0.04), ry + (rowH * 0.78));
           }
         } else {
           ctx.fillStyle = '#FFFFFF';
-          ctx.font = `bold ${Math.round(h * 0.042)}px Montserrat`;
+          ctx.font = `bold ${Math.round(h * 0.042)}px sans-serif`;
           ctx.textAlign = 'left';
           ctx.fillText(`🥀 ${namePart}`, margin + (w * 0.03), ry + (rowH * 0.52));
 
           if (detailPart) {
             ctx.fillStyle = '#94a3b8';
-            ctx.font = `500 ${Math.round(h * 0.034)}px Montserrat`;
+            ctx.font = `500 ${Math.round(h * 0.034)}px sans-serif`;
             ctx.textAlign = 'right';
             ctx.fillText(`📍 ${detailPart}`, w - margin - (w * 0.03), ry + (rowH * 0.52));
           }
@@ -1264,7 +1097,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       lines.push(line); return lines;
     }
 
-    // --- VİDEO KAYIT ---
     function toggleVideoExport() {
       if (!isRecording) startRecording();
       else stopRecording();
@@ -1286,9 +1118,8 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         a.href = url;
         a.download = `medya-video-${Date.now()}.mp4`;
         a.click();
-        document.getElementById('recordBtnText').innerText = "Videoyu Kaydet (MP4)";
-        document.getElementById('btnRecordVideo').classList.remove('bg-red-600');
-        document.getElementById('btnRecordVideo').classList.add('bg-purple-600');
+        document.getElementById('recordBtnText').innerText = "🎥 Videoyu Kaydet (MP4)";
+        document.getElementById('btnRecordVideo').style.background = '#7c3aed';
       };
 
       video.currentTime = videoStartTime;
@@ -1296,8 +1127,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       mediaRecorder.start();
       isRecording = true;
       document.getElementById('recordBtnText').innerText = "🔴 Kaydediliyor... (Durdur)";
-      document.getElementById('btnRecordVideo').classList.remove('bg-purple-600');
-      document.getElementById('btnRecordVideo').classList.add('bg-red-600');
+      document.getElementById('btnRecordVideo').style.background = '#dc2626';
     }
 
     function stopRecording() {
@@ -1307,7 +1137,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       }
     }
 
-    // --- ÇIKTI ALMA ---
     function downloadFormat(fmt) {
       const a = document.createElement('a');
       a.download = `medya-${currentRatio}-${Date.now()}.${fmt}`;
