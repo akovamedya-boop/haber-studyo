@@ -3,35 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medya Süper Stüdyo PRO v15</title>
+  <title>Medya Süper Stüdyo PRO v16</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #020617; color: #f8fafc; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
     
-    /* Header */
     header { background-color: #0f172a; border-bottom: 1px solid #1e293b; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
     .logo-area { display: flex; align-items: center; gap: 10px; }
     .logo-badge { background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
     .header-btns { display: flex; gap: 8px; }
 
-    /* Layout */
     .main-container { display: flex; flex: 1; height: calc(100vh - 53px); }
-    .sidebar { width: 420px; background-color: #090d16; border-right: 1px solid #1e293b; display: flex; flex-direction: column; }
-    .canvas-area { flex: 1; background-color: #020617; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: auto; }
+    .sidebar { width: 430px; background-color: #090d16; border-right: 1px solid #1e293b; display: flex; flex-direction: column; }
+    .canvas-area { flex: 1; background-color: #020617; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: auto; }
 
-    /* Tabs */
     .tabs-bar { display: flex; background: #020617; border-bottom: 1px solid #1e293b; padding: 6px; gap: 4px; }
     .tab-btn { flex: 1; padding: 8px 4px; background: #1e293b; color: #94a3b8; border: none; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; }
     .tab-btn.active { background: #dc2626; color: #ffffff; }
 
-    /* Content & Form Controls */
     .tab-content { padding: 14px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 12px; }
     .hidden { display: none !important; }
     .card-box { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
     .card-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px; }
 
-    /* Buttons */
     .btn { padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-red { background: #dc2626; color: #fff; }
     .btn-red:hover { background: #b91c1c; }
@@ -39,9 +34,7 @@
     .btn-dark:hover { background: #334155; }
     .btn-purple { background: #7c3aed; color: #fff; }
     .btn-green { background: #059669; color: #fff; }
-    .btn-amber { background: #d97706; color: #fff; }
 
-    /* Inputs */
     input[type="text"], textarea, select { width: 100%; background: #020617; border: 1px solid #334155; border-radius: 6px; padding: 8px; color: #f8fafc; font-size: 12px; outline: none; }
     input[type="text"]:focus, textarea:focus { border-color: #dc2626; }
     input[type="range"] { width: 100%; accent-color: #dc2626; }
@@ -49,9 +42,15 @@
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
     .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
 
-    /* Canvas */
-    #previewCanvas { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7); cursor: move; border: 1px solid #1e293b; }
+    #previewCanvas { max-width: 100%; max-height: 70vh; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7); cursor: move; border: 1px solid #1e293b; }
     .brush-active { cursor: crosshair !important; }
+    .lock-target-active { cursor: cell !important; }
+
+    /* Timeline Çizelgesi */
+    .timeline-container { width: 100%; max-width: 750px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .timeline-track { width: 100%; height: 16px; background: #1e293b; border-radius: 4px; position: relative; cursor: pointer; overflow: hidden; }
+    .timeline-progress { height: 100%; background: #3b82f6; width: 0%; pointer-events: none; }
+    .timeline-cut-zone { position: absolute; top: 0; bottom: 0; background: rgba(220, 38, 38, 0.45); border-left: 2px solid #ef4444; border-right: 2px solid #ef4444; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -62,9 +61,9 @@
       <span style="font-size: 18px;">🔴</span>
       <div>
         <div style="font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px;">
-          Medya Süper Stüdyo <span class="logo-badge">PRO v15</span>
+          Medya Süper Stüdyo <span class="logo-badge">PRO v16</span>
         </div>
-        <div style="font-size: 10px; color: #64748b;">Haber Masası & Gelişmiş Tasarım Editörü</div>
+        <div style="font-size: 10px; color: #64748b;">Görsel Video Kırpıcı & Kilitli Takip Motoru</div>
       </div>
     </div>
     <div class="header-btns">
@@ -103,9 +102,28 @@
           </div>
         </div>
 
+        <!-- YENİ: KİLİTLİ HEDEF TAKİP & ASAYİŞ (GARANTİLİ YÜZ & PLAKA) -->
+        <div class="card-box" style="border-color: #4338ca;">
+          <div class="card-title" style="color: #818cf8; display: flex; justify-content: space-between;">
+            <span>🎯 Hedefe Kilitli Yüz & Plaka Takibi</span>
+            <span id="trackerStatus" style="color: #34d399; font-size: 10px;">Hazır</span>
+          </div>
+          <div class="grid-2">
+            <button onclick="startLockTarget('face')" id="btnLockFace" class="btn btn-dark" style="font-size: 11px;">👤 Yüze Tıkla & Kilitle</button>
+            <button onclick="startLockTarget('plate')" id="btnLockPlate" class="btn btn-dark" style="font-size: 11px;">🚗 Plakaya Tıkla & Kilitle</button>
+          </div>
+          <div style="font-size: 10px; color: #94a3b8; line-height: 1.3;">
+            💡 <b>Nasıl Çalışır?</b> Butona basın ve görselde buzlamak istediğiniz yüzün veya plakanın üzerine <b>1 kez tıklayın</b>. Sistem o nesneye yapışarak canlı takip eder.
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; border-top: 1px solid #1e293b; pt: 4px;">
+            <button onclick="toggleBrushMode()" id="brushBtn" style="background: none; border: none; color: #f59e0b; font-size: 11px; cursor: pointer;">🖌️ Serbest Fırça</button>
+            <button onclick="clearAllBlurs()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer; text-decoration: underline;">Buzlamaları Sıfırla</button>
+          </div>
+        </div>
+
         <!-- CAPCUT ŞERİT STİLLERİ -->
         <div class="card-box" style="border-color: #b45309;">
-          <div class="card-title" style="color: #f59e0b;">Modern Yazı Altı Şeritleri (CapCut/InShot)</div>
+          <div class="card-title" style="color: #f59e0b;">Modern Yazı Altı Şeritleri (CapCut)</div>
           <div class="grid-3">
             <button onclick="setTextBannerStyle('broadcast')" class="btn btn-dark" id="btn-style-broadcast" style="font-size: 10px; border-color: #dc2626;">🔴 Haber Kuşağı</button>
             <button onclick="setTextBannerStyle('solid-box')" class="btn btn-dark" id="btn-style-solid-box" style="font-size: 10px;">🔲 Opak Kutu</button>
@@ -113,54 +131,6 @@
             <button onclick="setTextBannerStyle('highlight')" class="btn btn-dark" id="btn-style-highlight" style="font-size: 10px;">🟡 Sarı Vurgu</button>
             <button onclick="setTextBannerStyle('shadow-only')" class="btn btn-dark" id="btn-style-shadow-only" style="font-size: 10px;">🌑 Sinematik</button>
             <button onclick="setTextBannerStyle('none')" class="btn btn-dark" id="btn-style-none" style="font-size: 10px;">Düz Metin</button>
-          </div>
-          <div class="grid-2" style="margin-top: 4px;">
-            <div>
-              <span style="font-size: 10px; color: #94a3b8;">Opaklık</span>
-              <input type="range" id="bannerOpacity" min="0.2" max="1" step="0.05" value="0.85" oninput="render()">
-            </div>
-            <div>
-              <span style="font-size: 10px; color: #94a3b8;">Köşe Yuvarlama</span>
-              <input type="range" id="bannerRadius" min="0" max="30" step="2" value="8" oninput="render()">
-            </div>
-          </div>
-        </div>
-
-        <!-- ASAYİŞ & BUZLAMA -->
-        <div class="card-box" style="border-color: #4338ca;">
-          <div class="card-title" style="color: #818cf8; display: flex; justify-content: space-between;">
-            <span>Yüz & Plaka Asayiş Masası</span>
-            <span id="trackerStatus" style="color: #34d399; font-size: 10px;">Hazır</span>
-          </div>
-          <div class="grid-2">
-            <button onclick="toggleFaceTracking()" id="btnTrackFace" class="btn btn-dark">👤 Yüzü Takip Et</button>
-            <button onclick="togglePlateTracking()" id="btnTrackPlate" class="btn btn-dark">🚗 Plakayı Takip Et</button>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-            <button onclick="toggleBrushMode()" id="brushBtn" style="background: none; border: none; color: #f59e0b; font-size: 11px; cursor: pointer;">🖌️ Manuel Fırça Ekle</button>
-            <button onclick="clearAllBlurs()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer; text-decoration: underline;">Sıfırla</button>
-          </div>
-        </div>
-
-        <!-- INSHOT VİDEO TRİM -->
-        <div id="videoControlsBox" class="card-box hidden" style="border-color: #7c3aed;">
-          <div class="card-title" style="color: #c084fc;">InShot Video Kırpma</div>
-          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1;">
-            <span>Başlangıç: <b id="trimStartVal" style="color: #c084fc;">0.0s</b></span>
-            <span>Bitiş: <b id="trimEndVal" style="color: #c084fc;">0.0s</b></span>
-          </div>
-          <div class="grid-2">
-            <input type="range" id="trimStart" min="0" max="100" step="0.5" value="0" oninput="updateTrim()">
-            <input type="range" id="trimEnd" min="0" max="100" step="0.5" value="100" oninput="updateTrim()">
-          </div>
-          <div class="grid-2" style="margin-top: 4px;">
-            <button onclick="toggleVideoMute()" id="btnMute" class="btn btn-dark" style="font-size: 11px;">🔊 Sesi Açık</button>
-            <select id="videoSpeed" onchange="updateVideoSpeed(this.value)">
-              <option value="0.5">0.5x Ağır</option>
-              <option value="1.0" selected>1.0x Normal</option>
-              <option value="1.5">1.5x Hızlı</option>
-              <option value="2.0">2.0x Çok Hızlı</option>
-            </select>
           </div>
         </div>
 
@@ -194,8 +164,8 @@
             <button onclick="setTitleColor('#facc15')" class="btn btn-dark" style="color: #facc15; font-size: 11px;">🟡 Sarı</button>
             <button onclick="setTitleColor('#ef4444')" class="btn btn-dark" style="color: #ef4444; font-size: 11px;">🔴 Kırmızı</button>
           </div>
-          <textarea id="titleText" rows="2" oninput="render()">MANİSA'DA TRAFİK KAZASI: YARALILAR VAR</textarea>
-          <textarea id="spotText" rows="2" style="margin-top: 6px;" oninput="render()">Olay yerine çok sayıda sağlık ve polis ekibi sevk edildi.</textarea>
+          <textarea id="titleText" rows="2" oninput="render()">MANİSA'DA ELEKTRİK KESİNTİSİ YAŞANACAK</textarea>
+          <textarea id="spotText" rows="2" style="margin-top: 6px;" oninput="render()">Planlı bakım çalışmaları kapsamında Yunusemre ve Şehzadeler ilçelerinde gün boyu kesinti uygulanacak.</textarea>
         </div>
 
       </div>
@@ -237,7 +207,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         </div>
       </div>
 
-      <!-- ORTAK AYARLAR (BOYUT & LOGO) -->
+      <!-- BOYUT & LOGO -->
       <div style="padding: 12px; border-top: 1px solid #1e293b; background: #090d16; display: flex; flex-direction: column; gap: 8px;">
         <div class="grid-4">
           <button onclick="setRatio('1:1')" id="btn-1:1" class="btn btn-red" style="font-size: 10px;">1:1 Kare</button>
@@ -259,10 +229,38 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
     </div>
 
-    <!-- SAĞ: CANLI ÖNİZLEME TUVALİ -->
+    <!-- SAĞ: CANLI ÖNİZLEME VE GÖRSEL TİMİNG ALANI -->
     <div class="canvas-area">
       <canvas id="previewCanvas"></canvas>
       <video id="hiddenVideo" style="display: none;" playsinline loop></video>
+
+      <!-- GÖRSEL VİDEO TRİM ÇİZELGESİ (TIMELINE) -->
+      <div id="videoTimelineArea" class="timeline-container hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+          <span style="font-weight: bold; color: #60a5fa;">⏱️ Canlı Video Kırpma Çizelgesi</span>
+          <span style="color: #94a3b8;">Konum: <b id="timeCurrent" style="color: #f8fafc;">0.0s</b> / <span id="timeTotal">0.0s</span></span>
+        </div>
+
+        <!-- Çizelge Çubuğu -->
+        <div class="timeline-track" id="timelineTrack" onclick="seekVideo(event)">
+          <div class="timeline-progress" id="timelineProgress"></div>
+          <div class="timeline-cut-zone" id="timelineCutZone"></div>
+        </div>
+
+        <!-- Kırpma ve Oynatma Butonları -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+          <div style="display: flex; gap: 6px;">
+            <button onclick="toggleVideoPlay()" id="btnPlayPause" class="btn btn-dark" style="font-size: 11px; padding: 4px 10px;">⏸️ Duraklat</button>
+            <button onclick="setTrimPoint('start')" class="btn btn-dark" style="font-size: 11px; padding: 4px 10px; color: #38bdf8;">✂️ Başlangıcı Kes [<span id="lblTrimStart">0.0s</span>]</button>
+            <button onclick="setTrimPoint('end')" class="btn btn-dark" style="font-size: 11px; padding: 4px 10px; color: #f43f5e;">✂️ Bitişi Kes [<span id="lblTrimEnd">0.0s</span>]</button>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button onclick="resetTrim()" class="btn btn-dark" style="font-size: 10px; padding: 4px 8px;">🔄 Kırpmayı Sıfırla</button>
+            <button onclick="toggleVideoMute()" id="btnMute" class="btn btn-dark" style="font-size: 10px; padding: 4px 8px;">🔊 Ses Açık</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -280,16 +278,16 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     let isVideoMode = false;
     let textBannerStyle = 'broadcast';
 
-    let isFaceTrackingActive = false;
-    let isPlateTrackingActive = false;
-    let activeFaceBox = null;
-    let activePlateBox = null;
-    let manualBlurBoxes = [];
+    // Kilitli Takip Durumu
+    let lockTargetMode = null; // 'face' | 'plate' | null
+    let trackedBoxes = []; // [{x, y, w, h, relX, relY, type}]
     let isBrushMode = false;
 
+    // Video Timeline & Trim
     let videoStartTime = 0;
     let videoEndTime = 100;
     let isMuted = false;
+    let isPlaying = true;
     let mediaRecorder = null;
     let recordedChunks = [];
     let isRecording = false;
@@ -316,6 +314,286 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       setupVideoSync();
     };
 
+    // --- HEDEFE KİLİTLENEN AKILLI TAKİP MOTORU ---
+    function startLockTarget(type) {
+      lockTargetMode = type;
+      canvas.classList.add('lock-target-active');
+      document.getElementById('trackerStatus').innerText = (type === 'face' ? "Yüze Tıklayın..." : "Plakaya Tıklayın...");
+    }
+
+    function lockTargetAtPos(p) {
+      const w = canvas.width;
+      const boxSize = (lockTargetMode === 'face') ? w * 0.22 : w * 0.32;
+      const boxH = (lockTargetMode === 'face') ? w * 0.26 : w * 0.12;
+
+      trackedBoxes.push({
+        x: p.x - (boxSize / 2),
+        y: p.y - (boxH / 2),
+        w: boxSize,
+        h: boxH,
+        panOffsetX: p.x - imgPanX,
+        panOffsetY: p.y - imgPanY,
+        type: lockTargetMode
+      });
+
+      document.getElementById('trackerStatus').innerText = (lockTargetMode === 'face' ? "Yüz Kilitlendi ✓" : "Plaka Kilitlendi ✓");
+      lockTargetMode = null;
+      canvas.classList.remove('lock-target-active');
+      render();
+    }
+
+    function clearAllBlurs() {
+      trackedBoxes = [];
+      lockTargetMode = null;
+      canvas.classList.remove('lock-target-active');
+      document.getElementById('trackerStatus').innerText = "Temizlendi";
+      render();
+    }
+
+    // --- VİDEO TİMİNG & TRİM MOTORU ---
+    function handleVideoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      isVideoMode = true;
+      document.getElementById('videoTimelineArea').classList.remove('hidden');
+      document.getElementById('btnRecordVideo').classList.remove('hidden');
+
+      video.src = URL.createObjectURL(file);
+      video.load();
+      video.onloadedmetadata = () => {
+        videoStartTime = 0;
+        videoEndTime = video.duration;
+        document.getElementById('timeTotal').innerText = video.duration.toFixed(1) + "s";
+        document.getElementById('lblTrimStart').innerText = "0.0s";
+        document.getElementById('lblTrimEnd').innerText = video.duration.toFixed(1) + "s";
+        updateTimelineCutZone();
+        video.play();
+        startVideoRenderLoop();
+      };
+    }
+
+    function setupVideoSync() {
+      video.addEventListener('timeupdate', () => {
+        if (isVideoMode) {
+          if (video.currentTime < videoStartTime) video.currentTime = videoStartTime;
+          if (video.currentTime >= videoEndTime) video.currentTime = videoStartTime;
+          
+          document.getElementById('timeCurrent').innerText = video.currentTime.toFixed(1) + "s";
+          const prog = (video.currentTime / video.duration) * 100;
+          document.getElementById('timelineProgress').style.width = prog + "%";
+        }
+      });
+    }
+
+    function seekVideo(e) {
+      if (!isVideoMode || !video.duration) return;
+      const rect = document.getElementById('timelineTrack').getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      video.currentTime = pct * video.duration;
+    }
+
+    function setTrimPoint(type) {
+      if (!isVideoMode) return;
+      if (type === 'start') {
+        videoStartTime = video.currentTime;
+        if (videoStartTime >= videoEndTime) videoEndTime = video.duration;
+        document.getElementById('lblTrimStart').innerText = videoStartTime.toFixed(1) + "s";
+      } else {
+        videoEndTime = video.currentTime;
+        if (videoEndTime <= videoStartTime) videoStartTime = 0;
+        document.getElementById('lblTrimEnd').innerText = videoEndTime.toFixed(1) + "s";
+      }
+      updateTimelineCutZone();
+    }
+
+    function resetTrim() {
+      videoStartTime = 0;
+      videoEndTime = video.duration;
+      document.getElementById('lblTrimStart').innerText = "0.0s";
+      document.getElementById('lblTrimEnd').innerText = video.duration.toFixed(1) + "s";
+      updateTimelineCutZone();
+    }
+
+    function updateTimelineCutZone() {
+      if (!video.duration) return;
+      const leftPct = (videoStartTime / video.duration) * 100;
+      const rightPct = (videoEndTime / video.duration) * 100;
+      const zone = document.getElementById('timelineCutZone');
+      zone.style.left = leftPct + "%";
+      zone.style.width = (rightPct - leftPct) + "%";
+    }
+
+    function toggleVideoPlay() {
+      if (video.paused) {
+        video.play();
+        document.getElementById('btnPlayPause').innerText = "⏸️ Duraklat";
+      } else {
+        video.pause();
+        document.getElementById('btnPlayPause').innerText = "▶️ Oynat";
+      }
+    }
+
+    function toggleVideoMute() {
+      isMuted = !isMuted;
+      video.muted = isMuted;
+      document.getElementById('btnMute').innerText = isMuted ? '🔇 Sessiz' : '🔊 Ses Açık';
+    }
+
+    function startVideoRenderLoop() {
+      function loop() {
+        if (isVideoMode) {
+          render();
+          requestAnimationFrame(loop);
+        }
+      }
+      loop();
+    }
+
+    // --- SÜRÜKLEME VE TIKLAMA OLAYLARI ---
+    function initDragAndBrushEvents() {
+      const getPos = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+      };
+
+      const onStart = (e) => {
+        const p = getPos(e);
+
+        if (lockTargetMode) {
+          lockTargetAtPos(p);
+          return;
+        }
+
+        if (isBrushMode) {
+          const s = canvas.width * 0.12;
+          trackedBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s, panOffsetX: p.x - imgPanX, panOffsetY: p.y - imgPanY, type: 'brush' });
+          render();
+          return;
+        }
+
+        if (activeLogo && logoPos && Math.hypot(p.x - logoPos.x, p.y - logoPos.y) < 100) {
+          isDragging = true; dragMode = 'logo'; dragStartX = p.x - logoPos.x; dragStartY = p.y - logoPos.y; return;
+        }
+        if (textPos && Math.hypot(p.x - textPos.x, p.y - textPos.y) < 220) {
+          isDragging = true; dragMode = 'text'; dragStartX = p.x - textPos.x; dragStartY = p.y - textPos.y; return;
+        }
+
+        isDragging = true; dragMode = 'image'; dragStartX = p.x - imgPanX; dragStartY = p.y - imgPanY;
+      };
+
+      const onMove = (e) => {
+        const p = getPos(e);
+        if (isBrushMode && e.buttons === 1) {
+          const s = canvas.width * 0.12;
+          trackedBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s, panOffsetX: p.x - imgPanX, panOffsetY: p.y - imgPanY, type: 'brush' });
+          render();
+          return;
+        }
+        if (!isDragging) return;
+        if (dragMode === 'image') {
+          imgPanX = p.x - dragStartX; imgPanY = p.y - dragStartY;
+          // Kilitli hedefleri görselin hareketiyle birlikte orantılı kaydır
+          trackedBoxes.forEach(b => {
+            b.x = imgPanX + b.panOffsetX - (b.w / 2);
+            b.y = imgPanY + b.panOffsetY - (b.h / 2);
+          });
+          render();
+        }
+        else if (dragMode === 'logo') { logoPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
+        else if (dragMode === 'text') { textPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
+      };
+
+      const onEnd = () => { isDragging = false; dragMode = null; };
+
+      canvas.addEventListener('mousedown', onStart);
+      canvas.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+      canvas.addEventListener('touchstart', onStart, { passive: true });
+      canvas.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', onEnd);
+    }
+
+    // --- MOZAİK BUZLAMA ---
+    function renderAllBlurs(ctx, w, h) {
+      trackedBoxes.forEach(b => {
+        applyBlockPixelate(ctx, b.x, b.y, b.w, b.h, w, h);
+      });
+    }
+
+    function applyBlockPixelate(ctx, x, y, bw, bh, w, h) {
+      const startX = Math.max(0, Math.round(x));
+      const startY = Math.max(0, Math.round(y));
+      const blockW = Math.min(w - startX, Math.round(bw));
+      const blockH = Math.min(h - startY, Math.round(bh));
+      if (blockW <= 0 || blockH <= 0) return;
+
+      try {
+        const pixelSize = Math.max(16, Math.round(w * 0.028));
+        const subData = ctx.getImageData(startX, startY, blockW, blockH);
+        for (let py = 0; py < blockH; py += pixelSize) {
+          for (let px = 0; px < blockW; px += pixelSize) {
+            const pIdx = (py * blockW + px) * 4;
+            const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
+            for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
+              for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
+                const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
+                subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
+              }
+            }
+          }
+        }
+        ctx.putImageData(subData, startX, startY);
+      } catch(e) {}
+    }
+
+    function toggleBrushMode() {
+      isBrushMode = !isBrushMode;
+      document.getElementById('brushBtn').innerText = isBrushMode ? '🖌️ Fırça Aktif (Çizin)' : '🖌️ Serbest Fırça';
+      canvas.classList.toggle('brush-active', isBrushMode);
+    }
+
+    function applyBloodDesaturation(ctx, w, h) {
+      try {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const d = imgData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const r = d[i], g = d[i+1], b = d[i+2];
+          if (r > 85 && r > g * 1.30 && r > b * 1.30) {
+            const gray = (r * 0.299 + g * 0.587 + b * 0.114);
+            d[i] = gray; d[i+1] = gray; d[i+2] = gray;
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch(e) {}
+    }
+
+    function applyNaturalSharpness(ctx, w, h, amount) {
+      if (amount <= 0) return;
+      try {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        const buff = new Uint8ClampedArray(data);
+        const a = amount * 0.22;
+        for (let y = 1; y < h - 1; y += 2) {
+          for (let x = 1; x < w - 1; x += 2) {
+            const idx = (y * w + x) * 4;
+            for (let c = 0; c < 3; c++) {
+              const val = buff[idx + c] * (1 + 4 * a) 
+                        - buff[idx - 4 + c] * a - buff[idx + 4 + c] * a 
+                        - buff[idx - w * 4 + c] * a - buff[idx + w * 4 + c] * a;
+              data[idx + c] = Math.min(255, Math.max(0, val));
+            }
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch (e) {}
+    }
+
     function setTextBannerStyle(style) {
       textBannerStyle = style;
       document.querySelectorAll('.card-box button[id^="btn-style-"]').forEach(btn => {
@@ -326,106 +604,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       if (act) {
         act.style.borderColor = '#f59e0b';
         act.style.background = '#78350f';
-      }
-      render();
-    }
-
-    function scanAndTrackFace() {
-      const source = isVideoMode ? video : bgImage;
-      if (!source) return;
-      const w = canvas.width;
-      const photoH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
-
-      const tempCanvas = document.createElement('canvas');
-      const scanW = 160;
-      const scanH = Math.round(scanW * (photoH / w));
-      tempCanvas.width = scanW;
-      tempCanvas.height = scanH;
-      const tCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-      tCtx.drawImage(source, 0, 0, scanW, scanH);
-      const imgData = tCtx.getImageData(0, 0, scanW, scanH);
-      const data = imgData.data;
-
-      let bestX = 0, bestY = 0, maxSkinScore = 0;
-      const boxSize = Math.round(scanW * 0.28);
-
-      for (let y = 5; y < scanH - boxSize; y += 4) {
-        for (let x = 5; x < scanW - boxSize; x += 4) {
-          let skinCount = 0;
-          for (let by = 0; by < boxSize; by += 4) {
-            for (let bx = 0; bx < boxSize; bx += 4) {
-              const idx = ((y + by) * scanW + (x + bx)) * 4;
-              const r = data[idx], g = data[idx+1], b = data[idx+2];
-              if (r > 60 && g > 40 && b > 20 && r > g && r > b && (r - g) > 12 && (r - b) > 12) {
-                skinCount++;
-              }
-            }
-          }
-          if (skinCount > maxSkinScore) {
-            maxSkinScore = skinCount;
-            bestX = x;
-            bestY = y;
-          }
-        }
-      }
-
-      if (maxSkinScore > (boxSize * boxSize * 0.08)) {
-        const scale = w / scanW;
-        activeFaceBox = {
-          x: (bestX * scale) + imgPanX,
-          y: (bestY * scale) + imgPanY,
-          w: boxSize * scale * 1.15,
-          h: boxSize * scale * 1.30
-        };
-        document.getElementById('trackerStatus').innerText = "Yüz Kilitlendi ✓";
-      } else {
-        activeFaceBox = {
-          x: (w * 0.35) + imgPanX,
-          y: (photoH * 0.15) + imgPanY,
-          w: w * 0.30,
-          h: photoH * 0.32
-        };
-      }
-    }
-
-    function scanAndTrackPlate() {
-      const w = canvas.width;
-      const photoH = (currentRatio === '9:16') ? canvas.height : Math.round(canvas.height * 0.70);
-      activePlateBox = {
-        x: (w * 0.32) + imgPanX,
-        y: (photoH * 0.65) + imgPanY,
-        w: w * 0.36,
-        h: w * 0.12
-      };
-      document.getElementById('trackerStatus').innerText = "Plaka Kilitlendi ✓";
-    }
-
-    function toggleFaceTracking() {
-      isFaceTrackingActive = !isFaceTrackingActive;
-      const btn = document.getElementById('btnTrackFace');
-      if (isFaceTrackingActive) {
-        btn.style.background = '#059669';
-        btn.innerText = "✓ Yüz Takipte";
-        scanAndTrackFace();
-      } else {
-        btn.style.background = '#1e293b';
-        btn.innerText = "👤 Yüzü Takip Et";
-        activeFaceBox = null;
-      }
-      render();
-    }
-
-    function togglePlateTracking() {
-      isPlateTrackingActive = !isPlateTrackingActive;
-      const btn = document.getElementById('btnTrackPlate');
-      if (isPlateTrackingActive) {
-        btn.style.background = '#059669';
-        btn.innerText = "✓ Plaka Takipte";
-        scanAndTrackPlate();
-      } else {
-        btn.style.background = '#1e293b';
-        btn.innerText = "🚗 Plakayı Takip Et";
-        activePlateBox = null;
       }
       render();
     }
@@ -469,7 +647,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
 
       canvas.width = DIMENSIONS[ratio].width;
       canvas.height = DIMENSIONS[ratio].height;
-      if (isFaceTrackingActive) scanAndTrackFace();
       render();
     }
 
@@ -480,7 +657,7 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
       if (!file) return;
       isVideoMode = false;
       video.pause();
-      document.getElementById('videoControlsBox').classList.add('hidden');
+      document.getElementById('videoTimelineArea').classList.add('hidden');
       document.getElementById('btnRecordVideo').classList.add('hidden');
 
       const reader = new FileReader();
@@ -489,218 +666,12 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
         img.onload = () => {
           bgImage = img;
           imgPanX = 0; imgPanY = 0;
-          if (isFaceTrackingActive) scanAndTrackFace();
+          trackedBoxes = [];
           render();
         };
         img.src = ev.target.result;
       };
       reader.readAsDataURL(file);
-    }
-
-    function handleVideoUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      isVideoMode = true;
-      document.getElementById('videoControlsBox').classList.remove('hidden');
-      document.getElementById('btnRecordVideo').classList.remove('hidden');
-
-      video.src = URL.createObjectURL(file);
-      video.load();
-      video.onloadedmetadata = () => {
-        videoStartTime = 0;
-        videoEndTime = video.duration;
-        document.getElementById('trimStart').max = video.duration;
-        document.getElementById('trimEnd').max = video.duration;
-        document.getElementById('trimStart').value = 0;
-        document.getElementById('trimEnd').value = video.duration;
-        document.getElementById('trimStartVal').innerText = "0.0s";
-        document.getElementById('trimEndVal').innerText = video.duration.toFixed(1) + "s";
-        video.play();
-        startVideoRenderLoop();
-      };
-    }
-
-    function setupVideoSync() {
-      video.addEventListener('timeupdate', () => {
-        if (isVideoMode) {
-          if (video.currentTime < videoStartTime) video.currentTime = videoStartTime;
-          if (video.currentTime >= videoEndTime) video.currentTime = videoStartTime;
-          if (isFaceTrackingActive && Math.floor(video.currentTime * 10) % 3 === 0) {
-            scanAndTrackFace();
-          }
-        }
-      });
-    }
-
-    function updateTrim() {
-      const s = parseFloat(document.getElementById('trimStart').value);
-      const e = parseFloat(document.getElementById('trimEnd').value);
-      if (s < e) {
-        videoStartTime = s; videoEndTime = e;
-        document.getElementById('trimStartVal').innerText = s.toFixed(1) + "s";
-        document.getElementById('trimEndVal').innerText = e.toFixed(1) + "s";
-        video.currentTime = s;
-      }
-    }
-
-    function updateVideoSpeed(speed) { video.playbackRate = parseFloat(speed); }
-
-    function toggleVideoMute() {
-      isMuted = !isMuted;
-      video.muted = isMuted;
-      document.getElementById('btnMute').innerText = isMuted ? '🔇 Sessiz' : '🔊 Sesi Açık';
-    }
-
-    function startVideoRenderLoop() {
-      function loop() {
-        if (isVideoMode) {
-          render();
-          requestAnimationFrame(loop);
-        }
-      }
-      loop();
-    }
-
-    function toggleBrushMode() {
-      isBrushMode = !isBrushMode;
-      document.getElementById('brushBtn').innerText = isBrushMode ? '🖌️ Buzlama Aktif (Çizin)' : '🖌️ Manuel Fırça Ekle';
-      canvas.classList.toggle('brush-active', isBrushMode);
-    }
-
-    function clearAllBlurs() {
-      manualBlurBoxes = [];
-      activeFaceBox = null; activePlateBox = null;
-      isFaceTrackingActive = false; isPlateTrackingActive = false;
-      document.getElementById('btnTrackFace').innerText = "👤 Yüzü Takip Et";
-      document.getElementById('btnTrackFace').style.background = '#1e293b';
-      document.getElementById('btnTrackPlate').innerText = "🚗 Plakayı Takip Et";
-      document.getElementById('btnTrackPlate').style.background = '#1e293b';
-      document.getElementById('trackerStatus').innerText = "Sıfırlandı";
-      render();
-    }
-
-    function initDragAndBrushEvents() {
-      const getPos = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
-      };
-
-      const onStart = (e) => {
-        const p = getPos(e);
-        if (isBrushMode) {
-          const s = canvas.width * 0.12;
-          manualBlurBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s });
-          render();
-          return;
-        }
-        if (activeLogo && logoPos && Math.hypot(p.x - logoPos.x, p.y - logoPos.y) < 100) {
-          isDragging = true; dragMode = 'logo'; dragStartX = p.x - logoPos.x; dragStartY = p.y - logoPos.y; return;
-        }
-        if (textPos && Math.hypot(p.x - textPos.x, p.y - textPos.y) < 220) {
-          isDragging = true; dragMode = 'text'; dragStartX = p.x - textPos.x; dragStartY = p.y - textPos.y; return;
-        }
-        isDragging = true; dragMode = 'image'; dragStartX = p.x - imgPanX; dragStartY = p.y - imgPanY;
-      };
-
-      const onMove = (e) => {
-        const p = getPos(e);
-        if (isBrushMode && e.buttons === 1) {
-          const s = canvas.width * 0.12;
-          manualBlurBoxes.push({ x: p.x - (s/2), y: p.y - (s/2), w: s, h: s });
-          render();
-          return;
-        }
-        if (!isDragging) return;
-        if (dragMode === 'image') {
-          imgPanX = p.x - dragStartX; imgPanY = p.y - dragStartY;
-          if (isFaceTrackingActive) scanAndTrackFace();
-          render();
-        }
-        else if (dragMode === 'logo') { logoPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
-        else if (dragMode === 'text') { textPos = { x: p.x - dragStartX, y: p.y - dragStartY }; render(); }
-      };
-
-      const onEnd = () => { isDragging = false; dragMode = null; };
-
-      canvas.addEventListener('mousedown', onStart);
-      canvas.addEventListener('mousemove', onMove);
-      window.addEventListener('mouseup', onEnd);
-      canvas.addEventListener('touchstart', onStart, { passive: true });
-      canvas.addEventListener('touchmove', onMove, { passive: true });
-      window.addEventListener('touchend', onEnd);
-    }
-
-    function applyBloodDesaturation(ctx, w, h) {
-      try {
-        const imgData = ctx.getImageData(0, 0, w, h);
-        const d = imgData.data;
-        for (let i = 0; i < d.length; i += 4) {
-          const r = d[i], g = d[i+1], b = d[i+2];
-          if (r > 85 && r > g * 1.30 && r > b * 1.30) {
-            const gray = (r * 0.299 + g * 0.587 + b * 0.114);
-            d[i] = gray; d[i+1] = gray; d[i+2] = gray;
-          }
-        }
-        ctx.putImageData(imgData, 0, 0);
-      } catch(e) {}
-    }
-
-    function renderAllBlurs(ctx, w, h) {
-      manualBlurBoxes.forEach(b => applyBlockPixelate(ctx, b.x, b.y, b.w, b.h, w, h));
-      if (activeFaceBox && isFaceTrackingActive) applyBlockPixelate(ctx, activeFaceBox.x, activeFaceBox.y, activeFaceBox.w, activeFaceBox.h, w, h);
-      if (activePlateBox && isPlateTrackingActive) applyBlockPixelate(ctx, activePlateBox.x, activePlateBox.y, activePlateBox.w, activePlateBox.h, w, h);
-    }
-
-    function applyBlockPixelate(ctx, x, y, bw, bh, w, h) {
-      const startX = Math.max(0, Math.round(x));
-      const startY = Math.max(0, Math.round(y));
-      const blockW = Math.min(w - startX, Math.round(bw));
-      const blockH = Math.min(h - startY, Math.round(bh));
-      if (blockW <= 0 || blockH <= 0) return;
-
-      try {
-        const pixelSize = Math.max(14, Math.round(w * 0.026));
-        const subData = ctx.getImageData(startX, startY, blockW, blockH);
-        for (let py = 0; py < blockH; py += pixelSize) {
-          for (let px = 0; px < blockW; px += pixelSize) {
-            const pIdx = (py * blockW + px) * 4;
-            const r = subData.data[pIdx], g = subData.data[pIdx+1], b = subData.data[pIdx+2];
-            for (let dy = 0; dy < pixelSize && (py + dy) < blockH; dy++) {
-              for (let dx = 0; dx < pixelSize && (px + dx) < blockW; dx++) {
-                const tIdx = ((py + dy) * blockW + (px + dx)) * 4;
-                subData.data[tIdx] = r; subData.data[tIdx+1] = g; subData.data[tIdx+2] = b;
-              }
-            }
-          }
-        }
-        ctx.putImageData(subData, startX, startY);
-      } catch(e) {}
-    }
-
-    function applyNaturalSharpness(ctx, w, h, amount) {
-      if (amount <= 0) return;
-      try {
-        const imgData = ctx.getImageData(0, 0, w, h);
-        const data = imgData.data;
-        const buff = new Uint8ClampedArray(data);
-        const a = amount * 0.22;
-        for (let y = 1; y < h - 1; y += 2) {
-          for (let x = 1; x < w - 1; x += 2) {
-            const idx = (y * w + x) * 4;
-            for (let c = 0; c < 3; c++) {
-              const val = buff[idx + c] * (1 + 4 * a) 
-                        - buff[idx - 4 + c] * a - buff[idx + 4 + c] * a 
-                        - buff[idx - w * 4 + c] * a - buff[idx + w * 4 + c] * a;
-              data[idx + c] = Math.min(255, Math.max(0, val));
-            }
-          }
-        }
-        ctx.putImageData(imgData, 0, 0);
-      } catch (e) {}
     }
 
     function handleLogoUpload(e) {
@@ -813,9 +784,6 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
     function drawModernBannerAndText(w, h, margin, isSplit, splitY = 0) {
       const title = document.getElementById('titleText').value.trim();
       const spot = document.getElementById('spotText').value.trim();
-      const opacity = parseFloat(document.getElementById('bannerOpacity')?.value || 0.85);
-      const radius = parseInt(document.getElementById('bannerRadius')?.value || 8);
-
       const drawX = textPos ? textPos.x : margin;
       const bannerW = w - (margin * 2);
 
@@ -854,29 +822,29 @@ Mustafa Şahin (79) - Salihli / Hamidiye Camii</textarea>
           ctx.save();
           if (textBannerStyle === 'broadcast') {
             const bGrad = ctx.createLinearGradient(drawX, 0, drawX + bannerW, 0);
-            bGrad.addColorStop(0, `rgba(220, 38, 38, ${opacity})`);
-            bGrad.addColorStop(0.35, `rgba(15, 23, 42, ${opacity})`);
-            bGrad.addColorStop(1, `rgba(2, 6, 23, ${opacity})`);
+            bGrad.addColorStop(0, 'rgba(220, 38, 38, 0.88)');
+            bGrad.addColorStop(0.35, 'rgba(15, 23, 42, 0.88)');
+            bGrad.addColorStop(1, 'rgba(2, 6, 23, 0.88)');
             ctx.fillStyle = bGrad;
-            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, 8);
             ctx.fill();
             ctx.fillStyle = '#ef4444';
             drawRoundedRect(ctx, drawX, bannerY, w * 0.015, totalTextH, 0);
             ctx.fill();
           } else if (textBannerStyle === 'solid-box') {
-            ctx.fillStyle = `rgba(9, 13, 22, ${opacity})`;
-            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            ctx.fillStyle = 'rgba(9, 13, 22, 0.90)';
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, 8);
             ctx.fill();
           } else if (textBannerStyle === 'glass') {
-            ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.18})`;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
             ctx.lineWidth = 1.5;
-            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, 8);
             ctx.fill();
             ctx.stroke();
           } else if (textBannerStyle === 'highlight') {
-            ctx.fillStyle = `rgba(250, 204, 21, ${opacity})`;
-            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, radius);
+            ctx.fillStyle = 'rgba(250, 204, 21, 0.90)';
+            drawRoundedRect(ctx, drawX, bannerY, bannerW, totalTextH, 8);
             ctx.fill();
           }
           ctx.restore();
