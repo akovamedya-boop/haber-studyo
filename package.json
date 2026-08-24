@@ -1,7 +1,7 @@
 {
-  "name": "haber-studyo",
+  "name": "medyaforge",
   "version": "1.0.0",
-  "description": "Medya Haber Stüdyosu",
+  "description": "MedyaForge Dijital Haber & Video Stüdyosu",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -17,8 +17,8 @@
     "electron-builder": "^24.9.1"
   },
   "build": {
-    "appId": "com.haberstuyo.app",
-    "productName": "HaberStudyo",
+    "appId": "com.medyaforge.app",
+    "productName": "MedyaForge",
     "asar": false,
     "directories": {
       "output": "dist"
