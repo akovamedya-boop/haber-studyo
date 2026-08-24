@@ -1,6 +1,6 @@
 {
-  "appId": "com.haberstuyo.app",
-  "appName": "Haber Stüdyo",
+  "appId": "com.medyaforge.app",
+  "appName": "MedyaForge",
   "webDir": "www",
   "bundledWebRuntime": false
 }
