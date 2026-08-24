@@ -4,9 +4,9 @@ const fs = require('fs');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1300,
-    height: 850,
-    title: "Medya Görsel & Haber Stüdyosu",
+    width: 1320,
+    height: 880,
+    title: "MedyaForge - Dijital İçerik & Video Stüdyosu",
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
@@ -15,13 +15,10 @@ function createWindow() {
     }
   });
 
-  // Olası tüm dosya yollarını sırayla kontrol eder
   const possiblePaths = [
     path.join(__dirname, 'www', 'index.html'),
     path.join(app.getAppPath(), 'www', 'index.html'),
-    path.join(__dirname, 'index.html'),
-    path.join(process.resourcesPath, 'app', 'www', 'index.html'),
-    path.join(process.resourcesPath, 'www', 'index.html')
+    path.join(__dirname, 'index.html')
   ];
 
   let loaded = false;
@@ -34,7 +31,6 @@ function createWindow() {
   }
 
   if (!loaded) {
-    // Fallback: Doğrudan URL formatıyla yükle
     win.loadURL(`file://${path.join(__dirname, 'www', 'index.html')}`);
   }
 }
